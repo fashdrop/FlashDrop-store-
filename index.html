@@ -1,1 +1,191 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FlashDrop Store</title>
 
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f5f5f5;
+      color: #222;
+    }
+
+    header {
+      background: #111;
+      color: white;
+      text-align: center;
+      padding: 25px 15px;
+    }
+
+    header h1 {
+      font-size: 32px;
+    }
+
+    header p {
+      margin-top: 8px;
+      color: #ddd;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #111, #444);
+      color: white;
+      text-align: center;
+      padding: 50px 20px;
+    }
+
+    .hero h2 {
+      font-size: 30px;
+      margin-bottom: 12px;
+    }
+
+    .hero p {
+      font-size: 18px;
+    }
+
+    .products {
+      max-width: 1100px;
+      margin: 30px auto;
+      padding: 0 15px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+    }
+
+    .product {
+      background: white;
+      border-radius: 15px;
+      overflow: hidden;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(0,0,0,.12);
+      padding-bottom: 20px;
+    }
+
+    .product img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+    }
+
+    .product h3 {
+      margin: 15px 10px 8px;
+      font-size: 20px;
+    }
+
+    .product p {
+      color: #666;
+      margin: 0 15px 12px;
+    }
+
+    .price {
+      display: block;
+      font-size: 22px;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+
+    .order {
+      display: inline-block;
+      background: #111;
+      color: white;
+      padding: 12px 28px;
+      border-radius: 25px;
+      text-decoration: none;
+    }
+
+    .contact {
+      background: white;
+      text-align: center;
+      padding: 35px 20px;
+      margin-top: 30px;
+    }
+
+    .whatsapp {
+      display: inline-block;
+      margin-top: 15px;
+      background: #25D366;
+      color: white;
+      padding: 14px 30px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    footer {
+      background: #111;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>🛍️ FlashDrop Store</h1>
+  <p>مرحبا بكم في متجرنا الإلكتروني</p>
+</header>
+
+<section class="hero">
+  <h2>منتجات مميزة بأثمنة مناسبة</h2>
+  <p>اكتشف أحدث المنتجات واطلب بسهولة</p>
+</section>
+
+<section class="products">
+
+  <div class="product">
+    <img src="https://via.placeholder.com/500x400?text=Produit+1" alt="منتج 1">
+    <h3>منتج جديد</h3>
+    <p>منتج عملي وعالي الجودة</p>
+    <span class="price">99 درهم</span>
+    <a class="order" href="https://wa.me/212600000000">
+      اطلب الآن
+    </a>
+  </div>
+
+  <div class="product">
+    <img src="https://via.placeholder.com/500x400?text=Produit+2" alt="منتج 2">
+    <h3>منتج مميز</h3>
+    <p>اختيار مناسب للاستعمال اليومي</p>
+    <span class="price">149 درهم</span>
+    <a class="order" href="https://wa.me/212600000000">
+      اطلب الآن
+    </a>
+  </div>
+
+  <div class="product">
+    <img src="https://via.placeholder.com/500x400?text=Produit+3" alt="منتج 3">
+    <h3>عرض خاص</h3>
+    <p>استفد من العرض قبل نفاذ الكمية</p>
+    <span class="price">199 درهم</span>
+    <a class="order" href="https://wa.me/212600000000">
+      اطلب الآن
+    </a>
+  </div>
+
+</section>
+
+<section class="contact">
+  <h2>📞 للطلب والاستفسار</h2>
+  <p>تواصل معنا عبر واتساب</p>
+
+  <a class="whatsapp" href="https://wa.me/212600000000">
+    تواصل معنا عبر WhatsApp
+  </a>
+</section>
+
+<footer>
+  © 2026 FlashDrop Store - جميع الحقوق محفوظة
+</footer>
+
+</body>
+</html>
