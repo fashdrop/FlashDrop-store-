@@ -1,339 +1,124 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <meta name="google-site-verification" content="d1ZOqFIF0pY4qAanWB5XvVgaAFYlEleSZy2o98iYF0M">
+<title>FlashDrop Store</title>
 
-  <title>FlashDrop Store | متجر إلكتروني</title>
-
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-    }
-
-    body {
-      background: #f5f5f5;
-      color: #222;
-    }
-
-    header {
-      background: #111;
-      color: white;
-      text-align: center;
-      padding: 25px 15px;
-    }
-
-    header h1 {
-      font-size: 30px;
-      margin-bottom: 8px;
-    }
-
-    header p {
-      color: #ddd;
-    }
-
-    .hero {
-      background: linear-gradient(135deg, #111, #444);
-      color: white;
-      text-align: center;
-      padding: 45px 20px;
-    }
-
-    .hero h2 {
-      font-size: 28px;
-      margin-bottom: 12px;
-    }
-
-    .hero p {
-      font-size: 17px;
-    }
-
-    .products {
-      max-width: 900px;
-      margin: 30px auto;
-      padding: 0 15px;
-    }
-
-    .product {
-      background: white;
-      border-radius: 18px;
-      overflow: hidden;
-      text-align: center;
-      box-shadow: 0 5px 20px rgba(0,0,0,.12);
-    }
-
-    .product img {
-      width: 100%;
-      max-height: 430px;
-      object-fit: cover;
-      display: block;
-    }
-
-    .product-content {
-      padding: 25px 20px;
-    }
-
-    .product h3 {
-      font-size: 25px;
-      margin-bottom: 10px;
-    }
-
-    .description {
-      color: #666;
-      font-size: 16px;
-      margin-bottom: 15px;
-    }
-
-    .price {
-      font-size: 28px;
-      font-weight: bold;
-      margin: 12px 0;
-    }
-
-    .delivery {
-      display: inline-block;
-      background: #e8fff0;
-      color: #159447;
-      padding: 8px 15px;
-      border-radius: 20px;
-      font-weight: bold;
-      margin-bottom: 20px;
-    }
-
-    .buy-button {
-      display: block;
-      width: 100%;
-      border: none;
-      background: #25D366;
-      color: white;
-      padding: 16px;
-      border-radius: 10px;
-      font-size: 18px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .order-box {
-      display: none;
-      background: white;
-      max-width: 700px;
-      margin: 25px auto;
-      padding: 25px 20px;
-      border-radius: 18px;
-      box-shadow: 0 5px 20px rgba(0,0,0,.12);
-    }
-
-    .order-box h2 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    .order-box label {
-      display: block;
-      margin: 12px 0 6px;
-      font-weight: bold;
-    }
-
-    .order-box input,
-    .order-box textarea,
-    .order-box select {
-      width: 100%;
-      padding: 13px;
-      border: 1px solid #ddd;
-      border-radius: 9px;
-      font-size: 16px;
-    }
-
-    .confirm {
-      width: 100%;
-      margin-top: 20px;
-      background: #25D366;
-      color: white;
-      border: none;
-      padding: 15px;
-      border-radius: 10px;
-      font-size: 18px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .contact {
-      background: white;
-      text-align: center;
-      padding: 35px 20px;
-      margin-top: 30px;
-    }
-
-    .whatsapp {
-      display: inline-block;
-      margin-top: 15px;
-      background: #25D366;
-      color: white;
-      padding: 14px 28px;
-      border-radius: 30px;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    footer {
-      background: #111;
-      color: white;
-      text-align: center;
-      padding: 20px;
-      margin-top: 30px;
-    }
-  </style>
-</head>
-
-<body>
-
-<header>
-  <h1>🛍️ FlashDrop Store</h1>
-  <p>مرحبا بكم في متجرنا الإلكتروني</p>
-</header>
-
-<section class="hero">
-  <h2>منتجات مميزة بأثمنة مناسبة</h2>
-  <p>اطلب بسهولة والتوصيل مجاني 🚚</p>
-</section>
-
-<section class="products">
-
-  <div class="product">
-
-    <img
-      src="IMG_20260924_205344_538.jpg"
-      alt="آلة صنع الفشار"
-    >
-
-    <div class="product-content">
-
-      <h3>🍿 آلة صنع الفشار</h3>
-
-      <p class="description">
-        آلة عملية وسهلة الاستعمال لتحضير الفشار في المنزل.
-      </p>
-
-      <div class="price">
-        199 درهم
-      </div>
-
-      <div class="delivery">
-        🚚 التوصيل مجاني
-      </div>
-
-      <button class="buy-button" onclick="showOrder()">
-        🛒 شراء الآن
-      </button>
-
-    </div>
-  </div>
-
-</section>
-
-<section class="order-box" id="orderBox">
-
-  <h2>📝 معلومات الطلب</h2>
-
-  <label>الاسم الكامل</label>
-  <input id="name" type="text" placeholder="دخل الاسم الكامل">
-
-  <label>رقم الهاتف</label>
-  <input id="phone" type="tel" placeholder="06XXXXXXXX">
-
-  <label>المدينة</label>
-  <input id="city" type="text" placeholder="مثال: الدار البيضاء">
-
-  <label>العنوان</label>
-  <textarea id="address" rows="3" placeholder="دخل العنوان بالتفصيل"></textarea>
-
-  <label>الكمية</label>
-  <select id="quantity">
-    <option value="1">1</option>
-    <option value="2">2</option>
-    <option value="3">3</option>
-    <option value="4">4</option>
-    <option value="5">5</option>
-  </select>
-
-  <button class="confirm" onclick="sendOrder()">
-    ✅ تأكيد الطلب عبر WhatsApp
-  </button>
-
-</section>
-
-<section class="contact">
-
-  <h2>📞 عندك شي سؤال؟</h2>
-
-  <p>تواصل معنا مباشرة عبر WhatsApp</p>
-
-  <a
-    class="whatsapp"
-    href="https://wa.me/212712570921"
-    target="_blank"
-  >
-    💬 تواصل معنا
-  </a>
-
-</section>
-
-<footer>
-  © 2026 FlashDrop Store - جميع الحقوق محفوظة
-</footer>
-
-<script>
-
-function showOrder() {
-  document.getElementById("orderBox").style.display = "block";
-
-  document.getElementById("orderBox").scrollIntoView({
-    behavior: "smooth"
-  });
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:Arial,sans-serif;
 }
 
-function sendOrder() {
-
-  const name = document.getElementById("name").value.trim();
-  const phone = document.getElementById("phone").value.trim();
-  const city = document.getElementById("city").value.trim();
-  const address = document.getElementById("address").value.trim();
-  const quantity = document.getElementById("quantity").value;
-
-  if (!name || !phone || !city || !address) {
-    alert("من فضلك عمر جميع المعلومات ديال الطلب.");
-    return;
-  }
-
-  const total = 199 * Number(quantity);
-
-  const message =
-`🛍️ طلب جديد - FlashDrop Store
-
-🍿 المنتج: آلة صنع الفشار
-💰 الثمن: 199 درهم
-📦 الكمية: ${quantity}
-💵 المجموع: ${total} درهم
-🚚 التوصيل: مجاني
-
-👤 الاسم: ${name}
-📱 الهاتف: ${phone}
-🏙️ المدينة: ${city}
-📍 العنوان: ${address}`;
-
-  const whatsappURL =
-    "https://wa.me/212712570921?text=" +
-    encodeURIComponent(message);
-
-  window.open(whatsappURL, "_blank");
+body{
+  background:#f5f5f5;
+  color:#222;
 }
 
-</script>
+header{
+  background:#111;
+  color:white;
+  text-align:center;
+  padding:25px 15px;
+}
 
-</body>
-</html>
+header h1{
+  font-size:30px;
+}
+
+header p{
+  margin-top:8px;
+  color:#ddd;
+}
+
+.hero{
+  background:linear-gradient(135deg,#111,#444);
+  color:white;
+  text-align:center;
+  padding:45px 20px;
+}
+
+.hero h2{
+  font-size:28px;
+  margin-bottom:10px;
+}
+
+.products{
+  max-width:900px;
+  margin:30px auto;
+  padding:15px;
+}
+
+.product{
+  background:white;
+  border-radius:18px;
+  overflow:hidden;
+  box-shadow:0 5px 20px #0002;
+  text-align:center;
+}
+
+.product img{
+  width:100%;
+  max-height:450px;
+  object-fit:cover;
+}
+
+.product-info{
+  padding:25px;
+}
+
+.product h3{
+  font-size:25px;
+  margin-bottom:10px;
+}
+
+.description{
+  color:#666;
+  margin-bottom:15px;
+}
+
+.price{
+  font-size:28px;
+  font-weight:bold;
+  margin:15px;
+}
+
+.delivery{
+  display:inline-block;
+  background:#e5fff0;
+  color:#159447;
+  padding:8px 15px;
+  border-radius:20px;
+  margin-bottom:20px;
+  font-weight:bold;
+}
+
+.buy{
+  display:block;
+  width:100%;
+  background:#25D366;
+  color:white;
+  border:0;
+  padding:16px;
+  border-radius:10px;
+  font-size:18px;
+  font-weight:bold;
+}
+
+.order{
+  display:none;
+  max-width:650px;
+  background:white;
+  margin:25px auto;
+  padding:25px;
+  border-radius:18px;
+  box-shadow:0 5px 20px #0002;
+}
+
+.order h2{
+  text-align:center;
+  margin
