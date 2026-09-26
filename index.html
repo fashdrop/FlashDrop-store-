@@ -41,4 +41,547 @@ header{
   padding:20px;
 }
 .stats{
-  display
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;
+  margin-bottom:20px;
+}
+.stat{
+  background:white;
+  border-radius:16px;
+  padding:18px;
+  box-shadow:0 4px 15px #0000000d;
+}
+.stat small{color:#64748b}
+.stat h2{margin:8px 0 0;font-size:28px}
+
+.panel{
+  background:white;
+  border-radius:18px;
+  padding:20px;
+  margin-bottom:20px;
+  box-shadow:0 4px 15px #0000000d;
+}
+.panel-title{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:15px;
+  gap:10px;
+}
+.panel-title h2{margin:0}
+
+.form{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px;
+}
+input,select,textarea{
+  width:100%;
+  padding:13px;
+  border:1px solid #dbe2ea;
+  border-radius:10px;
+  outline:none;
+  font-size:15px;
+}
+input:focus,select:focus,textarea:focus{
+  border-color:#2563eb;
+}
+textarea{resize:vertical;min-height:80px}
+.full{grid-column:1/-1}
+
+button{
+  border:0;
+  border-radius:10px;
+  padding:12px 16px;
+  cursor:pointer;
+  font-weight:bold;
+  font-size:14px;
+}
+.primary{background:#2563eb;color:white}
+.success{background:#16a34a;color:white}
+.danger{background:#dc2626;color:white}
+.gray{background:#e5e7eb;color:#111827}
+.whatsapp{background:#25D366;color:white}
+
+.orders{
+  display:grid;
+  gap:12px;
+}
+.order{
+  border:1px solid #e5e7eb;
+  border-radius:15px;
+  padding:16px;
+}
+.order-top{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  align-items:center;
+}
+.customer{
+  font-size:18px;
+  font-weight:bold;
+}
+.info{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:6px;
+  margin:12px 0;
+  color:#475569;
+}
+.badge{
+  display:inline-block;
+  padding:6px 10px;
+  border-radius:20px;
+  font-size:12px;
+  font-weight:bold;
+}
+.new{background:#dbeafe;color:#1d4ed8}
+.confirmed{background:#dcfce7;color:#15803d}
+.shipped{background:#fef3c7;color:#a16207}
+.delivered{background:#d1fae5;color:#047857}
+.cancelled{background:#fee2e2;color:#b91c1c}
+
+.actions{
+  display:flex;
+  gap:7px;
+  flex-wrap:wrap;
+}
+.actions button{padding:9px 12px}
+
+.search{
+  display:flex;
+  gap:10px;
+  margin-bottom:15px;
+}
+.search input{flex:1}
+
+.empty{
+  text-align:center;
+  color:#64748b;
+  padding:30px;
+}
+
+@media(max-width:800px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .form{grid-template-columns:1fr}
+  .full{grid-column:auto}
+}
+@media(max-width:500px){
+  .container{padding:12px}
+  .stats{gap:8px}
+  .stat{padding:12px}
+  .stat h2{font-size:22px}
+  .info{grid-template-columns:1fr}
+  .header{align-items:flex-start}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="header">
+    <div class="logo">🚀 Flash<span>Drop</span> Store</div>
+    <button class="gray" onclick="scrollToForm()">＋ كوموند جديدة</button>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- الإحصائيات -->
+  <div class="stats">
+    <div class="stat">
+      <small>📦 جميع الطلبات</small>
+      <h2 id="total">0</h2>
+    </div>
+
+    <div class="stat">
+      <small>🆕 الطلبات الجديدة</small>
+      <h2 id="newCount">0</h2>
+    </div>
+
+    <div class="stat">
+      <small>✅ تم التوصيل</small>
+      <h2 id="deliveredCount">0</h2>
+    </div>
+
+    <div class="stat">
+      <small>💰 المداخيل</small>
+      <h2 id="revenue">0 DH</h2>
+    </div>
+  </div>
+
+  <!-- إضافة كوموند -->
+  <div class="panel" id="formPanel">
+    <div class="panel-title">
+      <h2 id="formTitle">➕ إضافة كوموند</h2>
+      <button class="gray" onclick="resetForm()">مسح</button>
+    </div>
+
+    <form id="orderForm">
+      <input type="hidden" id="editId">
+
+      <input id="name" placeholder="👤 اسم الزبون" required>
+      <input id="phone" placeholder="📞 رقم الهاتف" required>
+
+      <input id="city" placeholder="📍 المدينة" required>
+      <input id="address" placeholder="🏠 العنوان">
+
+      <input id="product" placeholder="📦 اسم المنتج" required>
+      <input id="quantity" type="number" min="1" value="1" placeholder="الكمية">
+
+      <input id="price" type="number" min="0" placeholder="💰 ثمن المنتج (DH)" required>
+      <input id="shipping" type="number" min="0" value="0" placeholder="🚚 التوصيل (DH)">
+
+      <select id="status">
+        <option value="new">🆕 جديدة</option>
+        <option value="confirmed">✅ مؤكدة</option>
+        <option value="shipped">🚚 تشحنات</option>
+        <option value="delivered">📦 توصلات</option>
+        <option value="cancelled">❌ ملغاة</option>
+      </select>
+
+      <textarea id="note" class="full" placeholder="📝 ملاحظات..."></textarea>
+
+      <button class="primary full" type="submit" id="saveBtn">
+        💾 حفظ الكوموند
+      </button>
+    </form>
+  </div>
+
+  <!-- الطلبات -->
+  <div class="panel">
+    <div class="panel-title">
+      <h2>📋 الكوموندات</h2>
+      <button class="danger" onclick="deleteAll()">حذف الكل</button>
+    </div>
+
+    <div class="search">
+      <input id="search" placeholder="🔎 قلب على الاسم، الهاتف، المدينة أو المنتج...">
+      <select id="filter">
+        <option value="all">الكل</option>
+        <option value="new">جديدة</option>
+        <option value="confirmed">مؤكدة</option>
+        <option value="shipped">تشحنات</option>
+        <option value="delivered">توصلات</option>
+        <option value="cancelled">ملغاة</option>
+      </select>
+    </div>
+
+    <div id="orders" class="orders"></div>
+  </div>
+
+</div>
+
+<script>
+
+let orders = JSON.parse(localStorage.getItem("flashdrop_orders") || "[]");
+
+const form = document.getElementById("orderForm");
+
+function saveData(){
+  localStorage.setItem("flashdrop_orders", JSON.stringify(orders));
+}
+
+function generateId(){
+  return Date.now().toString();
+}
+
+function scrollToForm(){
+  document.getElementById("formPanel").scrollIntoView({
+    behavior:"smooth"
+  });
+}
+
+form.addEventListener("submit", function(e){
+  e.preventDefault();
+
+  const editId = document.getElementById("editId").value;
+
+  const data = {
+    id: editId || generateId(),
+    name: document.getElementById("name").value.trim(),
+    phone: document.getElementById("phone").value.trim(),
+    city: document.getElementById("city").value.trim(),
+    address: document.getElementById("address").value.trim(),
+    product: document.getElementById("product").value.trim(),
+    quantity: Number(document.getElementById("quantity").value) || 1,
+    price: Number(document.getElementById("price").value) || 0,
+    shipping: Number(document.getElementById("shipping").value) || 0,
+    status: document.getElementById("status").value,
+    note: document.getElementById("note").value.trim(),
+    date: new Date().toLocaleString("fr-MA")
+  };
+
+  if(editId){
+    const index = orders.findIndex(o => o.id === editId);
+    if(index !== -1) orders[index] = data;
+  }else{
+    orders.unshift(data);
+  }
+
+  saveData();
+  resetForm();
+  render();
+  alert("✅ تسجلات الكوموند بنجاح");
+});
+
+function resetForm(){
+  form.reset();
+
+  document.getElementById("editId").value = "";
+  document.getElementById("quantity").value = 1;
+  document.getElementById("shipping").value = 0;
+  document.getElementById("status").value = "new";
+
+  document.getElementById("formTitle").innerText = "➕ إضافة كوموند";
+  document.getElementById("saveBtn").innerText = "💾 حفظ الكوموند";
+}
+
+function editOrder(id){
+  const o = orders.find(x => x.id === id);
+  if(!o) return;
+
+  document.getElementById("editId").value = o.id;
+  document.getElementById("name").value = o.name;
+  document.getElementById("phone").value = o.phone;
+  document.getElementById("city").value = o.city;
+  document.getElementById("address").value = o.address;
+  document.getElementById("product").value = o.product;
+  document.getElementById("quantity").value = o.quantity;
+  document.getElementById("price").value = o.price;
+  document.getElementById("shipping").value = o.shipping;
+  document.getElementById("status").value = o.status;
+  document.getElementById("note").value = o.note;
+
+  document.getElementById("formTitle").innerText = "✏️ تعديل الكوموند";
+  document.getElementById("saveBtn").innerText = "💾 تحديث الكوموند";
+
+  scrollToForm();
+}
+
+function deleteOrder(id){
+  if(!confirm("واش متأكد باغي تحذف هاد الكوموند؟")) return;
+
+  orders = orders.filter(o => o.id !== id);
+  saveData();
+  render();
+}
+
+function deleteAll(){
+  if(!orders.length){
+    alert("ماكاين حتى كوموند");
+    return;
+  }
+
+  if(confirm("⚠️ غادي يتحيدو جميع الكوموندات. واش متأكد؟")){
+    orders = [];
+    saveData();
+    render();
+  }
+}
+
+function statusText(status){
+  const map = {
+    new:"🆕 جديدة",
+    confirmed:"✅ مؤكدة",
+    shipped:"🚚 تشحنات",
+    delivered:"📦 توصلات",
+    cancelled:"❌ ملغاة"
+  };
+  return map[status] || status;
+}
+
+function totalOrder(o){
+  return (o.price * o.quantity) + o.shipping;
+}
+
+function sendWhatsApp(o){
+
+  let message =
+`سلام ${o.name} 👋
+
+شكراً على الطلب ديالك من FlashDrop Store 🛍️
+
+📦 المنتج: ${o.product}
+🔢 الكمية: ${o.quantity}
+💰 الثمن: ${o.price} DH
+🚚 التوصيل: ${o.shipping} DH
+💵 المجموع: ${totalOrder(o)} DH
+
+📍 المدينة: ${o.city}
+🏠 العنوان: ${o.address}
+
+شكراً على الثقة ❤️`;
+
+  const url =
+    "https://wa.me/" +
+    o.phone.replace(/\D/g,"") +
+    "?text=" +
+    encodeURIComponent(message);
+
+  window.open(url,"_blank");
+}
+
+function copyOrder(o){
+
+  const text =
+`الزبون: ${o.name}
+الهاتف: ${o.phone}
+المدينة: ${o.city}
+العنوان: ${o.address}
+المنتج: ${o.product}
+الكمية: ${o.quantity}
+الثمن: ${o.price} DH
+التوصيل: ${o.shipping} DH
+المجموع: ${totalOrder(o)} DH
+الحالة: ${statusText(o.status)}`;
+
+  navigator.clipboard.writeText(text)
+  .then(() => alert("✅ تسخ المعلومات"));
+}
+
+function render(){
+
+  const search =
+    document.getElementById("search").value.toLowerCase();
+
+  const filter =
+    document.getElementById("filter").value;
+
+  const list = orders.filter(o => {
+
+    const text =
+      `${o.name} ${o.phone} ${o.city} ${o.product}`
+      .toLowerCase();
+
+    const matchesSearch = text.includes(search);
+
+    const matchesFilter =
+      filter === "all" || o.status === filter;
+
+    return matchesSearch && matchesFilter;
+  });
+
+  const container = document.getElementById("orders");
+
+  if(!list.length){
+    container.innerHTML =
+      `<div class="empty">📭 ماكايناش كوموندات</div>`;
+  }else{
+
+    container.innerHTML = list.map(o => `
+
+      <div class="order">
+
+        <div class="order-top">
+          <div>
+            <div class="customer">👤 ${escapeHtml(o.name)}</div>
+            <small>${o.date}</small>
+          </div>
+
+          <span class="badge ${o.status}">
+            ${statusText(o.status)}
+          </span>
+        </div>
+
+        <div class="info">
+
+          <div>📞 ${escapeHtml(o.phone)}</div>
+          <div>📍 ${escapeHtml(o.city)}</div>
+          <div>📦 ${escapeHtml(o.product)}</div>
+          <div>🔢 الكمية: ${o.quantity}</div>
+          <div>💰 المنتج: ${o.price} DH</div>
+          <div>🚚 التوصيل: ${o.shipping} DH</div>
+          <div><b>💵 المجموع: ${totalOrder(o)} DH</b></div>
+          <div>🏠 ${escapeHtml(o.address)}</div>
+
+        </div>
+
+        ${
+          o.note
+          ? `<div>📝 ${escapeHtml(o.note)}</div>`
+          : ""
+        }
+
+        <br>
+
+        <div class="actions">
+
+          <button
+            class="whatsapp"
+            onclick='sendWhatsApp(${JSON.stringify(o)})'>
+            WhatsApp
+          </button>
+
+          <button
+            class="gray"
+            onclick='copyOrder(${JSON.stringify(o)})'>
+            📋 نسخ
+          </button>
+
+          <button
+            class="primary"
+            onclick="editOrder('${o.id}')">
+            ✏️ تعديل
+          </button>
+
+          <button
+            class="danger"
+            onclick="deleteOrder('${o.id}')">
+            🗑️ حذف
+          </button>
+
+        </div>
+
+      </div>
+
+    `).join("");
+  }
+
+  updateStats();
+}
+
+function updateStats(){
+
+  document.getElementById("total").innerText =
+    orders.length;
+
+  document.getElementById("newCount").innerText =
+    orders.filter(o => o.status === "new").length;
+
+  document.getElementById("deliveredCount").innerText =
+    orders.filter(o => o.status === "delivered").length;
+
+  const revenue =
+    orders
+      .filter(o => o.status === "delivered")
+      .reduce((sum,o) => sum + totalOrder(o),0);
+
+  document.getElementById("revenue").innerText =
+    revenue.toLocaleString("fr-MA") + " DH";
+}
+
+function escapeHtml(text){
+  return String(text || "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+document.getElementById("search")
+  .addEventListener("input",render);
+
+document.getElementById("filter")
+  .addEventListener("change",render);
+
+render();
+
+</script>
+
+</body>
+</html>
