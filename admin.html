@@ -2,840 +2,456 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FlashDrop Store</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FlashDrop Admin</title>
 
 <style>
-*{
-  box-sizing:border-box;
-  font-family:Arial,sans-serif;
-}
-
-body{
-  margin:0;
-  background:#f5f6fa;
-  color:#111827;
-}
-
-header{
-  background:#111827;
-  color:white;
-  padding:18px;
-  position:sticky;
-  top:0;
-  z-index:10;
-}
-
-.header-content{
-  max-width:1100px;
-  margin:auto;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:10px;
-}
-
-.logo{
-  font-size:22px;
-  font-weight:bold;
-}
-
-.container{
-  max-width:1100px;
-  margin:auto;
-  padding:20px;
-}
-
-.stats{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:15px;
-  margin-bottom:20px;
-}
-
-.stat{
-  background:white;
-  border-radius:16px;
-  padding:20px;
-  box-shadow:0 3px 15px rgba(0,0,0,.06);
-}
-
-.stat-title{
-  color:#6b7280;
-  font-size:14px;
-  margin-bottom:10px;
-}
-
-.stat-value{
-  font-size:25px;
-  font-weight:bold;
-}
-
-.actions{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-  margin-bottom:20px;
-}
-
-button{
-  border:0;
-  border-radius:12px;
-  padding:13px 18px;
-  background:#111827;
-  color:white;
-  font-size:15px;
-  cursor:pointer;
-}
-
-button.blue{
-  background:#2563eb;
-}
-
-button.green{
-  background:#16a34a;
-}
-
-button.red{
-  background:#dc2626;
-}
-
-.card{
-  background:white;
-  border-radius:16px;
-  padding:20px;
-  margin-bottom:20px;
-  box-shadow:0 3px 15px rgba(0,0,0,.06);
-}
-
-.card h2{
-  margin-top:0;
-}
-
-.order-form{
-  display:none;
-}
-
-input{
-  width:100%;
-  padding:13px;
-  border:1px solid #ddd;
-  border-radius:10px;
-  margin-bottom:10px;
-  font-size:15px;
-}
-
-.form-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-}
-
-.empty{
-  text-align:center;
-  color:#777;
-  padding:35px;
-}
-
-.order{
-  border:1px solid #eee;
-  border-radius:12px;
-  padding:15px;
-  margin-bottom:12px;
-}
-
-.order-top{
-  display:flex;
-  justify-content:space-between;
-  gap:10px;
-  flex-wrap:wrap;
-}
-
-.badge{
-  display:inline-block;
-  padding:6px 10px;
-  border-radius:20px;
-  font-size:12px;
-  background:#fef3c7;
-  color:#92400e;
-}
-
-@media(max-width:700px){
-
-  .stats{
-    grid-template-columns:1fr 1fr;
-  }
-
-  .form-grid{
-    grid-template-columns:1fr;
-  }
-
-  .header-content{
-    flex-direction:column;
-  }
-}
-
-@media(max-width:450px){
-
-  .stats{
-    grid-template-columns:1fr;
-  }
-
-  .container{
-    padding:12px;
-  }
-}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Tahoma,sans-serif;background:#f5f7fb;color:#172033}
+header{background:#111827;color:#fff;padding:18px}
+.head{max-width:1200px;margin:auto;display:flex;justify-content:space-between;align-items:center}
+.logo{font-size:23px;font-weight:bold}.logo span{color:#22c55e}
+.container{max-width:1200px;margin:auto;padding:20px}
+.hero{background:linear-gradient(135deg,#111827,#2563eb);color:white;padding:30px;border-radius:20px;margin-bottom:20px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:15px}
+.stat{background:white;padding:20px;border-radius:17px;box-shadow:0 4px 15px #0001}
+.stat b{display:block;font-size:25px;margin-top:8px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:20px 0}
+.tab{background:white;padding:12px 16px;border-radius:10px}
+.active{background:#2563eb;color:white}
+.panel{background:white;padding:20px;border-radius:18px;margin-bottom:20px}
+.form{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px}
+input,select{padding:12px;border:1px solid #ddd;border-radius:9px;width:100%}
+button{border:0;border-radius:9px;padding:11px;cursor:pointer;font-weight:bold}
+.primary{background:#2563eb;color:#fff}
+.green{background:#16a34a;color:#fff}
+.orange{background:#f59e0b;color:#fff}
+.red{background:#dc2626;color:#fff}
+.gray{background:#64748b;color:#fff}
+.orders{display:grid;gap:13px}
+.order{background:#fff;border:1px solid #e5e7eb;padding:16px;border-radius:15px}
+.badge{padding:6px 10px;border-radius:20px;font-size:12px;font-weight:bold}
+.new{background:#dbeafe;color:#1d4ed8}
+.delivery{background:#fef3c7;color:#92400e}
+.done{background:#dcfce7;color:#166534}
+.ret{background:#fee2e2;color:#991b1b}
+.actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}
+.products{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:15px}
+.product{background:#fff;border-radius:15px;overflow:hidden;box-shadow:0 3px 12px #0001}
+.product-img{height:170px;background:#eef2ff;display:flex;align-items:center;justify-content:center;font-size:55px}
+.product-body{padding:15px}
 </style>
 </head>
 
 <body>
 
 <header>
-
-  <div class="header-content">
-
-    <div class="logo">
-      🚀 FlashDrop Store
-    </div>
-
-    <div>
-      منصة إدارة الطلبات
-    </div>
-
-  </div>
-
+<div class="head">
+<div class="logo">👑 FlashDrop <span>Admin</span></div>
+<div>لوحة المسؤول</div>
+</div>
 </header>
-
 
 <div class="container">
 
-  <!-- الإحصائيات -->
+<div class="hero">
+<h1>👑 لوحة التحكم</h1>
+<p>هنا كتسير المنتجات والطلبات ديالك.</p>
+</div>
 
-  <div class="stats">
+<div class="stats">
 
-    <div class="stat">
-      <div class="stat-title">
-        📦 جميع الطلبات
-      </div>
+<div class="stat">📦 جميع الطلبات<b id="all">0</b></div>
+<div class="stat">🆕 جديدة<b id="new">0</b></div>
+<div class="stat">🚚 توصيل<b id="delivery">0</b></div>
+<div class="stat">✅ توصلات<b id="done">0</b></div>
+<div class="stat">↩️ Retour<b id="returns">0</b></div>
+<div class="stat">💰 المداخيل<b id="money">0 DH</b></div>
 
-      <div class="stat-value" id="allOrders">
-        0
-      </div>
-    </div>
+</div>
 
-
-    <div class="stat">
-      <div class="stat-title">
-        🆕 الطلبات الجديدة
-      </div>
-
-      <div class="stat-value" id="newOrders">
-        0
-      </div>
-    </div>
+<div class="tabs">
+<button class="tab active" onclick="section('dashboard')">📊 الرئيسية</button>
+<button class="tab" onclick="section('products')">📦 المنتجات</button>
+<button class="tab" onclick="section('orders')">🛒 الطلبات</button>
+<button class="tab" onclick="section('returns')">↩️ Retour</button>
+</div>
 
 
-    <div class="stat">
-      <div class="stat-title">
-        ✅ تم التوصيل
-      </div>
+<section id="dashboard">
 
-      <div class="stat-value" id="deliveredOrders">
-        0
-      </div>
-    </div>
+<div class="panel">
+<h2>⚡ آخر الطلبات</h2>
+<div id="latest" class="orders"></div>
+</div>
 
-
-    <div class="stat">
-      <div class="stat-title">
-        💰 المداخيل
-      </div>
-
-      <div class="stat-value" id="revenue">
-        0 DH
-      </div>
-    </div>
-
-  </div>
+</section>
 
 
-  <!-- الأزرار -->
+<section id="products" style="display:none">
 
-  <div class="actions">
+<div class="panel">
 
-    <button
-      class="blue"
-      onclick="showOrderForm()"
-    >
-      ➕ إضافة كوموند
-    </button>
+<h2>➕ إضافة منتوج</h2>
 
-    <button onclick="showOrders()">
-      📦 جميع الطلبات
-    </button>
+<div class="form">
+<input id="pn" placeholder="اسم المنتوج">
+<input id="pp" type="number" placeholder="ثمن البيع">
+<input id="pc" type="number" placeholder="ثمن الشراء">
+<input id="ps" type="number" placeholder="المخزون">
+<input id="pi" placeholder="رابط صورة المنتوج">
+</div>
 
-    <button
-      class="green"
-      onclick="showDelivered()"
-    >
-      ✅ تم التوصيل
-    </button>
+<br>
 
-    <button
-      class="red"
-      onclick="showCancelled()"
-    >
-      ❌ المرتجعات
-    </button>
+<button class="primary" onclick="addProduct()">
+➕ إضافة
+</button>
 
-  </div>
+</div>
+
+<div class="panel">
+<h2>📦 منتجاتي</h2>
+<div id="productList" class="products"></div>
+</div>
+
+</section>
 
 
-  <!-- إضافة كوموند -->
+<section id="orders" style="display:none">
 
-  <div
-    class="card order-form"
-    id="orderForm"
-  >
+<div class="panel">
 
-    <h2>
-      ➕ إضافة كوموند جديدة
-    </h2>
+<h2>🛒 جميع الطلبات</h2>
 
-    <input
-      type="text"
-      id="customerName"
-      placeholder="اسم الزبون"
-    >
+<input id="search" placeholder="🔎 بحث..." oninput="renderOrders()">
 
-    <input
-      type="tel"
-      id="customerPhone"
-      placeholder="رقم الهاتف"
-    >
+<br><br>
 
-    <input
-      type="text"
-      id="customerCity"
-      placeholder="المدينة"
-    >
+<div id="orderList" class="orders"></div>
 
-    <input
-      type="text"
-      id="customerAddress"
-      placeholder="العنوان"
-    >
+</div>
 
-    <div class="form-grid">
-
-      <input
-        type="text"
-        id="productName"
-        placeholder="اسم المنتج"
-      >
-
-      <input
-        type="number"
-        id="quantity"
-        placeholder="الكمية"
-        value="1"
-        min="1"
-      >
-
-    </div>
-
-    <input
-      type="number"
-      id="sellingPrice"
-      placeholder="ثمن البيع DH"
-    >
-
-    <button
-      class="green"
-      onclick="addOrder()"
-    >
-      💾 حفظ الكوموند
-    </button>
-
-  </div>
+</section>
 
 
-  <!-- الطلبات -->
+<section id="returns" style="display:none">
 
-  <div class="card">
+<div class="panel">
 
-    <h2>
-      📦 الكوموندات
-    </h2>
+<h2>↩️ Retour</h2>
 
-    <div id="ordersList">
+<div id="returnList" class="orders"></div>
 
-      <div class="empty">
-        ما كاين حتى كوموند دابا
-      </div>
+</div>
 
-    </div>
-
-  </div>
+</section>
 
 </div>
 
 
 <script>
 
-let orders = [];
+let products=JSON.parse(
+localStorage.getItem("flashdrop_products")||"[]"
+);
 
+let orders=JSON.parse(
+localStorage.getItem("flashdrop_orders")||"[]"
+);
 
-/* إظهار فورم الكوموند */
-
-function showOrderForm(){
-
-  const form =
-    document.getElementById("orderForm");
-
-  form.style.display =
-    form.style.display === "block"
-      ? "none"
-      : "block";
+function saveProducts(){
+localStorage.setItem(
+"flashdrop_products",
+JSON.stringify(products)
+);
 }
-
-
-/* إضافة كوموند */
-
-function addOrder(){
-
-  const name =
-    document.getElementById("customerName")
-    .value.trim();
-
-  const phone =
-    document.getElementById("customerPhone")
-    .value.trim();
-
-  const city =
-    document.getElementById("customerCity")
-    .value.trim();
-
-  const address =
-    document.getElementById("customerAddress")
-    .value.trim();
-
-  const product =
-    document.getElementById("productName")
-    .value.trim();
-
-  const quantity =
-    Number(
-      document.getElementById("quantity").value
-    );
-
-  const price =
-    Number(
-      document.getElementById("sellingPrice").value
-    );
-
-
-  if(
-    !name ||
-    !phone ||
-    !city ||
-    !address ||
-    !product ||
-    !quantity ||
-    !price
-  ){
-
-    alert("❌ دخل جميع المعلومات");
-
-    return;
-  }
-
-
-  const order = {
-
-    id: Date.now(),
-
-    customerName: name,
-
-    phone: phone,
-
-    city: city,
-
-    address: address,
-
-    product: product,
-
-    quantity: quantity,
-
-    price: price,
-
-    total: quantity * price,
-
-    status: "new"
-
-  };
-
-
-  orders.unshift(order);
-
-  saveOrders();
-
-  renderOrders();
-
-  clearForm();
-
-
-  document.getElementById(
-    "orderForm"
-  ).style.display = "none";
-
-}
-
-
-/* حفظ الطلبات */
 
 function saveOrders(){
+localStorage.setItem(
+"flashdrop_orders",
+JSON.stringify(orders)
+);
+}
 
-  localStorage.setItem(
-    "flashdrop_orders",
-    JSON.stringify(orders)
-  );
+function section(name){
+
+["dashboard","products","orders","returns"].forEach(x=>{
+document.getElementById(x).style.display=
+x===name?"block":"none";
+});
+
+if(name==="dashboard")renderLatest();
+if(name==="products")renderProducts();
+if(name==="orders")renderOrders();
+if(name==="returns")renderReturns();
 
 }
 
+function addProduct(){
 
-/* تحميل الطلبات */
+const name=document.getElementById("pn").value.trim();
+const price=Number(document.getElementById("pp").value);
+const cost=Number(document.getElementById("pc").value);
+const stock=Number(document.getElementById("ps").value);
+const image=document.getElementById("pi").value.trim();
 
-function loadOrders(){
+if(!name||!price){
+alert("دخل الاسم والثمن");
+return;
+}
 
-  const saved =
-    localStorage.getItem(
-      "flashdrop_orders"
-    );
+products.push({
+id:Date.now(),
+name,
+price,
+cost,
+stock,
+image
+});
 
+saveProducts();
 
-  if(saved){
+document.getElementById("pn").value="";
+document.getElementById("pp").value="";
+document.getElementById("pc").value="";
+document.getElementById("ps").value="";
+document.getElementById("pi").value="";
 
-    try{
+renderProducts();
 
-      orders = JSON.parse(saved);
-
-    }catch(error){
-
-      orders = [];
-
-    }
-
-  }
-
-
-  renderOrders();
+alert("✅ تزاد المنتوج");
 
 }
 
+function renderProducts(){
 
-/* عرض الطلبات */
+const box=document.getElementById("productList");
+box.innerHTML="";
 
-function renderOrders(list = orders){
+products.forEach(p=>{
 
-  const box =
-    document.getElementById("ordersList");
+box.innerHTML+=`
 
+<div class="product">
 
-  if(!list.length){
+<div class="product-img">
+${p.image
+?`<img src="${p.image}" style="width:100%;height:100%;object-fit:cover">`
+:"📦"}
+</div>
 
-    box.innerHTML =
-      '<div class="empty">ما كاين حتى كوموند</div>';
+<div class="product-body">
 
-    updateStats();
+<h3>${esc(p.name)}</h3>
 
-    return;
-  }
+<p>💰 البيع: ${p.price} DH</p>
+<p>📦 المخزون: ${p.stock}</p>
+<p>💵 الربح: ${Math.max(0,p.price-p.cost)} DH</p>
 
+<button class="red"
+onclick="deleteProduct(${p.id})">
+🗑 حذف
+</button>
 
-  box.innerHTML = "";
+</div>
+</div>
 
+`;
 
-  list.forEach(order => {
-
-    const div =
-      document.createElement("div");
-
-    div.className = "order";
-
-
-    div.innerHTML = `
-
-      <div class="order-top">
-
-        <strong>
-          👤 ${order.customerName}
-        </strong>
-
-        <span class="badge">
-          ${getStatus(order.status)}
-        </span>
-
-      </div>
-
-      <p>
-        📞 ${order.phone}
-      </p>
-
-      <p>
-        📍 ${order.city} - ${order.address}
-      </p>
-
-      <p>
-        🛍️ ${order.product}
-      </p>
-
-      <p>
-        🔢 الكمية: ${order.quantity}
-      </p>
-
-      <p>
-        💰 المجموع:
-        <strong>
-          ${order.total} DH
-        </strong>
-      </p>
-
-      <div class="actions">
-
-        <button
-          class="green"
-          onclick="
-            changeStatus(
-              ${order.id},
-              'delivered'
-            )
-          "
-        >
-          ✅ توصيل
-        </button>
-
-
-        <button
-          class="red"
-          onclick="
-            changeStatus(
-              ${order.id},
-              'returned'
-            )
-          "
-        >
-          ↩️ رجوع
-        </button>
-
-
-        <button
-          onclick="
-            deleteOrder(${order.id})
-          "
-        >
-          🗑️ حذف
-        </button>
-
-      </div>
-
-    `;
-
-
-    box.appendChild(div);
-
-  });
-
-
-  updateStats();
+});
 
 }
 
+function deleteProduct(id){
 
-/* تغيير الحالة */
+if(!confirm("حذف المنتوج؟"))return;
 
-function changeStatus(id,status){
+products=products.filter(p=>p.id!==id);
 
-  const order =
-    orders.find(
-      o => o.id === id
-    );
-
-
-  if(!order) return;
-
-
-  order.status = status;
-
-  saveOrders();
-
-  renderOrders();
+saveProducts();
+renderProducts();
 
 }
 
+function statusText(status){
 
-/* حذف كوموند */
+if(status==="new")
+return `<span class="badge new">جديدة</span>`;
 
-function deleteOrder(id){
+if(status==="delivery")
+return `<span class="badge delivery">قيد التوصيل</span>`;
 
-  if(
-    !confirm(
-      "واش متأكد بغيتي تحيد هاد الكوموند؟"
-    )
-  ){
+if(status==="done")
+return `<span class="badge done">تم التوصيل</span>`;
 
-    return;
-  }
-
-
-  orders =
-    orders.filter(
-      o => o.id !== id
-    );
-
-
-  saveOrders();
-
-  renderOrders();
+return `<span class="badge ret">Retour</span>`;
 
 }
 
+function card(o){
 
-/* جميع الطلبات */
+return`
 
-function showOrders(){
+<div class="order">
 
-  renderOrders(orders);
+<b>👤 ${esc(o.customer)}</b>
 
-}
+<br>
+📞 ${esc(o.phone)}
 
+<hr>
 
-/* الطلبات الموصلة */
+📦 ${esc(o.product)}
+<br>
+🔢 الكمية: ${o.qty}
+<br>
+💰 المجموع: <b>${o.price*o.qty} DH</b>
+<br>
+📍 ${esc(o.city)} - ${esc(o.address)}
 
-function showDelivered(){
+<br><br>
 
-  renderOrders(
-    orders.filter(
-      o => o.status === "delivered"
-    )
-  );
+${statusText(o.status)}
 
-}
+<div class="actions">
 
+<button class="orange"
+onclick="change(${o.id},'delivery')">
+🚚 توصيل
+</button>
 
-/* المرتجعات */
+<button class="green"
+onclick="change(${o.id},'done')">
+✅ وصلات
+</button>
 
-function showCancelled(){
+<button class="red"
+onclick="change(${o.id},'return')">
+↩️ Retour
+</button>
 
-  renderOrders(
-    orders.filter(
-      o => o.status === "returned"
-    )
-  );
+<button class="gray"
+onclick="change(${o.id},'new')">
+🆕 جديدة
+</button>
 
-}
+<button class="red"
+onclick="delOrder(${o.id})">
+🗑 حذف
+</button>
 
+</div>
 
-/* الحالة */
+</div>
 
-function getStatus(status){
-
-  if(status === "new")
-    return "جديدة";
-
-  if(status === "delivered")
-    return "تم التوصيل";
-
-  if(status === "returned")
-    return "مرتجعة";
-
-  return status;
-
-}
-
-
-/* الإحصائيات */
-
-function updateStats(){
-
-  document.getElementById(
-    "allOrders"
-  ).textContent = orders.length;
-
-
-  document.getElementById(
-    "newOrders"
-  ).textContent =
-    orders.filter(
-      o => o.status === "new"
-    ).length;
-
-
-  document.getElementById(
-    "deliveredOrders"
-  ).textContent =
-    orders.filter(
-      o => o.status === "delivered"
-    ).length;
-
-
-  const revenue =
-    orders
-      .filter(
-        o => o.status === "delivered"
-      )
-      .reduce(
-        (sum,o) => sum + o.total,
-        0
-      );
-
-
-  document.getElementById(
-    "revenue"
-  ).textContent =
-    revenue + " DH";
+`;
 
 }
 
+function renderOrders(){
 
-/* مسح الفورم */
+const box=document.getElementById("orderList");
+const q=(document.getElementById("search").value||"").toLowerCase();
 
-function clearForm(){
+const list=orders.filter(o=>
+`${o.customer} ${o.phone} ${o.product}`
+.toLowerCase().includes(q)
+);
 
-  document.getElementById(
-    "customerName"
-  ).value = "";
-
-  document.getElementById(
-    "customerPhone"
-  ).value = "";
-
-  document.getElementById(
-    "customerCity"
-  ).value = "";
-
-  document.getElementById(
-    "customerAddress"
-  ).value = "";
-
-  document.getElementById(
-    "productName"
-  ).value = "";
-
-  document.getElementById(
-    "quantity"
-  ).value = "1";
-
-  document.getElementById(
-    "sellingPrice"
-  ).value = "";
+box.innerHTML=list.length
+?list.map(card).join("")
+:"<p>📭 ماكايناش طلبات</p>";
 
 }
 
+function renderLatest(){
 
-/* تشغيل المنصة */
+document.getElementById("latest").innerHTML=
+orders.slice(0,5).map(card).join("")
+||"<p>📭 ماكايناش طلبات</p>";
 
-loadOrders();
+}
+
+function renderReturns(){
+
+const list=orders.filter(o=>o.status==="return");
+
+document.getElementById("returnList").innerHTML=
+list.map(card).join("")
+||"<p>✅ ماكاين حتى Retour</p>";
+
+}
+
+function change(id,status){
+
+const o=orders.find(x=>x.id===id);
+
+if(!o)return;
+
+o.status=status;
+
+saveOrders();
+
+update();
+renderOrders();
+renderLatest();
+renderReturns();
+
+}
+
+function delOrder(id){
+
+if(!confirm("واش متأكد؟"))return;
+
+orders=orders.filter(o=>o.id!==id);
+
+saveOrders();
+
+update();
+renderOrders();
+renderLatest();
+renderReturns();
+
+}
+
+function update(){
+
+document.getElementById("all").textContent=orders.length;
+
+document.getElementById("new").textContent=
+orders.filter(o=>o.status==="new").length;
+
+document.getElementById("delivery").textContent=
+orders.filter(o=>o.status==="delivery").length;
+
+document.getElementById("done").textContent=
+orders.filter(o=>o.status==="done").length;
+
+document.getElementById("returns").textContent=
+orders.filter(o=>o.status==="return").length;
+
+const money=orders
+.filter(o=>o.status==="done")
+.reduce((s,o)=>s+Number(o.price)*Number(o.qty||1),0);
+
+document.getElementById("money").textContent=money+" DH";
+
+}
+
+function esc(t){
+
+return String(t||"")
+.replaceAll("&","&amp;")
+.replaceAll("<","&lt;")
+.replaceAll(">","&gt;")
+.replaceAll('"',"&quot;")
+.replaceAll("'","&#039;");
+
+}
+
+update();
+renderLatest();
 
 </script>
 
