@@ -102,44 +102,36 @@ msg.innerText=text;
 
 async function login(){
 
-show("⏳ كنحاولو ندخلوك...");
+async function login(){
+  show("⏳ كنحاولو ندخلوك...");
 
-const email =
-document.getElementById("email").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
 
-const password =
-document.getElementById("password").value;
+  if(!email || !password){
+    show("❌ دخل الإيميل وكلمة السر");
+    return;
+  }
 
-if(!email || !password){
+  try {
+    const result = await Promise.race([
+      client.auth.signInWithPassword({
+        email: email,
+        password: password
+      }),
 
-show("❌ دخل الإيميل وكلمة السر");
+      new Promise((_, reject) =>
+        setTimeout(() => reject(new Error("TIMEOUT")), 10000)
+      )
+    ]);
 
-return;
+    if(result.error){
+      show("❌ " + result.error.message);
+      return;
+    }
 
+    show("✅ دخلتي بنجاح!");
+  } catch(e) {
+    show("❌ وقع مشكل: " + (e.message || e));
+  }
 }
-
-const result =
-await client.auth.signInWithPassword({
-
-email:email,
-
-password:password
-
-});
-
-if(result.error){
-
-show("❌ "+result.error.message);
-
-return;
-
-}
-
-show("✅ دخلتي بنجاح!");
-
-}
-
-</script>
-
-</body>
-</html>
