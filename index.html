@@ -1,944 +1,437 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FlashDrop Store</title>
 
-<title>FlashDrop Store</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<style>
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-  font-family:Arial,Tahoma,sans-serif;
-}
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
 
-body{
-  background:#f5f7fb;
-  color:#172033;
-}
+    body {
+      margin: 0;
+      background: #f5f7fb;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
 
-/* AUTH */
+    .container {
+      width: 100%;
+      max-width: 420px;
+      background: white;
+      border-radius: 22px;
+      padding: 28px;
+      box-shadow: 0 10px 35px rgba(0,0,0,.08);
+    }
 
-.auth{
-  min-height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:20px;
-  background:linear-gradient(135deg,#111827,#166534);
-}
+    .logo {
+      text-align: center;
+      font-size: 28px;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
 
-.auth-box{
-  width:100%;
-  max-width:430px;
-  background:white;
-  padding:30px;
-  border-radius:22px;
-  box-shadow:0 20px 60px rgba(0,0,0,.2);
-}
+    .subtitle {
+      text-align: center;
+      color: #777;
+      margin-bottom: 25px;
+    }
 
-.logo{
-  text-align:center;
-  font-size:28px;
-  font-weight:bold;
-  margin-bottom:8px;
-}
+    .tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
 
-.logo span{
-  color:#16a34a;
-}
+    .tabs button {
+      flex: 1;
+      padding: 12px;
+      border: 0;
+      border-radius: 12px;
+      background: #eee;
+      cursor: pointer;
+      font-size: 15px;
+    }
 
-.subtitle{
-  text-align:center;
-  color:#777;
-  margin-bottom:25px;
-}
+    .tabs button.active {
+      background: #111827;
+      color: white;
+    }
 
-input{
-  width:100%;
-  padding:14px;
-  margin-bottom:13px;
-  border:1px solid #ddd;
-  border-radius:11px;
-  font-size:15px;
-  outline:none;
-}
+    input {
+      width: 100%;
+      padding: 14px;
+      margin-bottom: 12px;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      outline: none;
+      font-size: 15px;
+    }
 
-input:focus{
-  border-color:#16a34a;
-}
+    input:focus {
+      border-color: #111827;
+    }
 
-button{
-  border:0;
-  cursor:pointer;
-  border-radius:11px;
-  padding:13px 18px;
-  font-weight:bold;
-}
+    .main-btn {
+      width: 100%;
+      padding: 14px;
+      border: 0;
+      border-radius: 12px;
+      background: #111827;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 5px;
+    }
 
-.btn{
-  background:#16a34a;
-  color:white;
-}
+    .main-btn:disabled {
+      opacity: .6;
+    }
 
-.auth-btn{
-  width:100%;
-  margin-top:5px;
-}
+    .message {
+      text-align: center;
+      margin-top: 15px;
+      font-size: 14px;
+      min-height: 20px;
+    }
 
-.switch{
-  text-align:center;
-  margin-top:18px;
-  color:#666;
-  cursor:pointer;
-}
+    .success {
+      color: #16803c;
+    }
 
-.switch b{
-  color:#16a34a;
-}
+    .error {
+      color: #d93025;
+    }
 
-.error{
-  background:#fee2e2;
-  color:#b91c1c;
-  padding:10px;
-  border-radius:9px;
-  margin-bottom:12px;
-  display:none;
-}
-
-.success{
-  background:#dcfce7;
-  color:#15803d;
-  padding:10px;
-  border-radius:9px;
-  margin-bottom:12px;
-  display:none;
-}
-
-/* DASHBOARD */
-
-#dashboard{
-  display:none;
-}
-
-header{
-  background:#111827;
-  color:white;
-  padding:16px 25px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-}
-
-.header-left{
-  display:flex;
-  align-items:center;
-  gap:20px;
-}
-
-.header-logo{
-  font-size:21px;
-  font-weight:bold;
-}
-
-.header-logo span{
-  color:#22c55e;
-}
-
-.user{
-  color:#d1d5db;
-  font-size:14px;
-}
-
-.logout{
-  background:#dc2626;
-  color:white;
-}
-
-.container{
-  max-width:1200px;
-  margin:auto;
-  padding:22px;
-}
-
-.welcome{
-  margin-bottom:20px;
-}
-
-.welcome h1{
-  font-size:26px;
-  margin-bottom:5px;
-}
-
-.welcome p{
-  color:#777;
-}
-
-.stats{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:15px;
-}
-
-.card{
-  background:white;
-  padding:20px;
-  border-radius:17px;
-  box-shadow:0 5px 20px rgba(0,0,0,.06);
-}
-
-.stat-title{
-  color:#777;
-  margin-bottom:10px;
-}
-
-.stat-number{
-  font-size:28px;
-  font-weight:bold;
-}
-
-.green{color:#16a34a}
-.blue{color:#2563eb}
-.orange{color:#ea580c}
-
-.section{
-  margin-top:28px;
-}
-
-.section-head{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:15px;
-}
-
-.orders{
-  overflow-x:auto;
-}
-
-table{
-  width:100%;
-  background:white;
-  border-collapse:collapse;
-  border-radius:15px;
-  overflow:hidden;
-}
-
-th,td{
-  padding:14px;
-  border-bottom:1px solid #eee;
-  text-align:center;
-  white-space:nowrap;
-}
-
-th{
-  background:#f3f4f6;
-}
-
-.empty{
-  padding:30px;
-  color:#888;
-}
-
-@media(max-width:800px){
-
-  .stats{
-    grid-template-columns:1fr 1fr;
-  }
-
-  header{
-    padding:14px;
-  }
-
-  .user{
-    display:none;
-  }
-
-}
-
-@media(max-width:500px){
-
-  .stats{
-    grid-template-columns:1fr 1fr;
-    gap:10px;
-  }
-
-  .container{
-    padding:12px;
-  }
-
-  .card{
-    padding:15px;
-  }
-
-  .stat-number{
-    font-size:23px;
-  }
-
-}
-</style>
+    .hidden {
+      display: none;
+    }
+  </style>
 </head>
 
 <body>
 
-
-<!-- ================= AUTH ================= -->
-
-<div class="auth" id="auth">
-
-  <div class="auth-box">
-
-    <div class="logo">
-      🚀 Flash<span>Drop</span>
-    </div>
-
-    <div class="subtitle">
-      منصة التجارة الإلكترونية
-    </div>
-
-
-    <!-- LOGIN -->
-
-    <div id="loginForm">
-
-      <h2 style="margin-bottom:18px">
-        تسجيل الدخول
-      </h2>
-
-      <div class="error" id="loginError"></div>
-
-      <input
-        id="loginEmail"
-        type="email"
-        placeholder="البريد الإلكتروني"
-      >
-
-      <input
-        id="loginPassword"
-        type="password"
-        placeholder="كلمة المرور"
-      >
-
-      <button
-        class="btn auth-btn"
-        onclick="login()"
-      >
-        تسجيل الدخول
-      </button>
-
-      <div class="switch" onclick="showRegister()">
-        ماعندكش حساب؟
-        <b>إنشاء حساب</b>
-      </div>
-
-    </div>
-
-
-    <!-- REGISTER -->
-
-    <div id="registerForm" style="display:none">
-
-      <h2 style="margin-bottom:18px">
-        إنشاء حساب جديد
-      </h2>
-
-      <div class="error" id="registerError"></div>
-
-      <div class="success" id="registerSuccess"></div>
-
-      <input
-        id="registerName"
-        placeholder="الاسم الكامل"
-      >
-
-      <input
-        id="registerEmail"
-        type="email"
-        placeholder="البريد الإلكتروني"
-      >
-
-      <input
-        id="registerPhone"
-        type="tel"
-        placeholder="رقم الهاتف"
-      >
-
-      <input
-        id="registerPassword"
-        type="password"
-        placeholder="كلمة المرور"
-      >
-
-      <button
-        class="btn auth-btn"
-        onclick="register()"
-      >
-        إنشاء الحساب
-      </button>
-
-      <div class="switch" onclick="showLogin()">
-        عندك حساب؟
-        <b>تسجيل الدخول</b>
-      </div>
-
-    </div>
-
-  </div>
-
-</div>
-
-
-<!-- ================= DASHBOARD ================= -->
-
-<div id="dashboard">
-
-<header>
-
-  <div class="header-left">
-
-    <div class="header-logo">
-      🚀 Flash<span>Drop</span> Store
-    </div>
-
-    <div class="user">
-      مرحباً، <span id="userName"></span>
-    </div>
-
-  </div>
-
-  <button
-    class="logout"
-    onclick="logout()"
-  >
-    تسجيل الخروج
-  </button>
-
-</header>
-
-
 <div class="container">
 
-  <div class="welcome">
+  <div class="logo">🚀 FlashDrop Store</div>
+  <div class="subtitle">مرحبا بك في منصة FlashDrop</div>
 
-    <h1>
-      لوحة التحكم 📊
-    </h1>
+  <div class="tabs">
+    <button id="loginTab" class="active" onclick="showLogin()">
+      تسجيل الدخول
+    </button>
 
-    <p>
-      مرحباً بك في منصة FlashDrop Store
-    </p>
+    <button id="signupTab" onclick="showSignup()">
+      إنشاء حساب
+    </button>
+  </div>
+
+  <!-- LOGIN -->
+  <div id="loginForm">
+
+    <input
+      id="loginEmail"
+      type="email"
+      placeholder="البريد الإلكتروني"
+    >
+
+    <input
+      id="loginPassword"
+      type="password"
+      placeholder="كلمة المرور"
+    >
+
+    <button class="main-btn" onclick="login()">
+      دخول
+    </button>
 
   </div>
 
+  <!-- SIGNUP -->
+  <div id="signupForm" class="hidden">
 
-  <!-- STATS -->
+    <input
+      id="signupName"
+      type="text"
+      placeholder="الاسم الكامل"
+    >
 
-  <div class="stats">
+    <input
+      id="signupPhone"
+      type="tel"
+      placeholder="رقم الهاتف"
+    >
 
-    <div class="card">
+    <input
+      id="signupEmail"
+      type="email"
+      placeholder="البريد الإلكتروني"
+    >
 
-      <div class="stat-title">
-        📦 جميع الطلبات
-      </div>
+    <input
+      id="signupPassword"
+      type="password"
+      placeholder="كلمة المرور"
+    >
 
-      <div
-        class="stat-number"
-        id="allOrders"
-      >
-        0
-      </div>
-
-    </div>
-
-
-    <div class="card">
-
-      <div class="stat-title">
-        🆕 الطلبات الجديدة
-      </div>
-
-      <div
-        class="stat-number blue"
-        id="newOrders"
-      >
-        0
-      </div>
-
-    </div>
-
-
-    <div class="card">
-
-      <div class="stat-title">
-        ✅ تم التوصيل
-      </div>
-
-      <div
-        class="stat-number green"
-        id="doneOrders"
-      >
-        0
-      </div>
-
-    </div>
-
-
-    <div class="card">
-
-      <div class="stat-title">
-        💰 المداخيل
-      </div>
-
-      <div
-        class="stat-number orange"
-        id="revenue"
-      >
-        0 DH
-      </div>
-
-    </div>
+    <button class="main-btn" onclick="signup()">
+      إنشاء الحساب
+    </button>
 
   </div>
 
-
-  <!-- ORDERS -->
-
-  <div class="section">
-
-    <div class="section-head">
-
-      <h2>
-        📦 آخر الطلبات
-      </h2>
-
-      <button
-        class="btn"
-        onclick="newOrder()"
-      >
-        ＋ كوموند جديدة
-      </button>
-
-    </div>
-
-
-    <div class="orders">
-
-      <table>
-
-        <thead>
-
-          <tr>
-
-            <th>#</th>
-            <th>الزبون</th>
-            <th>الهاتف</th>
-            <th>المدينة</th>
-            <th>الثمن</th>
-            <th>الحالة</th>
-
-          </tr>
-
-        </thead>
-
-        <tbody id="ordersTable">
-
-        </tbody>
-
-      </table>
-
-    </div>
-
-  </div>
+  <div id="message" class="message"></div>
 
 </div>
-
-</div>
-
 
 <script>
 
-/*
-================================================
- SUPABASE
-================================================
+  // ==========================================
+  // SUPABASE
+  // ==========================================
 
-من بعد غادي نحطو هنا:
+  const SUPABASE_URL =
+    "https://vadiyawqpbtdvnqmxxne.supabase.co";
 
-const SUPABASE_URL = "YOUR_URL";
-const SUPABASE_KEY = "YOUR_ANON_KEY";
+  const SUPABASE_KEY =
+    "YOUR_SUPABASE_ANON_KEY";
 
-*/
+  const supabaseClient =
+    supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
 
-const SUPABASE_URL = "YOUR_URL";
-const SUPABASE_KEY = "YOUR_ANON_KEY";
 
+  // ==========================================
+  // TABS
+  // ==========================================
 
-/*
-===============================================
- DEMO LOCAL SYSTEM
- باش تقدر تجرب الواجهة مباشرة
-===============================================
-*/
+  function showLogin() {
 
-let users =
-JSON.parse(localStorage.getItem("flashdrop_users")) || [];
+    document
+      .getElementById("loginForm")
+      .classList.remove("hidden");
 
-let currentUser =
-JSON.parse(localStorage.getItem("flashdrop_current_user")) || null;
+    document
+      .getElementById("signupForm")
+      .classList.add("hidden");
 
-let orders =
-JSON.parse(localStorage.getItem("flashdrop_orders")) || [];
+    document
+      .getElementById("loginTab")
+      .classList.add("active");
 
+    document
+      .getElementById("signupTab")
+      .classList.remove("active");
 
-/* إظهار Login */
+    clearMessage();
+  }
 
-function showLogin(){
 
- document.getElementById("loginForm").style.display="block";
+  function showSignup() {
 
- document.getElementById("registerForm").style.display="none";
+    document
+      .getElementById("signupForm")
+      .classList.remove("hidden");
 
-}
+    document
+      .getElementById("loginForm")
+      .classList.add("hidden");
 
+    document
+      .getElementById("signupTab")
+      .classList.add("active");
 
-/* إظهار Register */
+    document
+      .getElementById("loginTab")
+      .classList.remove("active");
 
-function showRegister(){
+    clearMessage();
+  }
 
- document.getElementById("loginForm").style.display="none";
 
- document.getElementById("registerForm").style.display="block";
+  // ==========================================
+  // SIGN UP
+  // ==========================================
 
-}
+  async function signup() {
 
+    const name =
+      document.getElementById("signupName").value.trim();
 
-/* Register */
+    const phone =
+      document.getElementById("signupPhone").value.trim();
 
-function register(){
+    const email =
+      document.getElementById("signupEmail").value.trim();
 
- const name =
- document.getElementById("registerName").value.trim();
+    const password =
+      document.getElementById("signupPassword").value;
 
- const email =
- document.getElementById("registerEmail").value.trim();
+    if (!name || !phone || !email || !password) {
 
- const phone =
- document.getElementById("registerPhone").value.trim();
+      showMessage(
+        "عمر جميع المعلومات",
+        "error"
+      );
 
- const password =
- document.getElementById("registerPassword").value;
+      return;
+    }
 
+    if (password.length < 6) {
 
- const error =
- document.getElementById("registerError");
+      showMessage(
+        "كلمة المرور خاصها تكون 6 أحرف على الأقل",
+        "error"
+      );
 
- const success =
- document.getElementById("registerSuccess");
+      return;
+    }
 
+    showMessage(
+      "جاري إنشاء الحساب...",
+      ""
+    );
 
- error.style.display="none";
- success.style.display="none";
+    const { data, error } =
+      await supabaseClient.auth.signUp({
 
+        email: email,
 
- if(!name || !email || !phone || !password){
+        password: password,
 
-   error.innerText =
-   "⚠️ عافاك عمر جميع المعلومات";
+        options: {
 
-   error.style.display="block";
+          data: {
+            full_name: name,
+            phone: phone
+          }
 
-   return;
- }
+        }
 
+      });
 
- if(password.length < 6){
 
-   error.innerText =
-   "⚠️ كلمة المرور خاصها تكون 6 أحرف على الأقل";
+    if (error) {
 
-   error.style.display="block";
+      showMessage(
+        error.message,
+        "error"
+      );
 
-   return;
- }
+      return;
+    }
 
 
- const exists =
- users.find(
-   u=>u.email.toLowerCase()===email.toLowerCase()
- );
+    showMessage(
+      "تم إنشاء الحساب بنجاح ✅",
+      "success"
+    );
 
+    document.getElementById("signupName").value = "";
+    document.getElementById("signupPhone").value = "";
+    document.getElementById("signupEmail").value = "";
+    document.getElementById("signupPassword").value = "";
 
- if(exists){
+  }
 
-   error.innerText =
-   "⚠️ هاد البريد الإلكتروني مسجل من قبل";
 
-   error.style.display="block";
+  // ==========================================
+  // LOGIN
+  // ==========================================
 
-   return;
- }
+  async function login() {
 
+    const email =
+      document.getElementById("loginEmail").value.trim();
 
- const user={
+    const password =
+      document.getElementById("loginPassword").value;
 
-   id:Date.now(),
 
-   name:name,
+    if (!email || !password) {
 
-   email:email,
+      showMessage(
+        "دخل الإيميل وكلمة المرور",
+        "error"
+      );
 
-   phone:phone,
+      return;
+    }
 
-   password:password
 
- };
+    showMessage(
+      "جاري تسجيل الدخول...",
+      ""
+    );
 
 
- users.push(user);
+    const { data, error } =
+      await supabaseClient.auth.signInWithPassword({
 
- localStorage.setItem(
-   "flashdrop_users",
-   JSON.stringify(users)
- );
+        email: email,
 
+        password: password
 
- success.innerText =
- "✅ تم إنشاء الحساب بنجاح. دابا سجل الدخول.";
+      });
 
- success.style.display="block";
 
+    if (error) {
 
- document.getElementById("registerName").value="";
- document.getElementById("registerEmail").value="";
- document.getElementById("registerPhone").value="";
- document.getElementById("registerPassword").value="";
+      showMessage(
+        error.message,
+        "error"
+      );
 
-}
+      return;
+    }
 
 
-/* Login */
+    showMessage(
+      "مرحبا بك 👋 تم تسجيل الدخول بنجاح",
+      "success"
+    );
 
-function login(){
+    /*
+      المرحلة القادمة:
+      غادي نوجهو المستخدم للواجهة ديالو
+      وAdmin للوحة التحكم.
+    */
 
- const email =
- document.getElementById("loginEmail").value.trim();
+  }
 
- const password =
- document.getElementById("loginPassword").value;
 
+  // ==========================================
+  // MESSAGE
+  // ==========================================
 
- const error =
- document.getElementById("loginError");
+  function showMessage(text, type) {
 
- error.style.display="none";
+    const box =
+      document.getElementById("message");
 
+    box.textContent = text;
 
- const user =
- users.find(
-   u =>
-   u.email.toLowerCase()===email.toLowerCase()
-   &&
-   u.password===password
- );
+    box.className =
+      "message " + type;
 
+  }
 
- if(!user){
 
-   error.innerText =
-   "❌ البريد الإلكتروني أو كلمة المرور غير صحيحة";
+  function clearMessage() {
 
-   error.style.display="block";
+    showMessage("", "");
 
-   return;
- }
-
-
- currentUser=user;
-
- localStorage.setItem(
-   "flashdrop_current_user",
-   JSON.stringify(user)
- );
-
-
- openDashboard();
-
-}
-
-
-/* Dashboard */
-
-function openDashboard(){
-
- document.getElementById("auth").style.display="none";
-
- document.getElementById("dashboard").style.display="block";
-
- document.getElementById("userName").innerText =
- currentUser.name;
-
- renderOrders();
-
- updateStats();
-
-}
-
-
-/* Logout */
-
-function logout(){
-
- currentUser=null;
-
- localStorage.removeItem(
-   "flashdrop_current_user"
- );
-
- document.getElementById("dashboard").style.display="none";
-
- document.getElementById("auth").style.display="flex";
-
- showLogin();
-
-}
-
-
-/* الطلبات */
-
-function renderOrders(){
-
- const table =
- document.getElementById("ordersTable");
-
- const userOrders =
- orders.filter(
-   o=>o.userId===currentUser.id
- );
-
-
- if(userOrders.length===0){
-
-   table.innerHTML=`
-
-   <tr>
-
-     <td
-       colspan="6"
-       class="empty"
-     >
-
-       📦 مازال ماكايناش الطلبات
-
-     </td>
-
-   </tr>
-
-   `;
-
-   return;
- }
-
-
- table.innerHTML="";
-
-
- userOrders.slice(0,10).forEach((o,index)=>{
-
-   let status =
-   o.status==="done"
-   ? "تم التوصيل"
-   : "جديدة";
-
-
-   table.innerHTML+=`
-
-   <tr>
-
-     <td>${index+1}</td>
-
-     <td>${o.customer}</td>
-
-     <td>${o.phone}</td>
-
-     <td>${o.city}</td>
-
-     <td>${o.total} DH</td>
-
-     <td>${status}</td>
-
-   </tr>
-
-   `;
-
- });
-
-}
-
-
-/* الإحصائيات */
-
-function updateStats(){
-
- const userOrders =
- orders.filter(
-   o=>o.userId===currentUser.id
- );
-
-
- document.getElementById("allOrders")
- .innerText=userOrders.length;
-
-
- document.getElementById("newOrders")
- .innerText=
- userOrders.filter(
-   o=>o.status==="new"
- ).length;
-
-
- document.getElementById("doneOrders")
- .innerText=
- userOrders.filter(
-   o=>o.status==="done"
- ).length;
-
-
- const revenue =
- userOrders
- .filter(o=>o.status==="done")
- .reduce(
-   (sum,o)=>sum+o.total,
-   0
- );
-
-
- document.getElementById("revenue")
- .innerText=
- revenue+" DH";
-
-}
-
-
-/* كوموند */
-
-function newOrder(){
-
- alert(
-   "🚧 صفحة إنشاء الطلبات غادي نضيفوها فالمرحلة التالية."
- );
-
-}
-
-
-/* تلقائياً إذا كان مسجل */
-
-if(currentUser){
-
- openDashboard();
-
-}
+  }
 
 </script>
 
