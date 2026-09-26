@@ -2,456 +2,907 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FlashDrop Admin</title>
 
 <style>
-*{box-sizing:border-box}
-body{margin:0;font-family:Arial,Tahoma,sans-serif;background:#f5f7fb;color:#172033}
-header{background:#111827;color:#fff;padding:18px}
-.head{max-width:1200px;margin:auto;display:flex;justify-content:space-between;align-items:center}
-.logo{font-size:23px;font-weight:bold}.logo span{color:#22c55e}
-.container{max-width:1200px;margin:auto;padding:20px}
-.hero{background:linear-gradient(135deg,#111827,#2563eb);color:white;padding:30px;border-radius:20px;margin-bottom:20px}
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:15px}
-.stat{background:white;padding:20px;border-radius:17px;box-shadow:0 4px 15px #0001}
-.stat b{display:block;font-size:25px;margin-top:8px}
-.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:20px 0}
-.tab{background:white;padding:12px 16px;border-radius:10px}
-.active{background:#2563eb;color:white}
-.panel{background:white;padding:20px;border-radius:18px;margin-bottom:20px}
-.form{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px}
-input,select{padding:12px;border:1px solid #ddd;border-radius:9px;width:100%}
-button{border:0;border-radius:9px;padding:11px;cursor:pointer;font-weight:bold}
-.primary{background:#2563eb;color:#fff}
-.green{background:#16a34a;color:#fff}
-.orange{background:#f59e0b;color:#fff}
-.red{background:#dc2626;color:#fff}
-.gray{background:#64748b;color:#fff}
-.orders{display:grid;gap:13px}
-.order{background:#fff;border:1px solid #e5e7eb;padding:16px;border-radius:15px}
-.badge{padding:6px 10px;border-radius:20px;font-size:12px;font-weight:bold}
-.new{background:#dbeafe;color:#1d4ed8}
-.delivery{background:#fef3c7;color:#92400e}
-.done{background:#dcfce7;color:#166534}
-.ret{background:#fee2e2;color:#991b1b}
-.actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}
-.products{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:15px}
-.product{background:#fff;border-radius:15px;overflow:hidden;box-shadow:0 3px 12px #0001}
-.product-img{height:170px;background:#eef2ff;display:flex;align-items:center;justify-content:center;font-size:55px}
-.product-body{padding:15px}
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:Arial,Tahoma,sans-serif;
+}
+
+body{
+  background:#f5f7fb;
+  color:#172033;
+}
+
+/* SIDEBAR */
+.sidebar{
+  position:fixed;
+  right:0;
+  top:0;
+  width:250px;
+  height:100vh;
+  background:#ffffff;
+  border-left:1px solid #e8ebf2;
+  padding:25px 16px;
+  z-index:10;
+}
+
+.logo{
+  font-size:24px;
+  font-weight:bold;
+  color:#2563eb;
+  margin-bottom:35px;
+  text-align:center;
+}
+
+.menu button{
+  width:100%;
+  border:0;
+  background:transparent;
+  padding:14px;
+  margin:5px 0;
+  border-radius:12px;
+  text-align:right;
+  font-size:15px;
+  cursor:pointer;
+  color:#596579;
+}
+
+.menu button:hover,
+.menu button.active{
+  background:#eff6ff;
+  color:#2563eb;
+  font-weight:bold;
+}
+
+/* MAIN */
+.main{
+  margin-right:250px;
+  padding:25px;
+}
+
+.top{
+  background:white;
+  padding:20px 25px;
+  border-radius:18px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:25px;
+  border:1px solid #e9edf4;
+}
+
+.top h1{
+  font-size:25px;
+}
+
+.admin{
+  color:#64748b;
+  font-size:14px;
+}
+
+/* CARDS */
+.cards{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:18px;
+  margin-bottom:25px;
+}
+
+.card{
+  background:white;
+  padding:22px;
+  border-radius:18px;
+  border:1px solid #e9edf4;
+  box-shadow:0 4px 15px rgba(0,0,0,.03);
+}
+
+.card .icon{
+  font-size:27px;
+  margin-bottom:15px;
+}
+
+.card h3{
+  font-size:14px;
+  color:#64748b;
+  margin-bottom:8px;
+}
+
+.card strong{
+  font-size:27px;
+}
+
+/* CONTENT */
+.content{
+  background:white;
+  border-radius:18px;
+  padding:25px;
+  border:1px solid #e9edf4;
+}
+
+.section{
+  display:none;
+}
+
+.section.active{
+  display:block;
+}
+
+.section-title{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:20px;
+}
+
+.section-title h2{
+  font-size:20px;
+}
+
+.btn{
+  border:0;
+  padding:11px 17px;
+  border-radius:10px;
+  cursor:pointer;
+  font-weight:bold;
+  background:#2563eb;
+  color:white;
+}
+
+.btn:hover{
+  background:#1d4ed8;
+}
+
+/* TABLE */
+.table-wrap{
+  overflow-x:auto;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+th,td{
+  padding:15px 10px;
+  border-bottom:1px solid #edf0f5;
+  text-align:right;
+  white-space:nowrap;
+}
+
+th{
+  color:#64748b;
+  font-size:13px;
+}
+
+.status{
+  padding:6px 10px;
+  border-radius:20px;
+  font-size:12px;
+  font-weight:bold;
+}
+
+.new{
+  background:#dbeafe;
+  color:#2563eb;
+}
+
+.delivery{
+  background:#fef3c7;
+  color:#92400e;
+}
+
+.done{
+  background:#dcfce7;
+  color:#15803d;
+}
+
+.return{
+  background:#fee2e2;
+  color:#dc2626;
+}
+
+/* FORM */
+.form{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:15px;
+}
+
+.field{
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+}
+
+.field label{
+  font-size:13px;
+  color:#64748b;
+}
+
+.field input,
+.field select,
+.field textarea{
+  width:100%;
+  padding:13px;
+  border:1px solid #dfe4ec;
+  border-radius:10px;
+  outline:none;
+  background:#fff;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus{
+  border-color:#2563eb;
+}
+
+.full{
+  grid-column:1/-1;
+}
+
+textarea{
+  min-height:100px;
+  resize:vertical;
+}
+
+/* PRODUCTS */
+.products{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+}
+
+.product{
+  border:1px solid #e8ebf2;
+  border-radius:15px;
+  padding:18px;
+  background:#fff;
+}
+
+.product-img{
+  height:150px;
+  background:#f1f5f9;
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:55px;
+  margin-bottom:15px;
+}
+
+.product h3{
+  margin-bottom:8px;
+}
+
+.product p{
+  color:#64748b;
+  font-size:13px;
+  margin-bottom:10px;
+}
+
+/* MOBILE */
+@media(max-width:900px){
+
+  .sidebar{
+    width:75px;
+    padding:15px 8px;
+  }
+
+  .logo{
+    font-size:0;
+  }
+
+  .logo::after{
+    content:"🚀";
+    font-size:25px;
+  }
+
+  .menu button{
+    text-align:center;
+    font-size:0;
+  }
+
+  .menu button::first-letter{
+    font-size:22px;
+  }
+
+  .main{
+    margin-right:75px;
+    padding:15px;
+  }
+
+  .cards{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .products{
+    grid-template-columns:1fr;
+  }
+}
+
+@media(max-width:550px){
+
+  .cards{
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+  }
+
+  .card{
+    padding:15px;
+  }
+
+  .card strong{
+    font-size:21px;
+  }
+
+  .top{
+    padding:16px;
+  }
+
+  .form{
+    grid-template-columns:1fr;
+  }
+
+  .full{
+    grid-column:auto;
+  }
+}
 </style>
 </head>
 
 <body>
 
-<header>
-<div class="head">
-<div class="logo">👑 FlashDrop <span>Admin</span></div>
-<div>لوحة المسؤول</div>
-</div>
-</header>
+<!-- SIDEBAR -->
+<aside class="sidebar">
 
-<div class="container">
+  <div class="logo">
+    🚀 FlashDrop
+  </div>
 
-<div class="hero">
-<h1>👑 لوحة التحكم</h1>
-<p>هنا كتسير المنتجات والطلبات ديالك.</p>
-</div>
+  <div class="menu">
 
-<div class="stats">
+    <button class="active" onclick="showSection('dashboard',this)">
+      🏠 الرئيسية
+    </button>
 
-<div class="stat">📦 جميع الطلبات<b id="all">0</b></div>
-<div class="stat">🆕 جديدة<b id="new">0</b></div>
-<div class="stat">🚚 توصيل<b id="delivery">0</b></div>
-<div class="stat">✅ توصلات<b id="done">0</b></div>
-<div class="stat">↩️ Retour<b id="returns">0</b></div>
-<div class="stat">💰 المداخيل<b id="money">0 DH</b></div>
+    <button onclick="showSection('orders',this)">
+      📦 الطلبات
+    </button>
 
-</div>
+    <button onclick="showSection('products',this)">
+      🛍️ المنتجات
+    </button>
 
-<div class="tabs">
-<button class="tab active" onclick="section('dashboard')">📊 الرئيسية</button>
-<button class="tab" onclick="section('products')">📦 المنتجات</button>
-<button class="tab" onclick="section('orders')">🛒 الطلبات</button>
-<button class="tab" onclick="section('returns')">↩️ Retour</button>
-</div>
+    <button onclick="showSection('returns',this)">
+      🔄 Retour
+    </button>
 
+    <button onclick="showSection('delivery',this)">
+      🚚 التوصيل
+    </button>
 
-<section id="dashboard">
+    <button onclick="showSection('customers',this)">
+      👥 الزبناء
+    </button>
 
-<div class="panel">
-<h2>⚡ آخر الطلبات</h2>
-<div id="latest" class="orders"></div>
-</div>
+    <button onclick="showSection('addorder',this)">
+      ➕ إضافة كوموند
+    </button>
 
-</section>
+  </div>
+</aside>
 
 
-<section id="products" style="display:none">
+<!-- MAIN -->
+<main class="main">
 
-<div class="panel">
+  <div class="top">
+    <div>
+      <h1>🚀 FlashDrop Admin</h1>
+      <div class="admin">لوحة تحكم الإدارة</div>
+    </div>
 
-<h2>➕ إضافة منتوج</h2>
-
-<div class="form">
-<input id="pn" placeholder="اسم المنتوج">
-<input id="pp" type="number" placeholder="ثمن البيع">
-<input id="pc" type="number" placeholder="ثمن الشراء">
-<input id="ps" type="number" placeholder="المخزون">
-<input id="pi" placeholder="رابط صورة المنتوج">
-</div>
-
-<br>
-
-<button class="primary" onclick="addProduct()">
-➕ إضافة
-</button>
-
-</div>
-
-<div class="panel">
-<h2>📦 منتجاتي</h2>
-<div id="productList" class="products"></div>
-</div>
-
-</section>
+    <div class="admin">
+      🔐 Admin
+    </div>
+  </div>
 
 
-<section id="orders" style="display:none">
+  <!-- DASHBOARD -->
+  <section id="dashboard" class="section active">
 
-<div class="panel">
+    <div class="cards">
 
-<h2>🛒 جميع الطلبات</h2>
+      <div class="card">
+        <div class="icon">📦</div>
+        <h3>جميع الطلبات</h3>
+        <strong id="totalOrders">0</strong>
+      </div>
 
-<input id="search" placeholder="🔎 بحث..." oninput="renderOrders()">
+      <div class="card">
+        <div class="icon">🆕</div>
+        <h3>طلبات جديدة</h3>
+        <strong id="newOrders">0</strong>
+      </div>
 
-<br><br>
+      <div class="card">
+        <div class="icon">🚚</div>
+        <h3>في التوصيل</h3>
+        <strong id="deliveryOrders">0</strong>
+      </div>
 
-<div id="orderList" class="orders"></div>
+      <div class="card">
+        <div class="icon">💰</div>
+        <h3>المداخيل</h3>
+        <strong id="revenue">0 DH</strong>
+      </div>
 
-</div>
-
-</section>
+    </div>
 
 
-<section id="returns" style="display:none">
+    <div class="content">
 
-<div class="panel">
+      <div class="section-title">
+        <h2>📊 آخر الطلبات</h2>
 
-<h2>↩️ Retour</h2>
+        <button class="btn" onclick="showSection('addorder')">
+          + إضافة كوموند
+        </button>
+      </div>
 
-<div id="returnList" class="orders"></div>
+      <div class="table-wrap">
 
-</div>
+        <table>
 
-</section>
+          <thead>
+            <tr>
+              <th>الزبون</th>
+              <th>الهاتف</th>
+              <th>المدينة</th>
+              <th>المنتوج</th>
+              <th>الثمن</th>
+              <th>الحالة</th>
+            </tr>
+          </thead>
 
-</div>
+          <tbody id="ordersTable">
+
+            <tr>
+              <td colspan="6" style="text-align:center;color:#94a3b8">
+                ماكايناش طلبات حاليا
+              </td>
+            </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ORDERS -->
+  <section id="orders" class="section">
+
+    <div class="content">
+
+      <div class="section-title">
+
+        <h2>📦 جميع الطلبات</h2>
+
+        <button class="btn" onclick="showSection('addorder')">
+          + طلب جديد
+        </button>
+
+      </div>
+
+      <div class="table-wrap">
+
+        <table>
+
+          <thead>
+            <tr>
+              <th>الزبون</th>
+              <th>الهاتف</th>
+              <th>المدينة</th>
+              <th>المنتوج</th>
+              <th>الثمن</th>
+              <th>الحالة</th>
+            </tr>
+          </thead>
+
+          <tbody id="ordersTable2"></tbody>
+
+        </table>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- PRODUCTS -->
+  <section id="products" class="section">
+
+    <div class="content">
+
+      <div class="section-title">
+
+        <h2>🛍️ المنتجات</h2>
+
+        <button class="btn">
+          + إضافة منتوج
+        </button>
+
+      </div>
+
+      <div class="products">
+
+        <div class="product">
+
+          <div class="product-img">
+            📱
+          </div>
+
+          <h3>منتوج جديد</h3>
+
+          <p>الثمن: 0 DH</p>
+
+          <p>تباع: 0</p>
+
+        </div>
+
+        <div class="product">
+
+          <div class="product-img">
+            📦
+          </div>
+
+          <h3>منتوج جديد</h3>
+
+          <p>الثمن: 0 DH</p>
+
+          <p>تباع: 0</p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- RETURNS -->
+  <section id="returns" class="section">
+
+    <div class="content">
+
+      <div class="section-title">
+        <h2>🔄 Retour / المرتجعات</h2>
+      </div>
+
+      <p style="color:#64748b">
+        هنا غادي يبانوا الطلبات اللي رجعو من عند الزبون.
+      </p>
+
+    </div>
+
+  </section>
+
+
+  <!-- DELIVERY -->
+  <section id="delivery" class="section">
+
+    <div class="content">
+
+      <div class="section-title">
+        <h2>🚚 التوصيل</h2>
+      </div>
+
+      <p style="color:#64748b">
+        هنا تقدر تتابع الطلبات اللي خرجات للتوصيل والطلبات اللي تم توصيلها.
+      </p>
+
+    </div>
+
+  </section>
+
+
+  <!-- CUSTOMERS -->
+  <section id="customers" class="section">
+
+    <div class="content">
+
+      <div class="section-title">
+        <h2>👥 الزبناء</h2>
+      </div>
+
+      <p style="color:#64748b">
+        لائحة الزبناء والطلبات ديال كل زبون غادي تبان هنا.
+      </p>
+
+    </div>
+
+  </section>
+
+
+  <!-- ADD ORDER -->
+  <section id="addorder" class="section">
+
+    <div class="content">
+
+      <div class="section-title">
+        <h2>➕ إضافة كوموند</h2>
+      </div>
+
+      <form class="form" onsubmit="addOrder(event)">
+
+        <div class="field">
+          <label>اسم الزبون</label>
+          <input id="customer" required placeholder="مثال: محمد">
+        </div>
+
+        <div class="field">
+          <label>رقم الهاتف</label>
+          <input id="phone" required placeholder="06XXXXXXXX">
+        </div>
+
+        <div class="field">
+          <label>المدينة</label>
+          <input id="city" required placeholder="مثال: Casablanca">
+        </div>
+
+        <div class="field">
+          <label>العنوان</label>
+          <input id="address" placeholder="العنوان الكامل">
+        </div>
+
+        <div class="field">
+          <label>اسم المنتج</label>
+          <input id="product" required placeholder="اسم المنتوج">
+        </div>
+
+        <div class="field">
+          <label>الثمن DH</label>
+          <input id="price" type="number" required placeholder="100">
+        </div>
+
+        <div class="field">
+          <label>الحالة</label>
+
+          <select id="status">
+            <option value="جديدة">جديدة</option>
+            <option value="التوصيل">التوصيل</option>
+            <option value="تم التوصيل">تم التوصيل</option>
+            <option value="Retour">Retour</option>
+          </select>
+
+        </div>
+
+        <div class="field">
+          <label>الكمية</label>
+          <input id="quantity" type="number" value="1" min="1">
+        </div>
+
+        <div class="field full">
+
+          <label>ملاحظات</label>
+
+          <textarea
+            id="notes"
+            placeholder="أي ملاحظة على الطلب..."
+          ></textarea>
+
+        </div>
+
+        <div class="full">
+
+          <button class="btn" type="submit">
+            💾 حفظ الكوموند
+          </button>
+
+        </div>
+
+      </form>
+
+    </div>
+
+  </section>
+
+</main>
 
 
 <script>
 
-let products=JSON.parse(
-localStorage.getItem("flashdrop_products")||"[]"
-);
+let orders =
+JSON.parse(localStorage.getItem("flashdrop_orders") || "[]");
 
-let orders=JSON.parse(
-localStorage.getItem("flashdrop_orders")||"[]"
-);
 
-function saveProducts(){
-localStorage.setItem(
-"flashdrop_products",
-JSON.stringify(products)
-);
-}
+function showSection(id,button){
 
-function saveOrders(){
-localStorage.setItem(
-"flashdrop_orders",
-JSON.stringify(orders)
-);
-}
+  document.querySelectorAll(".section")
+    .forEach(s=>s.classList.remove("active"));
 
-function section(name){
+  document.getElementById(id)
+    .classList.add("active");
 
-["dashboard","products","orders","returns"].forEach(x=>{
-document.getElementById(x).style.display=
-x===name?"block":"none";
-});
+  document.querySelectorAll(".menu button")
+    .forEach(b=>b.classList.remove("active"));
 
-if(name==="dashboard")renderLatest();
-if(name==="products")renderProducts();
-if(name==="orders")renderOrders();
-if(name==="returns")renderReturns();
+  if(button){
+    button.classList.add("active");
+  }
 
 }
 
-function addProduct(){
 
-const name=document.getElementById("pn").value.trim();
-const price=Number(document.getElementById("pp").value);
-const cost=Number(document.getElementById("pc").value);
-const stock=Number(document.getElementById("ps").value);
-const image=document.getElementById("pi").value.trim();
+function addOrder(e){
 
-if(!name||!price){
-alert("دخل الاسم والثمن");
-return;
-}
+  e.preventDefault();
 
-products.push({
-id:Date.now(),
-name,
-price,
-cost,
-stock,
-image
-});
+  const order={
 
-saveProducts();
+    customer:
+      document.getElementById("customer").value,
 
-document.getElementById("pn").value="";
-document.getElementById("pp").value="";
-document.getElementById("pc").value="";
-document.getElementById("ps").value="";
-document.getElementById("pi").value="";
+    phone:
+      document.getElementById("phone").value,
 
-renderProducts();
+    city:
+      document.getElementById("city").value,
 
-alert("✅ تزاد المنتوج");
+    address:
+      document.getElementById("address").value,
 
-}
+    product:
+      document.getElementById("product").value,
 
-function renderProducts(){
+    price:
+      Number(document.getElementById("price").value),
 
-const box=document.getElementById("productList");
-box.innerHTML="";
+    quantity:
+      Number(document.getElementById("quantity").value),
 
-products.forEach(p=>{
+    status:
+      document.getElementById("status").value,
 
-box.innerHTML+=`
+    notes:
+      document.getElementById("notes").value
 
-<div class="product">
+  };
 
-<div class="product-img">
-${p.image
-?`<img src="${p.image}" style="width:100%;height:100%;object-fit:cover">`
-:"📦"}
-</div>
 
-<div class="product-body">
+  orders.push(order);
 
-<h3>${esc(p.name)}</h3>
+  localStorage.setItem(
+    "flashdrop_orders",
+    JSON.stringify(orders)
+  );
 
-<p>💰 البيع: ${p.price} DH</p>
-<p>📦 المخزون: ${p.stock}</p>
-<p>💵 الربح: ${Math.max(0,p.price-p.cost)} DH</p>
 
-<button class="red"
-onclick="deleteProduct(${p.id})">
-🗑 حذف
-</button>
+  e.target.reset();
 
-</div>
-</div>
+  document.getElementById("quantity").value=1;
 
-`;
+  updateDashboard();
 
-});
+  alert("✅ تسجلات الكوموند بنجاح");
+
+  showSection("orders");
 
 }
 
-function deleteProduct(id){
 
-if(!confirm("حذف المنتوج؟"))return;
+function getStatusClass(status){
 
-products=products.filter(p=>p.id!==id);
+  if(status==="تم التوصيل")
+    return "done";
 
-saveProducts();
-renderProducts();
+  if(status==="التوصيل")
+    return "delivery";
 
-}
+  if(status==="Retour")
+    return "return";
 
-function statusText(status){
-
-if(status==="new")
-return `<span class="badge new">جديدة</span>`;
-
-if(status==="delivery")
-return `<span class="badge delivery">قيد التوصيل</span>`;
-
-if(status==="done")
-return `<span class="badge done">تم التوصيل</span>`;
-
-return `<span class="badge ret">Retour</span>`;
+  return "new";
 
 }
 
-function card(o){
-
-return`
-
-<div class="order">
-
-<b>👤 ${esc(o.customer)}</b>
-
-<br>
-📞 ${esc(o.phone)}
-
-<hr>
-
-📦 ${esc(o.product)}
-<br>
-🔢 الكمية: ${o.qty}
-<br>
-💰 المجموع: <b>${o.price*o.qty} DH</b>
-<br>
-📍 ${esc(o.city)} - ${esc(o.address)}
-
-<br><br>
-
-${statusText(o.status)}
-
-<div class="actions">
-
-<button class="orange"
-onclick="change(${o.id},'delivery')">
-🚚 توصيل
-</button>
-
-<button class="green"
-onclick="change(${o.id},'done')">
-✅ وصلات
-</button>
-
-<button class="red"
-onclick="change(${o.id},'return')">
-↩️ Retour
-</button>
-
-<button class="gray"
-onclick="change(${o.id},'new')">
-🆕 جديدة
-</button>
-
-<button class="red"
-onclick="delOrder(${o.id})">
-🗑 حذف
-</button>
-
-</div>
-
-</div>
-
-`;
-
-}
 
 function renderOrders(){
 
-const box=document.getElementById("orderList");
-const q=(document.getElementById("search").value||"").toLowerCase();
+  const html =
+    orders.length ?
 
-const list=orders.filter(o=>
-`${o.customer} ${o.phone} ${o.product}`
-.toLowerCase().includes(q)
-);
+    orders.map(o=>`
 
-box.innerHTML=list.length
-?list.map(card).join("")
-:"<p>📭 ماكايناش طلبات</p>";
+      <tr>
 
-}
+        <td>${o.customer}</td>
 
-function renderLatest(){
+        <td>${o.phone}</td>
 
-document.getElementById("latest").innerHTML=
-orders.slice(0,5).map(card).join("")
-||"<p>📭 ماكايناش طلبات</p>";
+        <td>${o.city}</td>
 
-}
+        <td>${o.product}</td>
 
-function renderReturns(){
+        <td>${o.price} DH</td>
 
-const list=orders.filter(o=>o.status==="return");
+        <td>
+          <span class="status ${getStatusClass(o.status)}">
+            ${o.status}
+          </span>
+        </td>
 
-document.getElementById("returnList").innerHTML=
-list.map(card).join("")
-||"<p>✅ ماكاين حتى Retour</p>";
+      </tr>
 
-}
+    `).join("")
 
-function change(id,status){
+    :
 
-const o=orders.find(x=>x.id===id);
+    `<tr>
+      <td colspan="6"
+      style="text-align:center;color:#94a3b8">
+      ماكايناش طلبات حاليا
+      </td>
+    </tr>`;
 
-if(!o)return;
 
-o.status=status;
+  document.getElementById("ordersTable").innerHTML=html;
 
-saveOrders();
-
-update();
-renderOrders();
-renderLatest();
-renderReturns();
+  document.getElementById("ordersTable2").innerHTML=html;
 
 }
 
-function delOrder(id){
 
-if(!confirm("واش متأكد؟"))return;
+function updateDashboard(){
 
-orders=orders.filter(o=>o.id!==id);
+  const total=orders.length;
 
-saveOrders();
+  const newOrders=
+    orders.filter(o=>o.status==="جديدة").length;
 
-update();
-renderOrders();
-renderLatest();
-renderReturns();
+  const delivery=
+    orders.filter(o=>o.status==="التوصيل").length;
 
-}
+  const revenue=
+    orders
+      .filter(o=>o.status==="تم التوصيل")
+      .reduce(
+        (sum,o)=>sum+(o.price*o.quantity),
+        0
+      );
 
-function update(){
 
-document.getElementById("all").textContent=orders.length;
+  document.getElementById("totalOrders")
+    .textContent=total;
 
-document.getElementById("new").textContent=
-orders.filter(o=>o.status==="new").length;
+  document.getElementById("newOrders")
+    .textContent=newOrders;
 
-document.getElementById("delivery").textContent=
-orders.filter(o=>o.status==="delivery").length;
+  document.getElementById("deliveryOrders")
+    .textContent=delivery;
 
-document.getElementById("done").textContent=
-orders.filter(o=>o.status==="done").length;
+  document.getElementById("revenue")
+    .textContent=revenue+" DH";
 
-document.getElementById("returns").textContent=
-orders.filter(o=>o.status==="return").length;
 
-const money=orders
-.filter(o=>o.status==="done")
-.reduce((s,o)=>s+Number(o.price)*Number(o.qty||1),0);
-
-document.getElementById("money").textContent=money+" DH";
+  renderOrders();
 
 }
 
-function esc(t){
 
-return String(t||"")
-.replaceAll("&","&amp;")
-.replaceAll("<","&lt;")
-.replaceAll(">","&gt;")
-.replaceAll('"',"&quot;")
-.replaceAll("'","&#039;");
-
-}
-
-update();
-renderLatest();
+updateDashboard();
 
 </script>
 
