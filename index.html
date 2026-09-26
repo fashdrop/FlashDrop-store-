@@ -15,28 +15,29 @@
 
     body {
       margin: 0;
-      background: #f5f7fb;
       min-height: 100vh;
+      background: #f4f6fb;
       display: flex;
-      align-items: center;
       justify-content: center;
-      padding: 20px;
+      align-items: center;
+      padding: 18px;
     }
 
     .container {
       width: 100%;
-      max-width: 420px;
+      max-width: 430px;
       background: white;
-      border-radius: 22px;
-      padding: 28px;
-      box-shadow: 0 10px 35px rgba(0,0,0,.08);
+      border-radius: 24px;
+      padding: 28px 22px;
+      box-shadow: 0 12px 40px rgba(0,0,0,.08);
     }
 
     .logo {
       text-align: center;
-      font-size: 28px;
+      font-size: 29px;
       font-weight: bold;
-      margin-bottom: 8px;
+      color: #111827;
+      margin-bottom: 6px;
     }
 
     .subtitle {
@@ -53,12 +54,12 @@
 
     .tabs button {
       flex: 1;
-      padding: 12px;
       border: 0;
-      border-radius: 12px;
-      background: #eee;
+      padding: 13px 8px;
+      border-radius: 13px;
+      background: #edf0f4;
       cursor: pointer;
-      font-size: 15px;
+      font-size: 14px;
     }
 
     .tabs button.active {
@@ -71,9 +72,9 @@
       padding: 14px;
       margin-bottom: 12px;
       border: 1px solid #ddd;
-      border-radius: 12px;
-      outline: none;
+      border-radius: 13px;
       font-size: 15px;
+      outline: none;
     }
 
     input:focus {
@@ -82,25 +83,35 @@
 
     .main-btn {
       width: 100%;
-      padding: 14px;
       border: 0;
-      border-radius: 12px;
+      border-radius: 13px;
+      padding: 14px;
       background: #111827;
       color: white;
       font-size: 16px;
       cursor: pointer;
-      margin-top: 5px;
+      margin-top: 4px;
     }
 
     .main-btn:disabled {
       opacity: .6;
     }
 
+    .link-btn {
+      width: 100%;
+      border: 0;
+      background: transparent;
+      color: #2563eb;
+      padding: 14px 5px 4px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
     .message {
       text-align: center;
+      min-height: 22px;
       margin-top: 15px;
       font-size: 14px;
-      min-height: 20px;
     }
 
     .success {
@@ -114,6 +125,19 @@
     .hidden {
       display: none;
     }
+
+    .back {
+      margin-bottom: 15px;
+      border: 0;
+      background: #f1f3f5;
+      padding: 9px 13px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    h3 {
+      margin-top: 0;
+    }
   </style>
 </head>
 
@@ -124,15 +148,22 @@
   <div class="logo">🚀 FlashDrop Store</div>
   <div class="subtitle">مرحبا بك في منصة FlashDrop</div>
 
-  <div class="tabs">
-    <button id="loginTab" class="active" onclick="showLogin()">
+  <!-- TABS -->
+  <div class="tabs" id="tabs">
+
+    <button id="loginTab"
+            class="active"
+            onclick="showLogin()">
       تسجيل الدخول
     </button>
 
-    <button id="signupTab" onclick="showSignup()">
+    <button id="signupTab"
+            onclick="showSignup()">
       إنشاء حساب
     </button>
+
   </div>
+
 
   <!-- LOGIN -->
   <div id="loginForm">
@@ -141,19 +172,26 @@
       id="loginEmail"
       type="email"
       placeholder="البريد الإلكتروني"
+      autocomplete="email"
     >
 
     <input
       id="loginPassword"
       type="password"
       placeholder="كلمة المرور"
+      autocomplete="current-password"
     >
 
     <button class="main-btn" onclick="login()">
       دخول
     </button>
 
+    <button class="link-btn" onclick="showForgot()">
+      نسيت كلمة المرور؟
+    </button>
+
   </div>
+
 
   <!-- SIGNUP -->
   <div id="signupForm" class="hidden">
@@ -180,6 +218,7 @@
       id="signupPassword"
       type="password"
       placeholder="كلمة المرور"
+      autocomplete="new-password"
     >
 
     <button class="main-btn" onclick="signup()">
@@ -188,21 +227,78 @@
 
   </div>
 
+
+  <!-- FORGOT PASSWORD -->
+  <div id="forgotForm" class="hidden">
+
+    <button class="back" onclick="showLogin()">
+      ← رجوع
+    </button>
+
+    <h3>استرجاع كلمة المرور</h3>
+
+    <input
+      id="forgotEmail"
+      type="email"
+      placeholder="البريد الإلكتروني"
+    >
+
+    <button class="main-btn" onclick="sendResetEmail()">
+      إرسال رابط الاسترجاع
+    </button>
+
+  </div>
+
+
+  <!-- RESET PASSWORD -->
+  <div id="resetForm" class="hidden">
+
+    <h3>تغيير كلمة المرور</h3>
+
+    <input
+      id="newPassword"
+      type="password"
+      placeholder="كلمة المرور الجديدة"
+      autocomplete="new-password"
+    >
+
+    <input
+      id="newPassword2"
+      type="password"
+      placeholder="أعد كتابة كلمة المرور"
+      autocomplete="new-password"
+    >
+
+    <button class="main-btn" onclick="updatePassword()">
+      تغيير كلمة المرور
+    </button>
+
+  </div>
+
+
   <div id="message" class="message"></div>
 
 </div>
 
+
 <script>
 
-  // ==========================================
-  // SUPABASE
-  // ==========================================
+  /* =========================================
+     SUPABASE
+  ========================================= */
 
   const SUPABASE_URL =
     "https://vadiyawqpbtdvnqmxxne.supabase.co";
 
+  /*
+    مهم:
+    حط هنا Publishable key / anon key فقط.
+    ممنوع تحط service_role.
+  */
+
   const SUPABASE_KEY =
     "YOUR_SUPABASE_ANON_KEY";
+
 
   const supabaseClient =
     supabase.createClient(
@@ -211,19 +307,41 @@
     );
 
 
-  // ==========================================
-  // TABS
-  // ==========================================
+  /* =========================================
+     ELEMENTS
+  ========================================= */
+
+  const loginForm =
+    document.getElementById("loginForm");
+
+  const signupForm =
+    document.getElementById("signupForm");
+
+  const forgotForm =
+    document.getElementById("forgotForm");
+
+  const resetForm =
+    document.getElementById("resetForm");
+
+  const tabs =
+    document.getElementById("tabs");
+
+
+  /* =========================================
+     SHOW LOGIN
+  ========================================= */
 
   function showLogin() {
 
-    document
-      .getElementById("loginForm")
-      .classList.remove("hidden");
+    loginForm.classList.remove("hidden");
 
-    document
-      .getElementById("signupForm")
-      .classList.add("hidden");
+    signupForm.classList.add("hidden");
+
+    forgotForm.classList.add("hidden");
+
+    resetForm.classList.add("hidden");
+
+    tabs.classList.remove("hidden");
 
     document
       .getElementById("loginTab")
@@ -236,16 +354,22 @@
     clearMessage();
   }
 
+
+  /* =========================================
+     SHOW SIGNUP
+  ========================================= */
 
   function showSignup() {
 
-    document
-      .getElementById("signupForm")
-      .classList.remove("hidden");
+    loginForm.classList.add("hidden");
 
-    document
-      .getElementById("loginForm")
-      .classList.add("hidden");
+    signupForm.classList.remove("hidden");
+
+    forgotForm.classList.add("hidden");
+
+    resetForm.classList.add("hidden");
+
+    tabs.classList.remove("hidden");
 
     document
       .getElementById("signupTab")
@@ -259,23 +383,48 @@
   }
 
 
-  // ==========================================
-  // SIGN UP
-  // ==========================================
+  /* =========================================
+     SHOW FORGOT
+  ========================================= */
+
+  function showForgot() {
+
+    loginForm.classList.add("hidden");
+
+    signupForm.classList.add("hidden");
+
+    forgotForm.classList.remove("hidden");
+
+    resetForm.classList.add("hidden");
+
+    tabs.classList.add("hidden");
+
+    clearMessage();
+  }
+
+
+  /* =========================================
+     SIGN UP
+  ========================================= */
 
   async function signup() {
 
     const name =
-      document.getElementById("signupName").value.trim();
+      document.getElementById("signupName")
+      .value.trim();
 
     const phone =
-      document.getElementById("signupPhone").value.trim();
+      document.getElementById("signupPhone")
+      .value.trim();
 
     const email =
-      document.getElementById("signupEmail").value.trim();
+      document.getElementById("signupEmail")
+      .value.trim();
 
     const password =
-      document.getElementById("signupPassword").value;
+      document.getElementById("signupPassword")
+      .value;
+
 
     if (!name || !phone || !email || !password) {
 
@@ -287,6 +436,7 @@
       return;
     }
 
+
     if (password.length < 6) {
 
       showMessage(
@@ -297,10 +447,12 @@
       return;
     }
 
+
     showMessage(
       "جاري إنشاء الحساب...",
       ""
     );
+
 
     const { data, error } =
       await supabaseClient.auth.signUp({
@@ -311,9 +463,16 @@
 
         options: {
 
+          emailRedirectTo:
+            window.location.origin +
+            window.location.pathname,
+
           data: {
+
             full_name: name,
+
             phone: phone
+
           }
 
         }
@@ -337,6 +496,7 @@
       "success"
     );
 
+
     document.getElementById("signupName").value = "";
     document.getElementById("signupPhone").value = "";
     document.getElementById("signupEmail").value = "";
@@ -345,17 +505,19 @@
   }
 
 
-  // ==========================================
-  // LOGIN
-  // ==========================================
+  /* =========================================
+     LOGIN
+  ========================================= */
 
   async function login() {
 
     const email =
-      document.getElementById("loginEmail").value.trim();
+      document.getElementById("loginEmail")
+      .value.trim();
 
     const password =
-      document.getElementById("loginPassword").value;
+      document.getElementById("loginPassword")
+      .value;
 
 
     if (!email || !password) {
@@ -376,7 +538,8 @@
 
 
     const { data, error } =
-      await supabaseClient.auth.signInWithPassword({
+      await supabaseClient.auth
+      .signInWithPassword({
 
         email: email,
 
@@ -401,18 +564,206 @@
       "success"
     );
 
+
     /*
       المرحلة القادمة:
-      غادي نوجهو المستخدم للواجهة ديالو
-      وAdmin للوحة التحكم.
+      غادي نجيب role ديال المستخدم
+      ونوجه Admin للوحة التحكم
+      والمستخدم للمنصة.
     */
 
   }
 
 
-  // ==========================================
-  // MESSAGE
-  // ==========================================
+  /* =========================================
+     SEND PASSWORD RESET
+  ========================================= */
+
+  async function sendResetEmail() {
+
+    const email =
+      document.getElementById("forgotEmail")
+      .value.trim();
+
+
+    if (!email) {
+
+      showMessage(
+        "دخل البريد الإلكتروني",
+        "error"
+      );
+
+      return;
+    }
+
+
+    showMessage(
+      "جاري إرسال الرابط...",
+      ""
+    );
+
+
+    const redirectTo =
+      window.location.origin +
+      window.location.pathname;
+
+
+    const { error } =
+      await supabaseClient.auth
+      .resetPasswordForEmail(
+
+        email,
+
+        {
+          redirectTo: redirectTo
+        }
+
+      );
+
+
+    if (error) {
+
+      showMessage(
+        error.message,
+        "error"
+      );
+
+      return;
+    }
+
+
+    showMessage(
+      "تم إرسال رابط الاسترجاع إلى بريدك الإلكتروني 📩",
+      "success"
+    );
+
+  }
+
+
+  /* =========================================
+     PASSWORD RECOVERY
+  ========================================= */
+
+  supabaseClient.auth
+    .onAuthStateChange(
+      async (event, session) => {
+
+        if (event === "PASSWORD_RECOVERY") {
+
+          loginForm.classList.add("hidden");
+
+          signupForm.classList.add("hidden");
+
+          forgotForm.classList.add("hidden");
+
+          resetForm.classList.remove("hidden");
+
+          tabs.classList.add("hidden");
+
+          clearMessage();
+
+        }
+
+      }
+    );
+
+
+  /* =========================================
+     UPDATE PASSWORD
+  ========================================= */
+
+  async function updatePassword() {
+
+    const password =
+      document.getElementById("newPassword")
+      .value;
+
+    const password2 =
+      document.getElementById("newPassword2")
+      .value;
+
+
+    if (!password || !password2) {
+
+      showMessage(
+        "دخل كلمة المرور الجديدة",
+        "error"
+      );
+
+      return;
+    }
+
+
+    if (password.length < 6) {
+
+      showMessage(
+        "كلمة المرور خاصها تكون 6 أحرف على الأقل",
+        "error"
+      );
+
+      return;
+    }
+
+
+    if (password !== password2) {
+
+      showMessage(
+        "كلمتا المرور غير متطابقتين",
+        "error"
+      );
+
+      return;
+    }
+
+
+    showMessage(
+      "جاري تغيير كلمة المرور...",
+      ""
+    );
+
+
+    const { error } =
+      await supabaseClient.auth
+      .updateUser({
+
+        password: password
+
+      });
+
+
+    if (error) {
+
+      showMessage(
+        error.message,
+        "error"
+      );
+
+      return;
+    }
+
+
+    showMessage(
+      "تم تغيير كلمة المرور بنجاح ✅",
+      "success"
+    );
+
+
+    document.getElementById("newPassword").value = "";
+    document.getElementById("newPassword2").value = "";
+
+
+    setTimeout(() => {
+
+      showLogin();
+
+    }, 1500);
+
+  }
+
+
+  /* =========================================
+     MESSAGE
+  ========================================= */
 
   function showMessage(text, type) {
 
@@ -432,6 +783,35 @@
     showMessage("", "");
 
   }
+
+
+  /* =========================================
+     CHECK RECOVERY URL
+  ========================================= */
+
+  async function checkRecovery() {
+
+    const hash =
+      window.location.hash;
+
+    if (
+      hash &&
+      hash.includes("access_token") &&
+      hash.includes("type=recovery")
+    ) {
+
+      /*
+        Supabase will trigger
+        PASSWORD_RECOVERY
+        automatically.
+      */
+
+    }
+
+  }
+
+
+  checkRecovery();
 
 </script>
 
