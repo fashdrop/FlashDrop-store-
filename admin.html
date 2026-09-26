@@ -2,1039 +2,840 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FlashDrop Store</title>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <style>
-*{box-sizing:border-box;font-family:Arial,sans-serif}
+*{
+  box-sizing:border-box;
+  font-family:Arial,sans-serif;
+}
 
 body{
-margin:0;
-background:#f5f6fa;
-color:#111827
+  margin:0;
+  background:#f5f6fa;
+  color:#111827;
 }
-
-button{
-border:0;
-border-radius:12px;
-padding:13px 18px;
-background:#111827;
-color:white;
-font-size:15px;
-cursor:pointer
-}
-
-button:disabled{opacity:.6}
-
-.login{
-min-height:100vh;
-display:flex;
-align-items:center;
-justify-content:center;
-padding:20px;
-background:linear-gradient(135deg,#111827,#2563eb)
-}
-
-.login-box{
-width:100%;
-max-width:420px;
-background:white;
-padding:30px;
-border-radius:22px;
-box-shadow:0 20px 60px rgba(0,0,0,.25)
-}
-
-.logo{
-text-align:center;
-font-size:28px;
-font-weight:bold;
-margin-bottom:8px
-}
-
-.subtitle{
-text-align:center;
-color:#666;
-margin-bottom:25px
-}
-
-input{
-width:100%;
-padding:14px;
-border:1px solid #ddd;
-border-radius:11px;
-margin-bottom:10px;
-font-size:15px
-}
-
-.login button{
-width:100%;
-background:#2563eb;
-margin-top:8px
-}
-
-#loginMessage{
-text-align:center;
-font-weight:bold;
-margin-top:15px;
-min-height:22px
-}
-
-.error{color:#dc2626}
-.success{color:#16a34a}
-
-#app{display:none}
 
 header{
-background:#111827;
-color:white;
-padding:18px;
-position:sticky;
-top:0;
-z-index:10
+  background:#111827;
+  color:white;
+  padding:18px;
+  position:sticky;
+  top:0;
+  z-index:10;
 }
 
 .header-content{
-max-width:1100px;
-margin:auto;
-display:flex;
-justify-content:space-between;
-align-items:center;
-gap:10px
+  max-width:1100px;
+  margin:auto;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
 }
 
-.logo-admin{
-font-size:22px;
-font-weight:bold
-}
-
-.logout{
-background:#dc2626;
-padding:9px 14px
+.logo{
+  font-size:22px;
+  font-weight:bold;
 }
 
 .container{
-max-width:1100px;
-margin:auto;
-padding:20px
+  max-width:1100px;
+  margin:auto;
+  padding:20px;
 }
 
 .stats{
-display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:15px;
-margin-bottom:20px
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;
+  margin-bottom:20px;
 }
 
 .stat{
-background:white;
-border-radius:16px;
-padding:20px;
-box-shadow:0 3px 15px rgba(0,0,0,.06)
+  background:white;
+  border-radius:16px;
+  padding:20px;
+  box-shadow:0 3px 15px rgba(0,0,0,.06);
 }
 
 .stat-title{
-color:#6b7280;
-font-size:14px;
-margin-bottom:10px
+  color:#6b7280;
+  font-size:14px;
+  margin-bottom:10px;
 }
 
 .stat-value{
-font-size:25px;
-font-weight:bold
+  font-size:25px;
+  font-weight:bold;
 }
 
 .actions{
-display:flex;
-gap:10px;
-flex-wrap:wrap;
-margin-bottom:20px
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-bottom:20px;
 }
 
-.blue{background:#2563eb}
-.green{background:#16a34a}
-.red{background:#dc2626}
+button{
+  border:0;
+  border-radius:12px;
+  padding:13px 18px;
+  background:#111827;
+  color:white;
+  font-size:15px;
+  cursor:pointer;
+}
+
+button.blue{
+  background:#2563eb;
+}
+
+button.green{
+  background:#16a34a;
+}
+
+button.red{
+  background:#dc2626;
+}
 
 .card{
-background:white;
-border-radius:16px;
-padding:20px;
-margin-bottom:20px;
-box-shadow:0 3px 15px rgba(0,0,0,.06)
+  background:white;
+  border-radius:16px;
+  padding:20px;
+  margin-bottom:20px;
+  box-shadow:0 3px 15px rgba(0,0,0,.06);
 }
 
-.card h2{margin-top:0}
+.card h2{
+  margin-top:0;
+}
 
-.order-form{display:none}
+.order-form{
+  display:none;
+}
+
+input{
+  width:100%;
+  padding:13px;
+  border:1px solid #ddd;
+  border-radius:10px;
+  margin-bottom:10px;
+  font-size:15px;
+}
 
 .form-grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:10px
-}
-
-.order{
-border:1px solid #eee;
-border-radius:12px;
-padding:15px;
-margin-bottom:12px
-}
-
-.order-top{
-display:flex;
-justify-content:space-between;
-gap:10px;
-flex-wrap:wrap
-}
-
-.badge{
-display:inline-block;
-padding:6px 10px;
-border-radius:20px;
-font-size:12px;
-background:#fef3c7;
-color:#92400e
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
 }
 
 .empty{
-text-align:center;
-color:#777;
-padding:35px
+  text-align:center;
+  color:#777;
+  padding:35px;
+}
+
+.order{
+  border:1px solid #eee;
+  border-radius:12px;
+  padding:15px;
+  margin-bottom:12px;
+}
+
+.order-top{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.badge{
+  display:inline-block;
+  padding:6px 10px;
+  border-radius:20px;
+  font-size:12px;
+  background:#fef3c7;
+  color:#92400e;
 }
 
 @media(max-width:700px){
-.stats{grid-template-columns:1fr 1fr}
-.form-grid{grid-template-columns:1fr}
-.header-content{flex-direction:column}
+
+  .stats{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .form-grid{
+    grid-template-columns:1fr;
+  }
+
+  .header-content{
+    flex-direction:column;
+  }
 }
 
 @media(max-width:450px){
-.stats{grid-template-columns:1fr}
-.container{padding:12px}
+
+  .stats{
+    grid-template-columns:1fr;
+  }
+
+  .container{
+    padding:12px;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<!-- ================= LOGIN ================= -->
-
-<div class="login" id="loginPage">
-
-<div class="login-box">
-
-<div class="logo">
-🚀 FlashDrop Admin
-</div>
-
-<div class="subtitle">
-🔐 دخول الإدارة
-</div>
-
-<form id="loginForm">
-
-<input
-id="email"
-type="email"
-placeholder="البريد الإلكتروني"
-autocomplete="email"
-required
->
-
-<input
-id="password"
-type="password"
-placeholder="كلمة المرور"
-autocomplete="current-password"
-required
->
-
-<button id="loginBtn" type="submit">
-دخول
-</button>
-
-<div id="loginMessage"></div>
-
-</form>
-
-</div>
-</div>
-
-
-<!-- ================= ADMIN ================= -->
-
-<div id="app">
-
 <header>
 
-<div class="header-content">
+  <div class="header-content">
 
-<div class="logo-admin">
-🚀 FlashDrop Store
-</div>
+    <div class="logo">
+      🚀 FlashDrop Store
+    </div>
 
-<div>
-منصة إدارة الطلبات
+    <div>
+      منصة إدارة الطلبات
+    </div>
 
-<button class="logout" onclick="logout()">
-خروج
-</button>
-
-</div>
-
-</div>
+  </div>
 
 </header>
 
 
 <div class="container">
 
-<div class="stats">
+  <!-- الإحصائيات -->
 
-<div class="stat">
-<div class="stat-title">📦 جميع الطلبات</div>
-<div class="stat-value" id="allOrders">0</div>
-</div>
+  <div class="stats">
 
-<div class="stat">
-<div class="stat-title">🆕 الطلبات الجديدة</div>
-<div class="stat-value" id="newOrders">0</div>
-</div>
+    <div class="stat">
+      <div class="stat-title">
+        📦 جميع الطلبات
+      </div>
 
-<div class="stat">
-<div class="stat-title">✅ تم التوصيل</div>
-<div class="stat-value" id="deliveredOrders">0</div>
-</div>
-
-<div class="stat">
-<div class="stat-title">💰 المداخيل</div>
-<div class="stat-value" id="revenue">0 DH</div>
-</div>
-
-</div>
+      <div class="stat-value" id="allOrders">
+        0
+      </div>
+    </div>
 
 
-<div class="actions">
+    <div class="stat">
+      <div class="stat-title">
+        🆕 الطلبات الجديدة
+      </div>
 
-<button class="blue" onclick="showOrderForm()">
-➕ إضافة كوموند
-</button>
-
-<button onclick="showOrders()">
-📦 جميع الطلبات
-</button>
-
-<button class="green" onclick="showDelivered()">
-✅ تم التوصيل
-</button>
-
-<button class="red" onclick="showCancelled()">
-❌ المرتجعات
-</button>
-
-</div>
+      <div class="stat-value" id="newOrders">
+        0
+      </div>
+    </div>
 
 
-<div class="card order-form" id="orderForm">
+    <div class="stat">
+      <div class="stat-title">
+        ✅ تم التوصيل
+      </div>
 
-<h2>➕ إضافة كوموند جديدة</h2>
-
-<input id="customerName" placeholder="اسم الزبون">
-
-<input id="customerPhone" placeholder="رقم الهاتف">
-
-<input id="customerCity" placeholder="المدينة">
-
-<input id="customerAddress" placeholder="العنوان">
-
-<div class="form-grid">
-
-<input id="productName" placeholder="اسم المنتج">
-
-<input
-id="quantity"
-type="number"
-value="1"
-min="1"
-placeholder="الكمية"
->
-
-</div>
-
-<input
-id="sellingPrice"
-type="number"
-placeholder="ثمن البيع DH"
->
-
-<button class="green" onclick="addOrder()">
-حفظ الكوموند
-</button>
-
-</div>
+      <div class="stat-value" id="deliveredOrders">
+        0
+      </div>
+    </div>
 
 
-<div class="card">
+    <div class="stat">
+      <div class="stat-title">
+        💰 المداخيل
+      </div>
 
-<h2>📦 الطلبات</h2>
+      <div class="stat-value" id="revenue">
+        0 DH
+      </div>
+    </div>
 
-<div id="ordersList">
+  </div>
 
-<div class="empty">
-ما كاين حتى كوموند دابا
-</div>
 
-</div>
+  <!-- الأزرار -->
 
-</div>
+  <div class="actions">
 
-</div>
+    <button
+      class="blue"
+      onclick="showOrderForm()"
+    >
+      ➕ إضافة كوموند
+    </button>
+
+    <button onclick="showOrders()">
+      📦 جميع الطلبات
+    </button>
+
+    <button
+      class="green"
+      onclick="showDelivered()"
+    >
+      ✅ تم التوصيل
+    </button>
+
+    <button
+      class="red"
+      onclick="showCancelled()"
+    >
+      ❌ المرتجعات
+    </button>
+
+  </div>
+
+
+  <!-- إضافة كوموند -->
+
+  <div
+    class="card order-form"
+    id="orderForm"
+  >
+
+    <h2>
+      ➕ إضافة كوموند جديدة
+    </h2>
+
+    <input
+      type="text"
+      id="customerName"
+      placeholder="اسم الزبون"
+    >
+
+    <input
+      type="tel"
+      id="customerPhone"
+      placeholder="رقم الهاتف"
+    >
+
+    <input
+      type="text"
+      id="customerCity"
+      placeholder="المدينة"
+    >
+
+    <input
+      type="text"
+      id="customerAddress"
+      placeholder="العنوان"
+    >
+
+    <div class="form-grid">
+
+      <input
+        type="text"
+        id="productName"
+        placeholder="اسم المنتج"
+      >
+
+      <input
+        type="number"
+        id="quantity"
+        placeholder="الكمية"
+        value="1"
+        min="1"
+      >
+
+    </div>
+
+    <input
+      type="number"
+      id="sellingPrice"
+      placeholder="ثمن البيع DH"
+    >
+
+    <button
+      class="green"
+      onclick="addOrder()"
+    >
+      💾 حفظ الكوموند
+    </button>
+
+  </div>
+
+
+  <!-- الطلبات -->
+
+  <div class="card">
+
+    <h2>
+      📦 الكوموندات
+    </h2>
+
+    <div id="ordersList">
+
+      <div class="empty">
+        ما كاين حتى كوموند دابا
+      </div>
+
+    </div>
+
+  </div>
+
 </div>
 
 
 <script>
 
-/* =========================================
-   SUPABASE
-========================================= */
+let orders = [];
 
-const SUPABASE_URL =
-"https://vadiyawqpbtdvnqmxxne.supabase.co";
 
-/*
-   ⚠️ حط هنا Publishable / Anon Key ديالك
-*/
-
-const SUPABASE_ANON_KEY =
-"حط_هنا_SUPABASE_ANON_KEY";
-
-
-const client =
-window.supabase.createClient(
-SUPABASE_URL,
-SUPABASE_ANON_KEY
-);
-
-
-/* =========================================
-   LOGIN MESSAGE
-========================================= */
-
-function showLogin(text,type=""){
-
-const box =
-document.getElementById("loginMessage");
-
-box.textContent=text;
-box.className=type;
-
-}
-
-
-/* =========================================
-   LOGIN
-========================================= */
-
-document
-.getElementById("loginForm")
-.addEventListener("submit",async function(e){
-
-e.preventDefault();
-
-const email =
-document.getElementById("email")
-.value
-.trim();
-
-const password =
-document.getElementById("password")
-.value;
-
-const button =
-document.getElementById("loginBtn");
-
-
-if(!email || !password){
-
-showLogin(
-"❌ دخل الإيميل وكلمة السر",
-"error"
-);
-
-return;
-}
-
-
-button.disabled=true;
-button.textContent="⏳ كنحاولو ندخلوك...";
-
-showLogin("");
-
-
-try{
-
-const result =
-await Promise.race([
-
-client.auth.signInWithPassword({
-email:email,
-password:password
-}),
-
-new Promise((_,reject)=>
-setTimeout(
-()=>reject(new Error("TIMEOUT")),
-10000
-))
-
-]);
-
-
-if(result.error){
-
-showLogin(
-"❌ "+result.error.message,
-"error"
-);
-
-button.disabled=false;
-button.textContent="دخول";
-
-return;
-}
-
-
-if(!result.data.session){
-
-showLogin(
-"❌ ما تكملش تسجيل الدخول",
-"error"
-);
-
-button.disabled=false;
-button.textContent="دخول";
-
-return;
-}
-
-
-showLogin(
-"✅ دخلتي بنجاح!",
-"success"
-);
-
-
-setTimeout(
-openAdmin,
-500
-);
-
-
-}catch(error){
-
-console.error(error);
-
-if(error.message==="TIMEOUT"){
-
-showLogin(
-"❌ Supabase ما جاوبش، تأكد من الإعدادات",
-"error"
-);
-
-}else{
-
-showLogin(
-"❌ "+(error.message || error),
-"error"
-);
-
-}
-
-button.disabled=false;
-button.textContent="دخول";
-
-}
-
-});
-
-
-/* =========================================
-   OPEN ADMIN
-========================================= */
-
-function openAdmin(){
-
-document.getElementById("loginPage")
-.style.display="none";
-
-document.getElementById("app")
-.style.display="block";
-
-loadOrders();
-
-}
-
-
-/* =========================================
-   LOGOUT
-========================================= */
-
-async function logout(){
-
-await client.auth.signOut();
-
-document.getElementById("app")
-.style.display="none";
-
-document.getElementById("loginPage")
-.style.display="flex";
-
-document.getElementById("password")
-.value="";
-
-showLogin("");
-
-}
-
-
-/* =========================================
-   SESSION
-========================================= */
-
-async function checkSession(){
-
-try{
-
-const {data} =
-await client.auth.getSession();
-
-if(data.session){
-
-openAdmin();
-
-}
-
-}catch(error){
-
-console.error(error);
-
-}
-
-}
-
-checkSession();
-
-
-/* =========================================
-   ORDERS
-========================================= */
-
-let orders=[];
-
+/* إظهار فورم الكوموند */
 
 function showOrderForm(){
 
-const form =
-document.getElementById("orderForm");
+  const form =
+    document.getElementById("orderForm");
 
-form.style.display =
-form.style.display==="block"
-?"none"
-:"block";
-
+  form.style.display =
+    form.style.display === "block"
+      ? "none"
+      : "block";
 }
 
+
+/* إضافة كوموند */
 
 function addOrder(){
 
-const name =
-document.getElementById("customerName")
-.value.trim();
+  const name =
+    document.getElementById("customerName")
+    .value.trim();
 
-const phone =
-document.getElementById("customerPhone")
-.value.trim();
+  const phone =
+    document.getElementById("customerPhone")
+    .value.trim();
 
-const city =
-document.getElementById("customerCity")
-.value.trim();
+  const city =
+    document.getElementById("customerCity")
+    .value.trim();
 
-const address =
-document.getElementById("customerAddress")
-.value.trim();
+  const address =
+    document.getElementById("customerAddress")
+    .value.trim();
 
-const product =
-document.getElementById("productName")
-.value.trim();
+  const product =
+    document.getElementById("productName")
+    .value.trim();
 
-const quantity =
-Number(
-document.getElementById("quantity").value
-);
+  const quantity =
+    Number(
+      document.getElementById("quantity").value
+    );
 
-const price =
-Number(
-document.getElementById("sellingPrice").value
-);
+  const price =
+    Number(
+      document.getElementById("sellingPrice").value
+    );
 
 
-if(
-!name ||
-!phone ||
-!city ||
-!address ||
-!product ||
-!quantity ||
-!price
-){
+  if(
+    !name ||
+    !phone ||
+    !city ||
+    !address ||
+    !product ||
+    !quantity ||
+    !price
+  ){
 
-alert("❌ دخل جميع المعلومات");
+    alert("❌ دخل جميع المعلومات");
 
-return;
+    return;
+  }
+
+
+  const order = {
+
+    id: Date.now(),
+
+    customerName: name,
+
+    phone: phone,
+
+    city: city,
+
+    address: address,
+
+    product: product,
+
+    quantity: quantity,
+
+    price: price,
+
+    total: quantity * price,
+
+    status: "new"
+
+  };
+
+
+  orders.unshift(order);
+
+  saveOrders();
+
+  renderOrders();
+
+  clearForm();
+
+
+  document.getElementById(
+    "orderForm"
+  ).style.display = "none";
 
 }
 
 
-const order={
-
-id:Date.now(),
-
-customerName:name,
-
-phone:phone,
-
-city:city,
-
-address:address,
-
-product:product,
-
-quantity:quantity,
-
-price:price,
-
-total:quantity*price,
-
-status:"new"
-
-};
-
-
-orders.unshift(order);
-
-saveOrders();
-
-renderOrders();
-
-clearForm();
-
-document.getElementById("orderForm")
-.style.display="none";
-
-}
-
+/* حفظ الطلبات */
 
 function saveOrders(){
 
-localStorage.setItem(
-"flashdrop_orders",
-JSON.stringify(orders)
-);
+  localStorage.setItem(
+    "flashdrop_orders",
+    JSON.stringify(orders)
+  );
 
 }
 
+
+/* تحميل الطلبات */
 
 function loadOrders(){
 
-const saved =
-localStorage.getItem(
-"flashdrop_orders"
-);
-
-if(saved){
-
-try{
-
-orders=JSON.parse(saved);
-
-}catch(e){
-
-orders=[];
-
-}
-
-}
-
-renderOrders();
-
-}
+  const saved =
+    localStorage.getItem(
+      "flashdrop_orders"
+    );
 
 
-function renderOrders(list=orders){
+  if(saved){
 
-const box =
-document.getElementById("ordersList");
+    try{
+
+      orders = JSON.parse(saved);
+
+    }catch(error){
+
+      orders = [];
+
+    }
+
+  }
 
 
-if(!list.length){
-
-box.innerHTML=
-'<div class="empty">ما كاين حتى كوموند</div>';
-
-updateStats();
-
-return;
+  renderOrders();
 
 }
 
 
-box.innerHTML="";
+/* عرض الطلبات */
+
+function renderOrders(list = orders){
+
+  const box =
+    document.getElementById("ordersList");
 
 
-list.forEach(order=>{
+  if(!list.length){
 
-const div =
-document.createElement("div");
+    box.innerHTML =
+      '<div class="empty">ما كاين حتى كوموند</div>';
 
-div.className="order";
+    updateStats();
 
-
-div.innerHTML=`
-
-<div class="order-top">
-
-<strong>
-👤 ${escapeHtml(order.customerName)}
-</strong>
-
-<span class="badge">
-${getStatus(order.status)}
-</span>
-
-</div>
-
-<p>📞 ${escapeHtml(order.phone)}</p>
-
-<p>
-📍 ${escapeHtml(order.city)}
--
-${escapeHtml(order.address)}
-</p>
-
-<p>
-🛍️ ${escapeHtml(order.product)}
-</p>
-
-<p>
-🔢 الكمية: ${order.quantity}
-</p>
-
-<p>
-💰 المجموع:
-<strong>${order.total} DH</strong>
-</p>
-
-<div class="actions">
-
-<button
-class="green"
-onclick="changeStatus(${order.id},'delivered')"
->
-✅ توصيل
-</button>
-
-<button
-class="red"
-onclick="changeStatus(${order.id},'returned')"
->
-↩️ رجوع
-</button>
-
-<button
-onclick="deleteOrder(${order.id})"
->
-🗑️ حذف
-</button>
-
-</div>
-
-`;
-
-box.appendChild(div);
-
-});
+    return;
+  }
 
 
-updateStats();
+  box.innerHTML = "";
+
+
+  list.forEach(order => {
+
+    const div =
+      document.createElement("div");
+
+    div.className = "order";
+
+
+    div.innerHTML = `
+
+      <div class="order-top">
+
+        <strong>
+          👤 ${order.customerName}
+        </strong>
+
+        <span class="badge">
+          ${getStatus(order.status)}
+        </span>
+
+      </div>
+
+      <p>
+        📞 ${order.phone}
+      </p>
+
+      <p>
+        📍 ${order.city} - ${order.address}
+      </p>
+
+      <p>
+        🛍️ ${order.product}
+      </p>
+
+      <p>
+        🔢 الكمية: ${order.quantity}
+      </p>
+
+      <p>
+        💰 المجموع:
+        <strong>
+          ${order.total} DH
+        </strong>
+      </p>
+
+      <div class="actions">
+
+        <button
+          class="green"
+          onclick="
+            changeStatus(
+              ${order.id},
+              'delivered'
+            )
+          "
+        >
+          ✅ توصيل
+        </button>
+
+
+        <button
+          class="red"
+          onclick="
+            changeStatus(
+              ${order.id},
+              'returned'
+            )
+          "
+        >
+          ↩️ رجوع
+        </button>
+
+
+        <button
+          onclick="
+            deleteOrder(${order.id})
+          "
+        >
+          🗑️ حذف
+        </button>
+
+      </div>
+
+    `;
+
+
+    box.appendChild(div);
+
+  });
+
+
+  updateStats();
 
 }
 
 
-/* =========================================
-   STATUS
-========================================= */
+/* تغيير الحالة */
 
 function changeStatus(id,status){
 
-const order =
-orders.find(o=>o.id===id);
-
-if(!order)return;
-
-order.status=status;
-
-saveOrders();
-
-renderOrders();
-
-}
+  const order =
+    orders.find(
+      o => o.id === id
+    );
 
 
-function getStatus(status){
+  if(!order) return;
 
-if(status==="new")
-return "جديدة";
 
-if(status==="delivered")
-return "تم التوصيل";
+  order.status = status;
 
-if(status==="returned")
-return "مرتجعة";
+  saveOrders();
 
-return status;
+  renderOrders();
 
 }
 
 
-/* =========================================
-   DELETE
-========================================= */
+/* حذف كوموند */
 
 function deleteOrder(id){
 
-if(
-!confirm(
-"واش متأكد بغيتي تحيد هاد الكوموند؟"
-)
-)return;
+  if(
+    !confirm(
+      "واش متأكد بغيتي تحيد هاد الكوموند؟"
+    )
+  ){
 
-orders =
-orders.filter(o=>o.id!==id);
+    return;
+  }
 
-saveOrders();
 
-renderOrders();
+  orders =
+    orders.filter(
+      o => o.id !== id
+    );
+
+
+  saveOrders();
+
+  renderOrders();
 
 }
 
 
-/* =========================================
-   FILTERS
-========================================= */
+/* جميع الطلبات */
 
 function showOrders(){
 
-renderOrders(orders);
+  renderOrders(orders);
 
 }
 
+
+/* الطلبات الموصلة */
 
 function showDelivered(){
 
-renderOrders(
-orders.filter(
-o=>o.status==="delivered"
-)
-);
+  renderOrders(
+    orders.filter(
+      o => o.status === "delivered"
+    )
+  );
 
 }
 
+
+/* المرتجعات */
 
 function showCancelled(){
 
-renderOrders(
-orders.filter(
-o=>o.status==="returned"
-)
-);
+  renderOrders(
+    orders.filter(
+      o => o.status === "returned"
+    )
+  );
 
 }
 
 
-/* =========================================
-   STATS
-========================================= */
+/* الحالة */
+
+function getStatus(status){
+
+  if(status === "new")
+    return "جديدة";
+
+  if(status === "delivered")
+    return "تم التوصيل";
+
+  if(status === "returned")
+    return "مرتجعة";
+
+  return status;
+
+}
+
+
+/* الإحصائيات */
 
 function updateStats(){
 
-document.getElementById("allOrders")
-.textContent=orders.length;
+  document.getElementById(
+    "allOrders"
+  ).textContent = orders.length;
 
 
-document.getElementById("newOrders")
-.textContent=
-orders.filter(
-o=>o.status==="new"
-).length;
+  document.getElementById(
+    "newOrders"
+  ).textContent =
+    orders.filter(
+      o => o.status === "new"
+    ).length;
 
 
-document.getElementById("deliveredOrders")
-.textContent=
-orders.filter(
-o=>o.status==="delivered"
-).length;
+  document.getElementById(
+    "deliveredOrders"
+  ).textContent =
+    orders.filter(
+      o => o.status === "delivered"
+    ).length;
 
 
-const revenue =
-orders
-.filter(
-o=>o.status==="delivered"
-)
-.reduce(
-(sum,o)=>sum+o.total,
-0
-);
+  const revenue =
+    orders
+      .filter(
+        o => o.status === "delivered"
+      )
+      .reduce(
+        (sum,o) => sum + o.total,
+        0
+      );
 
 
-document.getElementById("revenue")
-.textContent=
-revenue+" DH";
+  document.getElementById(
+    "revenue"
+  ).textContent =
+    revenue + " DH";
 
 }
 
 
-/* =========================================
-   CLEAR FORM
-========================================= */
+/* مسح الفورم */
 
 function clearForm(){
 
-document.getElementById("customerName").value="";
-document.getElementById("customerPhone").value="";
-document.getElementById("customerCity").value="";
-document.getElementById("customerAddress").value="";
-document.getElementById("productName").value="";
-document.getElementById("quantity").value="1";
-document.getElementById("sellingPrice").value="";
+  document.getElementById(
+    "customerName"
+  ).value = "";
+
+  document.getElementById(
+    "customerPhone"
+  ).value = "";
+
+  document.getElementById(
+    "customerCity"
+  ).value = "";
+
+  document.getElementById(
+    "customerAddress"
+  ).value = "";
+
+  document.getElementById(
+    "productName"
+  ).value = "";
+
+  document.getElementById(
+    "quantity"
+  ).value = "1";
+
+  document.getElementById(
+    "sellingPrice"
+  ).value = "";
 
 }
 
 
-/* =========================================
-   SECURITY FOR CUSTOMER DATA
-========================================= */
+/* تشغيل المنصة */
 
-function escapeHtml(value){
-
-return String(value)
-.replace(/&/g,"&amp;")
-.replace(/</g,"&lt;")
-.replace(/>/g,"&gt;")
-.replace(/"/g,"&quot;")
-.replace(/'/g,"&#039;");
-
-}
+loadOrders();
 
 </script>
 
