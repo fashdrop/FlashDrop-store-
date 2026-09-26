@@ -2,179 +2,269 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FlashDrop Store - إدارة الطلبات</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>FlashDrop Store</title>
 
 <style>
-*{box-sizing:border-box}
-body{
+*{
+  box-sizing:border-box;
   margin:0;
+  padding:0;
   font-family:Arial,Tahoma,sans-serif;
-  background:#f4f6f9;
+}
+
+body{
+  background:#f5f7fb;
   color:#172033;
 }
+
 header{
-  background:linear-gradient(135deg,#111827,#2563eb);
+  background:#111827;
   color:white;
-  padding:20px;
-  position:sticky;
-  top:0;
-  z-index:10;
-  box-shadow:0 3px 15px #0002;
-}
-.header{
-  max-width:1200px;
-  margin:auto;
+  padding:18px;
   display:flex;
   justify-content:space-between;
   align-items:center;
-  gap:15px;
+  position:sticky;
+  top:0;
+  z-index:10;
 }
+
 .logo{
-  font-size:24px;
+  font-size:22px;
   font-weight:bold;
 }
-.logo span{color:#60a5fa}
+
+.logo span{
+  color:#22c55e;
+}
+
 .container{
   max-width:1200px;
   margin:auto;
   padding:20px;
 }
+
 .stats{
   display:grid;
   grid-template-columns:repeat(4,1fr);
   gap:15px;
-  margin-bottom:20px;
+  margin-bottom:25px;
 }
-.stat{
+
+.card{
   background:white;
   border-radius:16px;
-  padding:18px;
-  box-shadow:0 4px 15px #0000000d;
-}
-.stat small{color:#64748b}
-.stat h2{margin:8px 0 0;font-size:28px}
-
-.panel{
-  background:white;
-  border-radius:18px;
   padding:20px;
-  margin-bottom:20px;
-  box-shadow:0 4px 15px #0000000d;
+  box-shadow:0 5px 20px rgba(0,0,0,.06);
 }
-.panel-title{
+
+.stat-title{
+  color:#6b7280;
+  font-size:14px;
+  margin-bottom:10px;
+}
+
+.stat-number{
+  font-size:28px;
+  font-weight:bold;
+}
+
+.green{color:#16a34a}
+.blue{color:#2563eb}
+.orange{color:#ea580c}
+.red{color:#dc2626}
+
+.section-title{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  margin-bottom:15px;
-  gap:10px;
+  margin:25px 0 15px;
 }
-.panel-title h2{margin:0}
-
-.form{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:12px;
-}
-input,select,textarea{
-  width:100%;
-  padding:13px;
-  border:1px solid #dbe2ea;
-  border-radius:10px;
-  outline:none;
-  font-size:15px;
-}
-input:focus,select:focus,textarea:focus{
-  border-color:#2563eb;
-}
-textarea{resize:vertical;min-height:80px}
-.full{grid-column:1/-1}
 
 button{
   border:0;
   border-radius:10px;
-  padding:12px 16px;
+  padding:11px 16px;
   cursor:pointer;
   font-weight:bold;
-  font-size:14px;
 }
-.primary{background:#2563eb;color:white}
-.success{background:#16a34a;color:white}
-.danger{background:#dc2626;color:white}
-.gray{background:#e5e7eb;color:#111827}
-.whatsapp{background:#25D366;color:white}
+
+.btn{
+  background:#16a34a;
+  color:white;
+}
+
+.btn-danger{
+  background:#dc2626;
+  color:white;
+}
+
+.products{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;
+}
+
+.product img{
+  width:100%;
+  height:180px;
+  object-fit:cover;
+  border-radius:12px;
+  margin-bottom:12px;
+}
+
+.product h3{
+  font-size:16px;
+  margin-bottom:8px;
+}
+
+.price{
+  font-size:20px;
+  font-weight:bold;
+  color:#16a34a;
+}
+
+.old-price{
+  text-decoration:line-through;
+  color:#999;
+  font-size:14px;
+  margin-right:7px;
+}
+
+.product button{
+  width:100%;
+  margin-top:12px;
+}
 
 .orders{
-  display:grid;
-  gap:12px;
+  overflow-x:auto;
 }
-.order{
-  border:1px solid #e5e7eb;
-  border-radius:15px;
-  padding:16px;
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  background:white;
+  border-radius:12px;
+  overflow:hidden;
 }
-.order-top{
-  display:flex;
-  justify-content:space-between;
-  gap:10px;
-  align-items:center;
+
+th,td{
+  padding:13px;
+  border-bottom:1px solid #eee;
+  text-align:center;
+  white-space:nowrap;
 }
-.customer{
-  font-size:18px;
-  font-weight:bold;
+
+th{
+  background:#f3f4f6;
 }
-.info{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:6px;
-  margin:12px 0;
-  color:#475569;
-}
-.badge{
-  display:inline-block;
+
+.status{
   padding:6px 10px;
   border-radius:20px;
   font-size:12px;
   font-weight:bold;
 }
-.new{background:#dbeafe;color:#1d4ed8}
-.confirmed{background:#dcfce7;color:#15803d}
-.shipped{background:#fef3c7;color:#a16207}
-.delivered{background:#d1fae5;color:#047857}
-.cancelled{background:#fee2e2;color:#b91c1c}
 
-.actions{
-  display:flex;
-  gap:7px;
-  flex-wrap:wrap;
+.new{
+  background:#dbeafe;
+  color:#2563eb;
 }
-.actions button{padding:9px 12px}
 
-.search{
-  display:flex;
-  gap:10px;
-  margin-bottom:15px;
+.done{
+  background:#dcfce7;
+  color:#15803d;
 }
-.search input{flex:1}
+
+.cancel{
+  background:#fee2e2;
+  color:#dc2626;
+}
 
 .empty{
   text-align:center;
-  color:#64748b;
   padding:30px;
+  color:#888;
 }
 
-@media(max-width:800px){
-  .stats{grid-template-columns:repeat(2,1fr)}
-  .form{grid-template-columns:1fr}
-  .full{grid-column:auto}
+/* Modal */
+
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.55);
+  align-items:center;
+  justify-content:center;
+  z-index:50;
+  padding:15px;
 }
-@media(max-width:500px){
-  .container{padding:12px}
-  .stats{gap:8px}
-  .stat{padding:12px}
-  .stat h2{font-size:22px}
-  .info{grid-template-columns:1fr}
-  .header{align-items:flex-start}
+
+.modal-box{
+  background:white;
+  width:100%;
+  max-width:500px;
+  border-radius:18px;
+  padding:22px;
+}
+
+.modal-box h2{
+  margin-bottom:18px;
+}
+
+input,select{
+  width:100%;
+  padding:13px;
+  border:1px solid #ddd;
+  border-radius:10px;
+  margin-bottom:12px;
+  outline:none;
+}
+
+input:focus,select:focus{
+  border-color:#16a34a;
+}
+
+.close{
+  float:left;
+  background:#eee;
+}
+
+.total{
+  background:#f3f4f6;
+  padding:15px;
+  border-radius:10px;
+  margin:10px 0;
+  font-weight:bold;
+}
+
+@media(max-width:900px){
+  .products{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .stats{
+    grid-template-columns:repeat(2,1fr);
+  }
+}
+
+@media(max-width:550px){
+  .products{
+    grid-template-columns:1fr;
+  }
+
+  .stats{
+    grid-template-columns:1fr 1fr;
+  }
+
+  header{
+    padding:14px;
+  }
+
+  .container{
+    padding:12px;
+  }
 }
 </style>
 </head>
@@ -182,404 +272,567 @@ button{
 <body>
 
 <header>
-  <div class="header">
-    <div class="logo">🚀 Flash<span>Drop</span> Store</div>
-    <button class="gray" onclick="scrollToForm()">＋ كوموند جديدة</button>
-  </div>
+  <div class="logo">🚀 Flash<span>Drop</span> Store</div>
+  <button class="btn" onclick="openOrder()">＋ كوموند جديدة</button>
 </header>
 
 <div class="container">
 
   <!-- الإحصائيات -->
+
   <div class="stats">
-    <div class="stat">
-      <small>📦 جميع الطلبات</small>
-      <h2 id="total">0</h2>
+
+    <div class="card">
+      <div class="stat-title">📦 جميع الطلبات</div>
+      <div class="stat-number" id="allOrders">0</div>
     </div>
 
-    <div class="stat">
-      <small>🆕 الطلبات الجديدة</small>
-      <h2 id="newCount">0</h2>
+    <div class="card">
+      <div class="stat-title">🆕 الطلبات الجديدة</div>
+      <div class="stat-number blue" id="newOrders">0</div>
     </div>
 
-    <div class="stat">
-      <small>✅ تم التوصيل</small>
-      <h2 id="deliveredCount">0</h2>
+    <div class="card">
+      <div class="stat-title">✅ تم التوصيل</div>
+      <div class="stat-number green" id="doneOrders">0</div>
     </div>
 
-    <div class="stat">
-      <small>💰 المداخيل</small>
-      <h2 id="revenue">0 DH</h2>
+    <div class="card">
+      <div class="stat-title">💰 المداخيل</div>
+      <div class="stat-number orange" id="revenue">0 DH</div>
     </div>
+
   </div>
 
-  <!-- إضافة كوموند -->
-  <div class="panel" id="formPanel">
-    <div class="panel-title">
-      <h2 id="formTitle">➕ إضافة كوموند</h2>
-      <button class="gray" onclick="resetForm()">مسح</button>
-    </div>
+  <!-- المنتجات -->
 
-    <form id="orderForm">
-      <input type="hidden" id="editId">
-
-      <input id="name" placeholder="👤 اسم الزبون" required>
-      <input id="phone" placeholder="📞 رقم الهاتف" required>
-
-      <input id="city" placeholder="📍 المدينة" required>
-      <input id="address" placeholder="🏠 العنوان">
-
-      <input id="product" placeholder="📦 اسم المنتج" required>
-      <input id="quantity" type="number" min="1" value="1" placeholder="الكمية">
-
-      <input id="price" type="number" min="0" placeholder="💰 ثمن المنتج (DH)" required>
-      <input id="shipping" type="number" min="0" value="0" placeholder="🚚 التوصيل (DH)">
-
-      <select id="status">
-        <option value="new">🆕 جديدة</option>
-        <option value="confirmed">✅ مؤكدة</option>
-        <option value="shipped">🚚 تشحنات</option>
-        <option value="delivered">📦 توصلات</option>
-        <option value="cancelled">❌ ملغاة</option>
-      </select>
-
-      <textarea id="note" class="full" placeholder="📝 ملاحظات..."></textarea>
-
-      <button class="primary full" type="submit" id="saveBtn">
-        💾 حفظ الكوموند
-      </button>
-    </form>
+  <div class="section-title">
+    <h2>🛍️ المنتجات</h2>
   </div>
+
+  <div class="products" id="products"></div>
 
   <!-- الطلبات -->
-  <div class="panel">
-    <div class="panel-title">
-      <h2>📋 الكوموندات</h2>
-      <button class="danger" onclick="deleteAll()">حذف الكل</button>
-    </div>
 
-    <div class="search">
-      <input id="search" placeholder="🔎 قلب على الاسم، الهاتف، المدينة أو المنتج...">
-      <select id="filter">
-        <option value="all">الكل</option>
-        <option value="new">جديدة</option>
-        <option value="confirmed">مؤكدة</option>
-        <option value="shipped">تشحنات</option>
-        <option value="delivered">توصلات</option>
-        <option value="cancelled">ملغاة</option>
-      </select>
-    </div>
+  <div class="section-title">
+    <h2>📦 الطلبات</h2>
+    <button class="btn" onclick="openOrder()">＋ إضافة كوموند</button>
+  </div>
 
-    <div id="orders" class="orders"></div>
+  <div class="orders">
+
+    <table>
+
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>الزبون</th>
+          <th>المدينة</th>
+          <th>المنتج</th>
+          <th>الثمن</th>
+          <th>الحالة</th>
+          <th>حذف</th>
+        </tr>
+      </thead>
+
+      <tbody id="ordersTable"></tbody>
+
+    </table>
+
   </div>
 
 </div>
 
+
+<!-- نافذة إضافة الطلب -->
+
+<div class="modal" id="orderModal">
+
+  <div class="modal-box">
+
+    <button class="close" onclick="closeOrder()">✕</button>
+
+    <h2>➕ إنشاء كوموند جديدة</h2>
+
+    <input id="customerName" placeholder="اسم الزبون">
+
+    <input id="phone" placeholder="رقم الهاتف" type="tel">
+
+    <input id="city" placeholder="المدينة">
+
+    <input id="address" placeholder="العنوان">
+
+    <select id="productSelect" onchange="calculateTotal()">
+      <option value="">اختار المنتج</option>
+    </select>
+
+    <input
+      id="quantity"
+      type="number"
+      min="1"
+      value="1"
+      onchange="calculateTotal()"
+    >
+
+    <div class="total">
+      المجموع: <span id="total">0</span> DH
+    </div>
+
+    <button class="btn" style="width:100%" onclick="addOrder()">
+      تأكيد الكوموند
+    </button>
+
+  </div>
+
+</div>
+
+
 <script>
 
-let orders = JSON.parse(localStorage.getItem("flashdrop_orders") || "[]");
+const products = [
 
-const form = document.getElementById("orderForm");
+ {
+  id:1,
+  name:"زيت ميلي الأصلي",
+  price:50,
+  old:79,
+  image:"https://images.unsplash.com/photo-1608571423902-eed4a5ad8108"
+ },
 
-function saveData(){
-  localStorage.setItem("flashdrop_orders", JSON.stringify(orders));
-}
+ {
+  id:2,
+  name:"مكبر صوت بلوتوث",
+  price:100,
+  old:149,
+  image:"https://images.unsplash.com/photo-1608043152269-423dbba4e7e1"
+ },
 
-function generateId(){
-  return Date.now().toString();
-}
+ {
+  id:3,
+  name:"حقيبة مكياج LED",
+  price:135,
+  old:189,
+  image:"https://images.unsplash.com/photo-1596462502278-27bfdc403348"
+ },
 
-function scrollToForm(){
-  document.getElementById("formPanel").scrollIntoView({
-    behavior:"smooth"
-  });
-}
+ {
+  id:4,
+  name:"مصباح طاولة",
+  price:40,
+  old:59,
+  image:"https://images.unsplash.com/photo-1507473885765-e6ed057f782c"
+ },
 
-form.addEventListener("submit", function(e){
-  e.preventDefault();
+ {
+  id:5,
+  name:"وسادة مقعد مريحة",
+  price:90,
+  old:129,
+  image:"https://images.unsplash.com/photo-1584100936595-c0654b55a2e2"
+ },
 
-  const editId = document.getElementById("editId").value;
+ {
+  id:6,
+  name:"رف تجفيف الملابس",
+  price:79,
+  old:119,
+  image:"https://images.unsplash.com/photo-1521656693074-0ef32e80a5d5"
+ },
 
-  const data = {
-    id: editId || generateId(),
-    name: document.getElementById("name").value.trim(),
-    phone: document.getElementById("phone").value.trim(),
-    city: document.getElementById("city").value.trim(),
-    address: document.getElementById("address").value.trim(),
-    product: document.getElementById("product").value.trim(),
-    quantity: Number(document.getElementById("quantity").value) || 1,
-    price: Number(document.getElementById("price").value) || 0,
-    shipping: Number(document.getElementById("shipping").value) || 0,
-    status: document.getElementById("status").value,
-    note: document.getElementById("note").value.trim(),
-    date: new Date().toLocaleString("fr-MA")
-  };
+ {
+  id:7,
+  name:"مزيل الوبر",
+  price:55,
+  old:79,
+  image:"https://images.unsplash.com/photo-1583947215259-38e31be8751f"
+ },
 
-  if(editId){
-    const index = orders.findIndex(o => o.id === editId);
-    if(index !== -1) orders[index] = data;
-  }else{
-    orders.unshift(data);
-  }
+ {
+  id:8,
+  name:"خلاط متعدد الوظائف",
+  price:190,
+  old:269,
+  image:"https://images.unsplash.com/photo-1570222094114-d054a817e56b"
+ }
 
-  saveData();
-  resetForm();
-  render();
-  alert("✅ تسجلات الكوموند بنجاح");
-});
+];
 
-function resetForm(){
-  form.reset();
 
-  document.getElementById("editId").value = "";
-  document.getElementById("quantity").value = 1;
-  document.getElementById("shipping").value = 0;
-  document.getElementById("status").value = "new";
+let orders =
+ JSON.parse(localStorage.getItem("flashdrop_orders")) || [];
 
-  document.getElementById("formTitle").innerText = "➕ إضافة كوموند";
-  document.getElementById("saveBtn").innerText = "💾 حفظ الكوموند";
-}
 
-function editOrder(id){
-  const o = orders.find(x => x.id === id);
-  if(!o) return;
+/* عرض المنتجات */
 
-  document.getElementById("editId").value = o.id;
-  document.getElementById("name").value = o.name;
-  document.getElementById("phone").value = o.phone;
-  document.getElementById("city").value = o.city;
-  document.getElementById("address").value = o.address;
-  document.getElementById("product").value = o.product;
-  document.getElementById("quantity").value = o.quantity;
-  document.getElementById("price").value = o.price;
-  document.getElementById("shipping").value = o.shipping;
-  document.getElementById("status").value = o.status;
-  document.getElementById("note").value = o.note;
+function renderProducts(){
 
-  document.getElementById("formTitle").innerText = "✏️ تعديل الكوموند";
-  document.getElementById("saveBtn").innerText = "💾 تحديث الكوموند";
+ const box = document.getElementById("products");
 
-  scrollToForm();
-}
+ box.innerHTML = "";
 
-function deleteOrder(id){
-  if(!confirm("واش متأكد باغي تحذف هاد الكوموند؟")) return;
+ products.forEach(p=>{
 
-  orders = orders.filter(o => o.id !== id);
-  saveData();
-  render();
-}
+   box.innerHTML += `
 
-function deleteAll(){
-  if(!orders.length){
-    alert("ماكاين حتى كوموند");
-    return;
-  }
+    <div class="card product">
 
-  if(confirm("⚠️ غادي يتحيدو جميع الكوموندات. واش متأكد؟")){
-    orders = [];
-    saveData();
-    render();
-  }
-}
+      <img src="${p.image}">
 
-function statusText(status){
-  const map = {
-    new:"🆕 جديدة",
-    confirmed:"✅ مؤكدة",
-    shipped:"🚚 تشحنات",
-    delivered:"📦 توصلات",
-    cancelled:"❌ ملغاة"
-  };
-  return map[status] || status;
-}
+      <h3>${p.name}</h3>
 
-function totalOrder(o){
-  return (o.price * o.quantity) + o.shipping;
-}
-
-function sendWhatsApp(o){
-
-  let message =
-`سلام ${o.name} 👋
-
-شكراً على الطلب ديالك من FlashDrop Store 🛍️
-
-📦 المنتج: ${o.product}
-🔢 الكمية: ${o.quantity}
-💰 الثمن: ${o.price} DH
-🚚 التوصيل: ${o.shipping} DH
-💵 المجموع: ${totalOrder(o)} DH
-
-📍 المدينة: ${o.city}
-🏠 العنوان: ${o.address}
-
-شكراً على الثقة ❤️`;
-
-  const url =
-    "https://wa.me/" +
-    o.phone.replace(/\D/g,"") +
-    "?text=" +
-    encodeURIComponent(message);
-
-  window.open(url,"_blank");
-}
-
-function copyOrder(o){
-
-  const text =
-`الزبون: ${o.name}
-الهاتف: ${o.phone}
-المدينة: ${o.city}
-العنوان: ${o.address}
-المنتج: ${o.product}
-الكمية: ${o.quantity}
-الثمن: ${o.price} DH
-التوصيل: ${o.shipping} DH
-المجموع: ${totalOrder(o)} DH
-الحالة: ${statusText(o.status)}`;
-
-  navigator.clipboard.writeText(text)
-  .then(() => alert("✅ تسخ المعلومات"));
-}
-
-function render(){
-
-  const search =
-    document.getElementById("search").value.toLowerCase();
-
-  const filter =
-    document.getElementById("filter").value;
-
-  const list = orders.filter(o => {
-
-    const text =
-      `${o.name} ${o.phone} ${o.city} ${o.product}`
-      .toLowerCase();
-
-    const matchesSearch = text.includes(search);
-
-    const matchesFilter =
-      filter === "all" || o.status === filter;
-
-    return matchesSearch && matchesFilter;
-  });
-
-  const container = document.getElementById("orders");
-
-  if(!list.length){
-    container.innerHTML =
-      `<div class="empty">📭 ماكايناش كوموندات</div>`;
-  }else{
-
-    container.innerHTML = list.map(o => `
-
-      <div class="order">
-
-        <div class="order-top">
-          <div>
-            <div class="customer">👤 ${escapeHtml(o.name)}</div>
-            <small>${o.date}</small>
-          </div>
-
-          <span class="badge ${o.status}">
-            ${statusText(o.status)}
-          </span>
-        </div>
-
-        <div class="info">
-
-          <div>📞 ${escapeHtml(o.phone)}</div>
-          <div>📍 ${escapeHtml(o.city)}</div>
-          <div>📦 ${escapeHtml(o.product)}</div>
-          <div>🔢 الكمية: ${o.quantity}</div>
-          <div>💰 المنتج: ${o.price} DH</div>
-          <div>🚚 التوصيل: ${o.shipping} DH</div>
-          <div><b>💵 المجموع: ${totalOrder(o)} DH</b></div>
-          <div>🏠 ${escapeHtml(o.address)}</div>
-
-        </div>
-
-        ${
-          o.note
-          ? `<div>📝 ${escapeHtml(o.note)}</div>`
-          : ""
-        }
-
-        <br>
-
-        <div class="actions">
-
-          <button
-            class="whatsapp"
-            onclick='sendWhatsApp(${JSON.stringify(o)})'>
-            WhatsApp
-          </button>
-
-          <button
-            class="gray"
-            onclick='copyOrder(${JSON.stringify(o)})'>
-            📋 نسخ
-          </button>
-
-          <button
-            class="primary"
-            onclick="editOrder('${o.id}')">
-            ✏️ تعديل
-          </button>
-
-          <button
-            class="danger"
-            onclick="deleteOrder('${o.id}')">
-            🗑️ حذف
-          </button>
-
-        </div>
-
+      <div>
+        <span class="price">${p.price} DH</span>
+        <span class="old-price">${p.old} DH</span>
       </div>
 
-    `).join("");
-  }
+      <button class="btn" onclick="openOrder(${p.id})">
+        🛒 إنشاء كوموند
+      </button>
 
-  updateStats();
+    </div>
+
+   `;
+
+ });
+
 }
+
+
+/* فتح الطلب */
+
+function openOrder(productId=""){
+
+ document.getElementById("orderModal").style.display="flex";
+
+ const select = document.getElementById("productSelect");
+
+ select.innerHTML =
+ `<option value="">اختار المنتج</option>`;
+
+ products.forEach(p=>{
+
+   select.innerHTML +=
+   `<option value="${p.id}">
+      ${p.name} - ${p.price} DH
+   </option>`;
+
+ });
+
+ if(productId){
+   select.value = productId;
+ }
+
+ calculateTotal();
+
+}
+
+
+/* إغلاق */
+
+function closeOrder(){
+
+ document.getElementById("orderModal").style.display="none";
+
+}
+
+
+/* الحساب */
+
+function calculateTotal(){
+
+ const id =
+ document.getElementById("productSelect").value;
+
+ const qty =
+ Number(document.getElementById("quantity").value) || 1;
+
+ const product =
+ products.find(p=>p.id==id);
+
+ document.getElementById("total").innerText =
+ product ? product.price * qty : 0;
+
+}
+
+
+/* إضافة الطلب */
+
+function addOrder(){
+
+ const name =
+ document.getElementById("customerName").value.trim();
+
+ const phone =
+ document.getElementById("phone").value.trim();
+
+ const city =
+ document.getElementById("city").value.trim();
+
+ const address =
+ document.getElementById("address").value.trim();
+
+ const productId =
+ document.getElementById("productSelect").value;
+
+ const quantity =
+ Number(document.getElementById("quantity").value) || 1;
+
+ const product =
+ products.find(p=>p.id==productId);
+
+
+ if(!name || !phone || !city || !product){
+
+   alert("⚠️ عافاك عمر المعلومات كاملة");
+
+   return;
+ }
+
+
+ const order = {
+
+   id:Date.now(),
+
+   customer:name,
+
+   phone:phone,
+
+   city:city,
+
+   address:address,
+
+   product:product.name,
+
+   price:product.price,
+
+   quantity:quantity,
+
+   total:product.price * quantity,
+
+   status:"new",
+
+   date:new Date().toLocaleString("ar-MA")
+
+ };
+
+
+ orders.unshift(order);
+
+ saveOrders();
+
+ closeOrder();
+
+ clearForm();
+
+ renderOrders();
+
+ updateStats();
+
+ alert("✅ تم إنشاء الكوموند بنجاح");
+
+}
+
+
+/* حفظ */
+
+function saveOrders(){
+
+ localStorage.setItem(
+   "flashdrop_orders",
+   JSON.stringify(orders)
+ );
+
+}
+
+
+/* عرض الطلبات */
+
+function renderOrders(){
+
+ const table =
+ document.getElementById("ordersTable");
+
+ if(orders.length===0){
+
+   table.innerHTML =
+   `<tr>
+      <td colspan="7" class="empty">
+        ماكايناش الطلبات دابا
+      </td>
+    </tr>`;
+
+   return;
+
+ }
+
+
+ table.innerHTML = "";
+
+ orders.forEach((o,index)=>{
+
+   let statusText =
+   o.status==="new"
+   ? "جديدة"
+   : o.status==="done"
+   ? "تم التوصيل"
+   : "ملغاة";
+
+
+   table.innerHTML += `
+
+   <tr>
+
+     <td>${index+1}</td>
+
+     <td>${o.customer}</td>
+
+     <td>${o.city}</td>
+
+     <td>${o.product} × ${o.quantity}</td>
+
+     <td>${o.total} DH</td>
+
+     <td>
+
+       <select onchange="changeStatus(${o.id},this.value)">
+
+         <option value="new"
+         ${o.status==="new"?"selected":""}>
+         جديدة
+         </option>
+
+         <option value="done"
+         ${o.status==="done"?"selected":""}>
+         تم التوصيل
+         </option>
+
+         <option value="cancel"
+         ${o.status==="cancel"?"selected":""}>
+         ملغاة
+         </option>
+
+       </select>
+
+     </td>
+
+     <td>
+
+       <button
+       class="btn-danger"
+       onclick="deleteOrder(${o.id})">
+       حذف
+       </button>
+
+     </td>
+
+   </tr>
+
+   `;
+
+ });
+
+}
+
+
+/* تغيير الحالة */
+
+function changeStatus(id,status){
+
+ const order =
+ orders.find(o=>o.id===id);
+
+ if(order){
+
+   order.status=status;
+
+   saveOrders();
+
+   renderOrders();
+
+   updateStats();
+
+ }
+
+}
+
+
+/* حذف */
+
+function deleteOrder(id){
+
+ if(!confirm("واش متأكد باغي تحذف هاد الكوموند؟"))
+ return;
+
+ orders =
+ orders.filter(o=>o.id!==id);
+
+ saveOrders();
+
+ renderOrders();
+
+ updateStats();
+
+}
+
+
+/* الإحصائيات */
 
 function updateStats(){
 
-  document.getElementById("total").innerText =
-    orders.length;
+ document.getElementById("allOrders")
+ .innerText=orders.length;
 
-  document.getElementById("newCount").innerText =
-    orders.filter(o => o.status === "new").length;
 
-  document.getElementById("deliveredCount").innerText =
-    orders.filter(o => o.status === "delivered").length;
+ document.getElementById("newOrders")
+ .innerText=
+ orders.filter(o=>o.status==="new").length;
 
-  const revenue =
-    orders
-      .filter(o => o.status === "delivered")
-      .reduce((sum,o) => sum + totalOrder(o),0);
 
-  document.getElementById("revenue").innerText =
-    revenue.toLocaleString("fr-MA") + " DH";
+ document.getElementById("doneOrders")
+ .innerText=
+ orders.filter(o=>o.status==="done").length;
+
+
+ const revenue =
+ orders
+ .filter(o=>o.status==="done")
+ .reduce((sum,o)=>sum+o.total,0);
+
+
+ document.getElementById("revenue")
+ .innerText=revenue+" DH";
+
 }
 
-function escapeHtml(text){
-  return String(text || "")
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
+
+/* تنظيف الفورم */
+
+function clearForm(){
+
+ document.getElementById("customerName").value="";
+
+ document.getElementById("phone").value="";
+
+ document.getElementById("city").value="";
+
+ document.getElementById("address").value="";
+
+ document.getElementById("productSelect").value="";
+
+ document.getElementById("quantity").value=1;
+
+ document.getElementById("total").innerText=0;
+
 }
 
-document.getElementById("search")
-  .addEventListener("input",render);
 
-document.getElementById("filter")
-  .addEventListener("change",render);
+/* البداية */
 
-render();
+renderProducts();
+
+renderOrders();
+
+updateStats();
 
 </script>
 
