@@ -6,8 +6,6 @@
 
   <title>FlashDrop Store</title>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
   <style>
     * {
       box-sizing: border-box;
@@ -16,244 +14,306 @@
 
     body {
       margin: 0;
-      min-height: 100vh;
-      background: #f4f6f8;
+      background: #f5f6fa;
+      color: #111827;
+    }
+
+    header {
+      background: #111827;
+      color: white;
+      padding: 18px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .header-content {
+      max-width: 1100px;
+      margin: auto;
       display: flex;
-      justify-content: center;
+      justify-content: space-between;
       align-items: center;
     }
 
+    .logo {
+      font-size: 22px;
+      font-weight: bold;
+    }
+
     .container {
-      width: 100%;
-      max-width: 430px;
+      max-width: 1100px;
+      margin: auto;
       padding: 20px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .stat {
+      background: white;
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 3px 15px rgba(0,0,0,.06);
+    }
+
+    .stat-title {
+      color: #6b7280;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .stat-value {
+      font-size: 25px;
+      font-weight: bold;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    button {
+      border: 0;
+      border-radius: 12px;
+      padding: 13px 18px;
+      background: #111827;
+      color: white;
+      font-size: 15px;
+      cursor: pointer;
+    }
+
+    button.green {
+      background: #16a34a;
+    }
+
+    button.blue {
+      background: #2563eb;
+    }
+
+    button.red {
+      background: #dc2626;
     }
 
     .card {
       background: white;
-      border-radius: 20px;
-      padding: 25px;
-      box-shadow: 0 8px 30px rgba(0,0,0,.08);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 3px 15px rgba(0,0,0,.06);
     }
 
-    .logo {
-      text-align: center;
-      font-size: 30px;
-      font-weight: bold;
-      color: #111827;
-      margin-bottom: 8px;
+    .card h2 {
+      margin-top: 0;
     }
 
-    .subtitle {
+    .empty {
       text-align: center;
       color: #777;
-      margin-bottom: 25px;
+      padding: 35px;
     }
 
-    h2 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    input {
-      width: 100%;
-      padding: 14px;
+    .order {
+      border: 1px solid #eee;
+      border-radius: 12px;
+      padding: 15px;
       margin-bottom: 12px;
-      border: 1px solid #ddd;
-      border-radius: 12px;
-      font-size: 15px;
-      outline: none;
     }
 
-    input:focus {
-      border-color: #111827;
+    .order-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
     }
 
-    button {
+    .badge {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .product-form {
+      display: none;
+      margin-top: 15px;
+    }
+
+    input, select {
       width: 100%;
-      padding: 14px;
-      border: none;
-      border-radius: 12px;
-      background: #111827;
-      color: white;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-      margin-top: 5px;
-    }
-
-    button:hover {
-      opacity: .9;
-    }
-
-    .secondary {
-      background: #e5e7eb;
-      color: #111827;
-    }
-
-    .link {
-      display: block;
-      text-align: center;
-      margin-top: 15px;
-      color: #2563eb;
-      cursor: pointer;
-      font-size: 14px;
-    }
-
-    .message {
-      text-align: center;
-      margin-top: 15px;
-      padding: 10px;
+      padding: 13px;
+      border: 1px solid #ddd;
       border-radius: 10px;
-      display: none;
+      margin-bottom: 10px;
+      font-size: 15px;
     }
 
-    .success {
-      display: block;
-      background: #dcfce7;
-      color: #166534;
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
     }
 
-    .error {
-      display: block;
-      background: #fee2e2;
-      color: #991b1b;
+    @media (max-width: 700px) {
+      .stats {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
     }
 
-    .hidden {
-      display: none;
+    @media (max-width: 450px) {
+      .stats {
+        grid-template-columns: 1fr;
+      }
+
+      .container {
+        padding: 12px;
+      }
     }
   </style>
 </head>
 
 <body>
 
+<header>
+  <div class="header-content">
+    <div class="logo">🚀 FlashDrop Store</div>
+    <div>منصة إدارة الطلبات</div>
+  </div>
+</header>
+
 <div class="container">
 
-  <div class="card">
+  <!-- الإحصائيات -->
+  <div class="stats">
 
-    <div class="logo">🚀 FlashDrop Store</div>
-    <div class="subtitle">منصة التجارة الإلكترونية</div>
-
-    <!-- LOGIN -->
-    <div id="loginBox">
-
-      <h2>تسجيل الدخول</h2>
-
-      <input
-        type="email"
-        id="loginEmail"
-        placeholder="البريد الإلكتروني"
-      >
-
-      <input
-        type="password"
-        id="loginPassword"
-        placeholder="كلمة المرور"
-      >
-
-      <button onclick="login()">
-        دخول
-      </button>
-
-      <span class="link" onclick="showSignup()">
-        إنشاء حساب جديد
-      </span>
-
-      <span class="link" onclick="showForgot()">
-        نسيت كلمة المرور؟
-      </span>
-
+    <div class="stat">
+      <div class="stat-title">📦 جميع الطلبات</div>
+      <div class="stat-value" id="allOrders">0</div>
     </div>
 
+    <div class="stat">
+      <div class="stat-title">🆕 الطلبات الجديدة</div>
+      <div class="stat-value" id="newOrders">0</div>
+    </div>
 
-    <!-- SIGNUP -->
-    <div id="signupBox" class="hidden">
+    <div class="stat">
+      <div class="stat-title">✅ تم التوصيل</div>
+      <div class="stat-value" id="deliveredOrders">0</div>
+    </div>
 
-      <h2>إنشاء حساب</h2>
+    <div class="stat">
+      <div class="stat-title">💰 المداخيل</div>
+      <div class="stat-value" id="revenue">0 DH</div>
+    </div>
+
+  </div>
+
+
+  <!-- الأزرار -->
+  <div class="actions">
+
+    <button class="blue" onclick="showOrderForm()">
+      ➕ إضافة كوموند
+    </button>
+
+    <button onclick="showOrders()">
+      📦 جميع الطلبات
+    </button>
+
+    <button class="green" onclick="showDelivered()">
+      ✅ تم التوصيل
+    </button>
+
+    <button class="red" onclick="showCancelled()">
+      ❌ المرتجعات
+    </button>
+
+  </div>
+
+
+  <!-- إضافة كوموند -->
+  <div class="card product-form" id="orderForm">
+
+    <h2>➕ إضافة كوموند جديدة</h2>
+
+    <input
+      type="text"
+      id="customerName"
+      placeholder="اسم الزبون"
+    >
+
+    <input
+      type="tel"
+      id="customerPhone"
+      placeholder="رقم الهاتف"
+    >
+
+    <input
+      type="text"
+      id="customerCity"
+      placeholder="المدينة"
+    >
+
+    <input
+      type="text"
+      id="customerAddress"
+      placeholder="العنوان"
+    >
+
+    <div class="form-grid">
 
       <input
         type="text"
-        id="signupName"
-        placeholder="الاسم الكامل"
+        id="productName"
+        placeholder="اسم المنتج"
       >
 
       <input
-        type="tel"
-        id="signupPhone"
-        placeholder="رقم الهاتف"
+        type="number"
+        id="quantity"
+        placeholder="الكمية"
+        value="1"
+        min="1"
       >
-
-      <input
-        type="email"
-        id="signupEmail"
-        placeholder="البريد الإلكتروني"
-      >
-
-      <input
-        type="password"
-        id="signupPassword"
-        placeholder="كلمة المرور"
-      >
-
-      <button onclick="signup()">
-        إنشاء الحساب
-      </button>
-
-      <span class="link" onclick="showLogin()">
-        عندي حساب بالفعل
-      </span>
 
     </div>
 
+    <input
+      type="number"
+      id="sellingPrice"
+      placeholder="ثمن البيع DH"
+    >
 
-    <!-- FORGOT PASSWORD -->
-    <div id="forgotBox" class="hidden">
+    <button class="green" onclick="addOrder()">
+      حفظ الكوموند
+    </button>
 
-      <h2>نسيت كلمة المرور</h2>
-
-      <input
-        type="email"
-        id="forgotEmail"
-        placeholder="البريد الإلكتروني"
-      >
-
-      <button onclick="sendResetEmail()">
-        إرسال رابط الاسترجاع
-      </button>
-
-      <span class="link" onclick="showLogin()">
-        الرجوع لتسجيل الدخول
-      </span>
-
-    </div>
+  </div>
 
 
-    <!-- RESET PASSWORD -->
-    <div id="resetBox" class="hidden">
+  <!-- الطلبات -->
+  <div class="card">
 
-      <h2>تغيير كلمة المرور</h2>
+    <h2>📦 الطلبات</h2>
 
-      <input
-        type="password"
-        id="newPassword"
-        placeholder="كلمة المرور الجديدة"
-      >
+    <div id="ordersList">
 
-      <input
-        type="password"
-        id="confirmPassword"
-        placeholder="تأكيد كلمة المرور"
-      >
-
-      <button onclick="resetPassword()">
-        تغيير كلمة المرور
-      </button>
+      <div class="empty">
+        ما كاين حتى كوموند دابا
+      </div>
 
     </div>
-
-
-    <div id="message" class="message"></div>
 
   </div>
 
@@ -262,424 +322,340 @@
 
 <script>
 
-  // =========================
-  // SUPABASE
-  // =========================
-
-  const SUPABASE_URL =
-    "https://vadiyawqpbtdvnqmxxne.supabase.co";
-
-  const SUPABASE_KEY =
-    "sb_publishable_MKv1kVwoBi6oEcrPIZMVMQ_Qk59pLSW";
-
-  const SITE_URL =
-    "https://fashdrop.github.io/FlashDrop-store-/";
-
-  const supabaseClient =
-    window.supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_KEY
-    );
+  let orders = [];
 
 
-  // =========================
-  // ELEMENTS
-  // =========================
+  function showOrderForm() {
 
-  const loginBox =
-    document.getElementById("loginBox");
+    const form = document.getElementById("orderForm");
 
-  const signupBox =
-    document.getElementById("signupBox");
-
-  const forgotBox =
-    document.getElementById("forgotBox");
-
-  const resetBox =
-    document.getElementById("resetBox");
-
-  const message =
-    document.getElementById("message");
-
-
-  // =========================
-  // MESSAGE
-  // =========================
-
-  function showMessage(text, type = "success") {
-
-    message.textContent = text;
-
-    message.className =
-      "message " + type;
+    form.style.display =
+      form.style.display === "block"
+        ? "none"
+        : "block";
 
   }
 
 
-  // =========================
-  // SHOW / HIDE
-  // =========================
-
-  function hideAll() {
-
-    loginBox.classList.add("hidden");
-    signupBox.classList.add("hidden");
-    forgotBox.classList.add("hidden");
-    resetBox.classList.add("hidden");
-
-    message.className = "message";
-    message.textContent = "";
-
-  }
-
-
-  function showLogin() {
-
-    hideAll();
-
-    loginBox.classList.remove("hidden");
-
-  }
-
-
-  function showSignup() {
-
-    hideAll();
-
-    signupBox.classList.remove("hidden");
-
-  }
-
-
-  function showForgot() {
-
-    hideAll();
-
-    forgotBox.classList.remove("hidden");
-
-  }
-
-
-  function showReset() {
-
-    hideAll();
-
-    resetBox.classList.remove("hidden");
-
-  }
-
-
-  // =========================
-  // SIGNUP
-  // =========================
-
-  async function signup() {
+  function addOrder() {
 
     const name =
-      document.getElementById("signupName").value.trim();
+      document.getElementById("customerName").value.trim();
 
     const phone =
-      document.getElementById("signupPhone").value.trim();
+      document.getElementById("customerPhone").value.trim();
 
-    const email =
-      document.getElementById("signupEmail").value.trim();
+    const city =
+      document.getElementById("customerCity").value.trim();
 
-    const password =
-      document.getElementById("signupPassword").value;
+    const address =
+      document.getElementById("customerAddress").value.trim();
 
-    if (!name || !email || !password) {
+    const product =
+      document.getElementById("productName").value.trim();
 
-      showMessage(
-        "عمر جميع المعلومات المطلوبة",
-        "error"
-      );
+    const quantity =
+      Number(document.getElementById("quantity").value);
 
-      return;
-    }
-
-    if (password.length < 6) {
-
-      showMessage(
-        "كلمة المرور خاصها تكون 6 حروف على الأقل",
-        "error"
-      );
-
-      return;
-    }
+    const price =
+      Number(document.getElementById("sellingPrice").value);
 
 
-    const { data, error } =
-      await supabaseClient.auth.signUp({
+    if (
+      !name ||
+      !phone ||
+      !city ||
+      !address ||
+      !product ||
+      !quantity ||
+      !price
+    ) {
 
-        email: email,
-
-        password: password,
-
-        options: {
-
-          emailRedirectTo: SITE_URL,
-
-          data: {
-
-            full_name: name,
-
-            phone: phone
-
-          }
-
-        }
-
-      });
-
-
-    if (error) {
-
-      showMessage(
-        error.message,
-        "error"
-      );
+      alert("دخل جميع المعلومات");
 
       return;
     }
 
 
-    showMessage(
-      "تم إنشاء الحساب بنجاح ✅ تحقق من البريد الإلكتروني إذا طلب منك ذلك."
+    const order = {
+
+      id: Date.now(),
+
+      customerName: name,
+
+      phone: phone,
+
+      city: city,
+
+      address: address,
+
+      product: product,
+
+      quantity: quantity,
+
+      price: price,
+
+      total: quantity * price,
+
+      status: "new"
+
+    };
+
+
+    orders.unshift(order);
+
+    saveOrders();
+
+    renderOrders();
+
+    clearForm();
+
+    document.getElementById("orderForm").style.display =
+      "none";
+
+  }
+
+
+  function saveOrders() {
+
+    localStorage.setItem(
+      "flashdrop_orders",
+      JSON.stringify(orders)
     );
 
   }
 
 
-  // =========================
-  // LOGIN
-  // =========================
+  function loadOrders() {
 
-  async function login() {
+    const saved =
+      localStorage.getItem("flashdrop_orders");
 
-    const email =
-      document.getElementById("loginEmail").value.trim();
+    if (saved) {
 
-    const password =
-      document.getElementById("loginPassword").value;
+      orders = JSON.parse(saved);
+
+    }
+
+    renderOrders();
+
+  }
 
 
-    if (!email || !password) {
+  function renderOrders(list = orders) {
 
-      showMessage(
-        "دخل البريد الإلكتروني وكلمة المرور",
-        "error"
-      );
+    const box =
+      document.getElementById("ordersList");
+
+    if (!list.length) {
+
+      box.innerHTML =
+        '<div class="empty">ما كاين حتى كوموند</div>';
+
+      updateStats();
 
       return;
+
     }
 
 
-    const { data, error } =
-      await supabaseClient.auth.signInWithPassword({
-
-        email: email,
-
-        password: password
-
-      });
+    box.innerHTML = "";
 
 
-    if (error) {
+    list.forEach(order => {
 
-      showMessage(
-        "البريد الإلكتروني أو كلمة المرور غير صحيحة",
-        "error"
-      );
+      const div =
+        document.createElement("div");
 
+      div.className = "order";
+
+
+      div.innerHTML = `
+
+        <div class="order-top">
+
+          <strong>
+            👤 ${order.customerName}
+          </strong>
+
+          <span class="badge">
+            ${getStatus(order.status)}
+          </span>
+
+        </div>
+
+        <p>📞 ${order.phone}</p>
+
+        <p>📍 ${order.city} - ${order.address}</p>
+
+        <p>🛍️ ${order.product}</p>
+
+        <p>🔢 الكمية: ${order.quantity}</p>
+
+        <p>
+          💰 المجموع:
+          <strong>${order.total} DH</strong>
+        </p>
+
+        <div class="actions">
+
+          <button
+            class="green"
+            onclick="changeStatus(${order.id}, 'delivered')"
+          >
+            ✅ توصيل
+          </button>
+
+          <button
+            class="red"
+            onclick="changeStatus(${order.id}, 'returned')"
+          >
+            ↩️ رجوع
+          </button>
+
+          <button
+            onclick="deleteOrder(${order.id})"
+          >
+            🗑️ حذف
+          </button>
+
+        </div>
+
+      `;
+
+
+      box.appendChild(div);
+
+    });
+
+
+    updateStats();
+
+  }
+
+
+  function changeStatus(id, status) {
+
+    const order =
+      orders.find(o => o.id === id);
+
+    if (!order) return;
+
+    order.status = status;
+
+    saveOrders();
+
+    renderOrders();
+
+  }
+
+
+  function deleteOrder(id) {
+
+    if (!confirm("واش متأكد بغيتي تحيد هاد الكوموند؟")) {
       return;
     }
 
+    orders =
+      orders.filter(o => o.id !== id);
 
-    showMessage(
-      "تم تسجيل الدخول بنجاح ✅"
+    saveOrders();
+
+    renderOrders();
+
+  }
+
+
+  function showOrders() {
+
+    renderOrders(orders);
+
+  }
+
+
+  function showDelivered() {
+
+    renderOrders(
+      orders.filter(o => o.status === "delivered")
     );
 
-
-    // من بعد غادي نربطو هنا Dashboard
-    setTimeout(() => {
-
-      window.location.href = SITE_URL;
-
-    }, 1000);
-
   }
 
 
-  // =========================
-  // SEND RESET EMAIL
-  // =========================
+  function showCancelled() {
 
-  async function sendResetEmail() {
-
-    const email =
-      document.getElementById("forgotEmail").value.trim();
-
-
-    if (!email) {
-
-      showMessage(
-        "دخل البريد الإلكتروني",
-        "error"
-      );
-
-      return;
-    }
-
-
-    const { error } =
-      await supabaseClient.auth.resetPasswordForEmail(
-
-        email,
-
-        {
-          redirectTo: SITE_URL
-        }
-
-      );
-
-
-    if (error) {
-
-      showMessage(
-        error.message,
-        "error"
-      );
-
-      return;
-    }
-
-
-    showMessage(
-      "تم إرسال رابط تغيير كلمة المرور إلى بريدك الإلكتروني ✅"
+    renderOrders(
+      orders.filter(o => o.status === "returned")
     );
 
   }
 
 
-  // =========================
-  // RESET PASSWORD
-  // =========================
+  function getStatus(status) {
 
-  async function resetPassword() {
+    if (status === "new")
+      return "جديدة";
 
-    const password =
-      document.getElementById("newPassword").value;
+    if (status === "delivered")
+      return "تم التوصيل";
 
-    const confirmPassword =
-      document.getElementById("confirmPassword").value;
+    if (status === "returned")
+      return "مرتجعة";
 
-
-    if (!password || !confirmPassword) {
-
-      showMessage(
-        "دخل كلمة المرور الجديدة",
-        "error"
-      );
-
-      return;
-    }
-
-
-    if (password.length < 6) {
-
-      showMessage(
-        "كلمة المرور خاصها تكون 6 حروف على الأقل",
-        "error"
-      );
-
-      return;
-    }
-
-
-    if (password !== confirmPassword) {
-
-      showMessage(
-        "كلمات المرور غير متطابقة",
-        "error"
-      );
-
-      return;
-    }
-
-
-    const { error } =
-      await supabaseClient.auth.updateUser({
-
-        password: password
-
-      });
-
-
-    if (error) {
-
-      showMessage(
-        error.message,
-        "error"
-      );
-
-      return;
-    }
-
-
-    showMessage(
-      "تم تغيير كلمة المرور بنجاح ✅"
-    );
-
-
-    setTimeout(() => {
-
-      showLogin();
-
-    }, 1500);
+    return status;
 
   }
 
 
-  // =========================
-  // PASSWORD RECOVERY
-  // =========================
+  function updateStats() {
 
-  supabaseClient.auth.onAuthStateChange(
-
-    async (event, session) => {
-
-      if (event === "PASSWORD_RECOVERY") {
-
-        showReset();
-
-      }
-
-    }
-
-  );
+    document.getElementById("allOrders").textContent =
+      orders.length;
 
 
-  // =========================
-  // CHECK SESSION
-  // =========================
-
-  async function checkSession() {
-
-    const { data } =
-      await supabaseClient.auth.getSession();
+    document.getElementById("newOrders").textContent =
+      orders.filter(o => o.status === "new").length;
 
 
-    if (data && data.session) {
+    document.getElementById("deliveredOrders").textContent =
+      orders.filter(o => o.status === "delivered").length;
 
-      // المستخدم مسجل الدخول
-      // من بعد نوجهوه للوحة المناسبة
 
-    }
+    const revenue =
+      orders
+        .filter(o => o.status === "delivered")
+        .reduce(
+          (sum, o) => sum + o.total,
+          0
+        );
+
+
+    document.getElementById("revenue").textContent =
+      revenue + " DH";
 
   }
 
 
-  checkSession();
+  function clearForm() {
+
+    document.getElementById("customerName").value = "";
+
+    document.getElementById("customerPhone").value = "";
+
+    document.getElementById("customerCity").value = "";
+
+    document.getElementById("customerAddress").value = "";
+
+    document.getElementById("productName").value = "";
+
+    document.getElementById("quantity").value = "1";
+
+    document.getElementById("sellingPrice").value = "";
+
+  }
+
+
+  loadOrders();
 
 </script>
 
