@@ -1,1 +1,824 @@
-admin.html
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FlashDrop Admin</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Tahoma;background:#f4f6fb;color:#172033}
+header{background:linear-gradient(135deg,#111827,#2563eb);color:#fff;padding:18px}
+.top{max-width:1200px;margin:auto;display:flex;justify-content:space-between;align-items:center}
+.logo{font-size:22px;font-weight:bold}
+button{border:0;border-radius:10px;padding:11px 16px;font-weight:bold;cursor:pointer}
+.logout{background:#ef4444;color:#fff}
+.container{max-width:1200px;margin:auto;padding:18px}
+
+.login{max-width:420px;margin:70px auto;background:#fff;padding:25px;border-radius:18px;box-shadow:0 10px 30px #0001}
+.login h2{text-align:center}
+input,select,textarea{width:100%;padding:13px;margin:6px 0 12px;border:1px solid #ddd;border-radius:10px;font-size:15px}
+.primary{background:#2563eb;color:#fff;width:100%}
+
+.dashboard{display:none}
+
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px}
+.card,.box{background:#fff;padding:18px;border-radius:16px;box-shadow:0 5px 20px #0000000b}
+.title{font-size:14px;color:#667085}
+.number{font-size:25px;font-weight:bold;margin-top:8px}
+
+.tabs{display:flex;gap:8px;overflow:auto;margin-bottom:18px}
+.tab{background:#fff;white-space:nowrap}
+.tab.active{background:#2563eb;color:#fff}
+
+.section{display:none}
+.section.active{display:block}
+
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+
+table{width:100%;border-collapse:collapse;min-width:750px}
+th,td{padding:12px;border-bottom:1px solid #eee;text-align:right}
+th{background:#f8fafc}
+.table{overflow:auto}
+
+.msg{display:none;padding:12px;border-radius:10px;margin-bottom:12px}
+.ok{background:#dcfce7;color:#166534}
+.err{background:#fee2e2;color:#991b1b}
+
+.product{display:flex;gap:12px;align-items:center;margin-bottom:12px}
+.product img{width:60px;height:60px;object-fit:cover;border-radius:10px;background:#eee}
+
+.badge{padding:6px 10px;border-radius:20px;font-size:12px;font-weight:bold}
+.new{background:#dbeafe;color:#1d4ed8}
+.processing{background:#fef3c7;color:#92400e}
+.delivered{background:#dcfce7;color:#166534}
+.cancelled,.returned{background:#fee2e2;color:#991b1b}
+
+@media(max-width:800px){
+.stats{grid-template-columns:1fr 1fr}
+.grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="top">
+<div class="logo">🚀 FlashDrop Admin</div>
+<button class="logout" onclick="logout()">خروج</button>
+</div>
+</header>
+
+<!-- LOGIN -->
+<div id="loginBox" class="login">
+
+<h2>🔐 دخول الإدارة</h2>
+
+<div id="loginMsg" class="msg"></div>
+
+<label>الإيميل</label>
+<input id="email" type="email" placeholder="Email">
+
+<label>كلمة السر</label>
+<input id="password" type="password" placeholder="Password">
+
+<button class="primary" onclick="login()">دخول</button>
+
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashboard" class="dashboard">
+
+<div class="container">
+
+<div id="dashMsg" class="msg"></div>
+
+<!-- STATS -->
+
+<div class="stats">
+
+<div class="card">
+<div class="title">📦 جميع الكوموندات</div>
+<div id="allOrders" class="number">0</div>
+</div>
+
+<div class="card">
+<div class="title">🆕 الجديدة</div>
+<div id="newOrders" class="number">0</div>
+</div>
+
+<div class="card">
+<div class="title">🚚 قيد المعالجة</div>
+<div id="processingOrders" class="number">0</div>
+</div>
+
+<div class="card">
+<div class="title">✅ تم التوصيل</div>
+<div id="deliveredOrders" class="number">0</div>
+</div>
+
+</div>
+
+<div class="stats">
+
+<div class="card">
+<div class="title">💰 المداخيل</div>
+<div id="revenue" class="number">0 DH</div>
+</div>
+
+<div class="card">
+<div class="title">🔄 الرتور</div>
+<div id="returnedOrders" class="number">0</div>
+</div>
+
+<div class="card">
+<div class="title">❌ ملغاة</div>
+<div id="cancelledOrders" class="number">0</div>
+</div>
+
+<div class="card">
+<div class="title">📦 المنتوجات</div>
+<div id="productsCount" class="number">0</div>
+</div>
+
+</div>
+
+<!-- MENU -->
+
+<div class="tabs">
+
+<button class="tab active" onclick="tab('home',this)">
+📊 الرئيسية
+</button>
+
+<button class="tab" onclick="tab('products',this)">
+📦 المنتوجات
+</button>
+
+<button class="tab" onclick="tab('orders',this)">
+🛒 الكوموندات
+</button>
+
+</div>
+
+<!-- HOME -->
+
+<div id="home" class="section active">
+
+<div class="box">
+
+<h2>📊 آخر الكوموندات</h2>
+
+<div class="table">
+
+<table>
+<thead>
+<tr>
+<th>الكليان</th>
+<th>المنتوج</th>
+<th>الكمية</th>
+<th>المجموع</th>
+<th>الحالة</th>
+</tr>
+</thead>
+
+<tbody id="recent"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- PRODUCTS -->
+
+<div id="products" class="section">
+
+<div class="grid">
+
+<div class="box">
+
+<h2>➕ إضافة منتوج</h2>
+
+<label>اسم المنتوج</label>
+<input id="pName" placeholder="مثال: آلة صنع الفشار">
+
+<label>الوصف</label>
+<textarea id="pDescription" placeholder="وصف المنتوج"></textarea>
+
+<label>رابط الصورة</label>
+<input id="pImage" placeholder="https://...">
+
+<label>ثمن البيع DH</label>
+<input id="pPrice" type="number" placeholder="199">
+
+<label>ثمن الشراء DH</label>
+<input id="pCost" type="number" placeholder="100">
+
+<label>Stock</label>
+<input id="pStock" type="number" placeholder="20">
+
+<button class="primary" onclick="addProduct()">
+➕ إضافة المنتوج
+</button>
+
+</div>
+
+<div class="box">
+
+<h2>📦 المنتوجات</h2>
+
+<div id="productList"></div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ORDERS -->
+
+<div id="orders" class="section">
+
+<div class="box">
+
+<h2>🛒 جميع الكوموندات</h2>
+
+<div class="table">
+
+<table>
+
+<thead>
+<tr>
+<th>الكليان</th>
+<th>الهاتف</th>
+<th>المدينة</th>
+<th>المنتوج</th>
+<th>الكمية</th>
+<th>المجموع</th>
+<th>الحالة</th>
+<th>تغيير</th>
+</tr>
+</thead>
+
+<tbody id="orderList"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+<script>
+
+const SUPABASE_URL =
+"https://vadiyawqpbtdvnqmxxne.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_MKv1kVwoBi6oEcrPIZMVMQ_Qk59pLSW";
+
+const supabase =
+window.supabase.createClient(
+SUPABASE_URL,
+SUPABASE_KEY
+);
+
+let products=[];
+let orders=[];
+
+
+// LOGIN
+
+async function login(){
+
+const email=document.getElementById("email").value.trim();
+const password=document.getElementById("password").value;
+
+if(!email || !password){
+message("loginMsg","دخل الإيميل وكلمة السر","err");
+return;
+}
+
+const {error}=await supabase.auth.signInWithPassword({
+email:email,
+password:password
+});
+
+if(error){
+message("loginMsg",error.message,"err");
+return;
+}
+
+await checkAdmin();
+
+}
+
+
+// CHECK ADMIN
+
+async function checkAdmin(){
+
+const {data:{user}}=await supabase.auth.getUser();
+
+if(!user){
+showLogin();
+return;
+}
+
+const {data:profile,error}=await supabase
+.from("profiles")
+.select("role,full_name")
+.eq("id",user.id)
+.single();
+
+if(error){
+message(
+"loginMsg",
+"ما قدرناش نوصلو للـProfile: "+error.message,
+"err"
+);
+await supabase.auth.signOut();
+return;
+}
+
+if(!profile || profile.role!=="admin"){
+
+message(
+"loginMsg",
+"هاد الحساب مازال ما تعينش Admin.",
+"err"
+);
+
+await supabase.auth.signOut();
+return;
+}
+
+document.getElementById("loginBox").style.display="none";
+document.getElementById("dashboard").style.display="block";
+
+await loadAll();
+
+}
+
+
+// LOAD ALL
+
+async function loadAll(){
+
+await loadProducts();
+await loadOrders();
+
+renderProducts();
+renderOrders();
+renderRecent();
+stats();
+
+}
+
+
+// PRODUCTS
+
+async function loadProducts(){
+
+const {data,error}=await supabase
+.from("products")
+.select("*")
+.order("created_at",{ascending:false});
+
+if(error){
+message("dashMsg",error.message,"err");
+return;
+}
+
+products=data||[];
+
+document.getElementById("productsCount").textContent=
+products.length;
+
+}
+
+
+async function addProduct(){
+
+const name=document.getElementById("pName").value.trim();
+const description=document.getElementById("pDescription").value.trim();
+const image_url=document.getElementById("pImage").value.trim();
+
+const selling_price=
+Number(document.getElementById("pPrice").value);
+
+const purchase_price=
+Number(document.getElementById("pCost").value);
+
+const stock=
+Number(document.getElementById("pStock").value);
+
+if(!name || selling_price<=0 || purchase_price<0){
+
+message(
+"dashMsg",
+"دخل اسم المنتوج والثمن بشكل صحيح.",
+"err"
+);
+
+return;
+}
+
+const {data,error}=await supabase
+.from("products")
+.insert({
+name,
+description,
+image_url,
+selling_price,
+stock,
+active:true
+})
+.select()
+.single();
+
+if(error){
+
+message("dashMsg",error.message,"err");
+return;
+
+}
+
+const {error:costError}=await supabase
+.from("product_costs")
+.insert({
+product_id:data.id,
+purchase_price
+});
+
+if(costError){
+
+message("dashMsg",costError.message,"err");
+return;
+
+}
+
+document.getElementById("pName").value="";
+document.getElementById("pDescription").value="";
+document.getElementById("pImage").value="";
+document.getElementById("pPrice").value="";
+document.getElementById("pCost").value="";
+document.getElementById("pStock").value="";
+
+message(
+"dashMsg",
+"✅ تزاد المنتوج بنجاح",
+"ok"
+);
+
+await loadProducts();
+renderProducts();
+
+}
+
+
+function renderProducts(){
+
+const box=document.getElementById("productList");
+
+if(!products.length){
+box.innerHTML="<p>مازال ما كاين حتى منتوج.</p>";
+return;
+}
+
+box.innerHTML=products.map(p=>`
+
+<div class="card">
+
+<div class="product">
+
+<img src="${p.image_url || "https://via.placeholder.com/100"}">
+
+<div>
+
+<b>${safe(p.name)}</b>
+
+<br>
+
+${Number(p.selling_price||0).toFixed(2)} DH
+
+<br>
+
+<small>Stock: ${p.stock||0}</small>
+
+</div>
+
+</div>
+
+</div>
+
+`).join("");
+
+}
+
+
+// ORDERS
+
+async function loadOrders(){
+
+const {data,error}=await supabase
+.from("orders")
+.select(`
+*,
+products(name)
+`)
+.order("created_at",{ascending:false});
+
+if(error){
+
+message("dashMsg",error.message,"err");
+return;
+
+}
+
+orders=data||[];
+
+}
+
+
+function renderOrders(){
+
+const box=document.getElementById("orderList");
+
+if(!orders.length){
+
+box.innerHTML=
+"<tr><td colspan='8'>مازال ما كايناش كوموندات.</td></tr>";
+
+return;
+}
+
+box.innerHTML=orders.map(o=>`
+
+<tr>
+
+<td>${safe(o.customer_name||"-")}</td>
+
+<td>${safe(o.phone||"-")}</td>
+
+<td>${safe(o.city||"-")}</td>
+
+<td>${safe(o.products?.name||"-")}</td>
+
+<td>${o.quantity||0}</td>
+
+<td>${Number(o.total||0).toFixed(2)} DH</td>
+
+<td>
+<span class="badge ${o.status}">
+${statusName(o.status)}
+</span>
+</td>
+
+<td>
+
+<select onchange="changeStatus(${o.id},this.value)">
+
+<option value="new" ${o.status==="new"?"selected":""}>
+جديدة
+</option>
+
+<option value="processing" ${o.status==="processing"?"selected":""}>
+قيد المعالجة
+</option>
+
+<option value="delivered" ${o.status==="delivered"?"selected":""}>
+تم التوصيل
+</option>
+
+<option value="cancelled" ${o.status==="cancelled"?"selected":""}>
+ملغاة
+</option>
+
+<option value="returned" ${o.status==="returned"?"selected":""}>
+Retou r
+</option>
+
+</select>
+
+</td>
+
+</tr>
+
+`).join("");
+
+}
+
+
+async function changeStatus(id,status){
+
+const {error}=await supabase
+.from("orders")
+.update({
+status:status,
+updated_at:new Date().toISOString()
+})
+.eq("id",id);
+
+if(error){
+
+message("dashMsg",error.message,"err");
+return;
+
+}
+
+message(
+"dashMsg",
+"✅ تبدلات حالة الكوموند",
+"ok"
+);
+
+await loadOrders();
+
+renderOrders();
+renderRecent();
+stats();
+
+}
+
+
+// STATS
+
+function stats(){
+
+const delivered=orders.filter(
+o=>o.status==="delivered"
+);
+
+const revenue=delivered.reduce(
+(a,o)=>a+Number(o.total||0),
+0
+);
+
+document.getElementById("allOrders").textContent=
+orders.length;
+
+document.getElementById("newOrders").textContent=
+orders.filter(o=>o.status==="new").length;
+
+document.getElementById("processingOrders").textContent=
+orders.filter(o=>o.status==="processing").length;
+
+document.getElementById("deliveredOrders").textContent=
+delivered.length;
+
+document.getElementById("returnedOrders").textContent=
+orders.filter(o=>o.status==="returned").length;
+
+document.getElementById("cancelledOrders").textContent=
+orders.filter(o=>o.status==="cancelled").length;
+
+document.getElementById("revenue").textContent=
+revenue.toFixed(2)+" DH";
+
+}
+
+
+// RECENT
+
+function renderRecent(){
+
+const box=document.getElementById("recent");
+
+const recent=orders.slice(0,10);
+
+if(!recent.length){
+
+box.innerHTML=
+"<tr><td colspan='5'>مازال ما كايناش كوموندات.</td></tr>";
+
+return;
+
+}
+
+box.innerHTML=recent.map(o=>`
+
+<tr>
+
+<td>${safe(o.customer_name||"-")}</td>
+
+<td>${safe(o.products?.name||"-")}</td>
+
+<td>${o.quantity||0}</td>
+
+<td>${Number(o.total||0).toFixed(2)} DH</td>
+
+<td>
+<span class="badge ${o.status}">
+${statusName(o.status)}
+</span>
+</td>
+
+</tr>
+
+`).join("");
+
+}
+
+
+// TABS
+
+function tab(id,btn){
+
+document.querySelectorAll(".section")
+.forEach(x=>x.classList.remove("active"));
+
+document.querySelectorAll(".tab")
+.forEach(x=>x.classList.remove("active"));
+
+document.getElementById(id)
+.classList.add("active");
+
+btn.classList.add("active");
+
+}
+
+
+// LOGOUT
+
+async function logout(){
+
+await supabase.auth.signOut();
+
+showLogin();
+
+}
+
+
+// SHOW LOGIN
+
+function showLogin(){
+
+document.getElementById("dashboard").style.display="none";
+document.getElementById("loginBox").style.display="block";
+
+}
+
+
+// MESSAGE
+
+function message(id,text,type){
+
+const el=document.getElementById(id);
+
+el.textContent=text;
+el.className="msg "+type;
+el.style.display="block";
+
+}
+
+
+// STATUS
+
+function statusName(s){
+
+return {
+
+new:"جديدة",
+processing:"قيد المعالجة",
+delivered:"تم التوصيل",
+cancelled:"ملغاة",
+returned:"Retou r"
+
+}[s]||s;
+
+}
+
+
+// SECURITY DISPLAY
+
+function safe(v){
+
+return String(v)
+.replaceAll("&","&amp;")
+.replaceAll("<","&lt;")
+.replaceAll(">","&gt;")
+.replaceAll('"',"&quot;")
+.replaceAll("'","&#039;");
+
+}
+
+
+// START
+
+checkAdmin();
+
+</script>
+
+</body>
+             </html>
