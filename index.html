@@ -3,353 +3,563 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FlashDrop Admin</title>
+<title>FlashDrop Store</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-  font-family:Arial,Tahoma,sans-serif;
-}
+*{box-sizing:border-box;margin:0;padding:0}
 
 body{
-  background:#f5f7fb;
+  font-family:Arial,Tahoma,sans-serif;
+  background:
+    radial-gradient(circle at top right,#dbeafe 0,#f8fafc 35%,#eef2ff 100%);
   color:#172033;
+  min-height:100vh;
 }
 
-/* SIDEBAR */
-.sidebar{
-  position:fixed;
-  right:0;
+button,input,select{font-family:inherit}
+
+.header{
+  position:sticky;
   top:0;
-  width:250px;
-  height:100vh;
-  background:#ffffff;
-  border-left:1px solid #e8ebf2;
-  padding:25px 16px;
-  z-index:10;
+  z-index:50;
+  background:rgba(255,255,255,.94);
+  backdrop-filter:blur(15px);
+  border-bottom:1px solid #e5e7eb;
+  padding:12px 5%;
+}
+
+.nav{
+  max-width:1200px;
+  margin:auto;
+  display:flex;
+  align-items:center;
+  gap:15px;
 }
 
 .logo{
   font-size:24px;
-  font-weight:bold;
+  font-weight:900;
   color:#2563eb;
-  margin-bottom:35px;
-  text-align:center;
+  white-space:nowrap;
 }
 
-.menu button{
+.logo span{color:#111827}
+
+.search{
+  flex:1;
+  position:relative;
+}
+
+.search input{
   width:100%;
-  border:0;
-  background:transparent;
-  padding:14px;
-  margin:5px 0;
-  border-radius:12px;
-  text-align:right;
+  border:1px solid #dbe1ea;
+  background:#f8fafc;
+  border-radius:14px;
+  padding:13px 45px 13px 15px;
+  outline:none;
   font-size:15px;
+}
+
+.search input:focus{
+  border-color:#2563eb;
+  background:white;
+}
+
+.search-icon{
+  position:absolute;
+  right:15px;
+  top:12px;
+  font-size:20px;
+}
+
+.cart-btn{
+  border:0;
+  background:#111827;
+  color:white;
+  border-radius:14px;
+  padding:12px 16px;
   cursor:pointer;
-  color:#596579;
-}
-
-.menu button:hover,
-.menu button.active{
-  background:#eff6ff;
-  color:#2563eb;
   font-weight:bold;
+  position:relative;
 }
 
-/* MAIN */
-.main{
-  margin-right:250px;
-  padding:25px;
-}
-
-.top{
-  background:white;
-  padding:20px 25px;
-  border-radius:18px;
+.cart-count{
+  position:absolute;
+  top:-7px;
+  left:-7px;
+  background:#ef4444;
+  width:23px;
+  height:23px;
+  border-radius:50%;
   display:flex;
-  justify-content:space-between;
   align-items:center;
-  margin-bottom:25px;
-  border:1px solid #e9edf4;
+  justify-content:center;
+  font-size:12px;
 }
 
-.top h1{
-  font-size:25px;
+.hero{
+  max-width:1200px;
+  margin:25px auto;
+  padding:55px 35px;
+  border-radius:28px;
+  color:white;
+  overflow:hidden;
+  position:relative;
+  background:
+    linear-gradient(135deg,rgba(37,99,235,.96),rgba(79,70,229,.92)),
+    url("https://images.unsplash.com/photo-1607083206968-13611e3d76db?auto=format&fit=crop&w=1600&q=80")
+    center/cover;
+  box-shadow:0 20px 50px rgba(37,99,235,.2);
 }
 
-.admin{
-  color:#64748b;
-  font-size:14px;
+.hero:after{
+  content:"";
+  position:absolute;
+  width:300px;
+  height:300px;
+  border-radius:50%;
+  background:rgba(255,255,255,.08);
+  left:-70px;
+  bottom:-120px;
 }
 
-/* CARDS */
-.cards{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:18px;
-  margin-bottom:25px;
+.hero-content{
+  position:relative;
+  z-index:2;
+  max-width:650px;
 }
 
-.card{
-  background:white;
-  padding:22px;
-  border-radius:18px;
-  border:1px solid #e9edf4;
-  box-shadow:0 4px 15px rgba(0,0,0,.03);
-}
-
-.card .icon{
-  font-size:27px;
+.hero h1{
+  font-size:42px;
+  line-height:1.2;
   margin-bottom:15px;
 }
 
-.card h3{
-  font-size:14px;
-  color:#64748b;
-  margin-bottom:8px;
+.hero p{
+  font-size:18px;
+  line-height:1.8;
+  opacity:.95;
 }
 
-.card strong{
-  font-size:27px;
+.hero-badge{
+  display:inline-block;
+  background:#fff;
+  color:#2563eb;
+  padding:8px 14px;
+  border-radius:50px;
+  font-weight:bold;
+  margin-bottom:18px;
 }
 
-/* CONTENT */
-.content{
-  background:white;
-  border-radius:18px;
-  padding:25px;
-  border:1px solid #e9edf4;
-}
-
-.section{
-  display:none;
-}
-
-.section.active{
-  display:block;
+.container{
+  max-width:1200px;
+  margin:auto;
+  padding:0 18px 50px;
 }
 
 .section-title{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin:30px 0 18px;
+}
+
+.section-title h2{
+  font-size:24px;
+}
+
+.delivery{
+  background:#ecfdf5;
+  color:#047857;
+  padding:13px 18px;
+  border-radius:14px;
+  font-weight:bold;
+  margin-bottom:22px;
+  border:1px solid #bbf7d0;
+}
+
+.categories{
+  display:flex;
+  gap:10px;
+  overflow:auto;
+  padding-bottom:8px;
+}
+
+.category{
+  border:1px solid #e2e8f0;
+  background:white;
+  padding:11px 18px;
+  border-radius:50px;
+  cursor:pointer;
+  white-space:nowrap;
+  font-weight:bold;
+}
+
+.category.active,
+.category:hover{
+  background:#2563eb;
+  color:white;
+  border-color:#2563eb;
+}
+
+.products{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:18px;
+}
+
+.card{
+  background:rgba(255,255,255,.96);
+  border:1px solid #e8edf3;
+  border-radius:20px;
+  overflow:hidden;
+  box-shadow:0 8px 25px rgba(15,23,42,.06);
+  transition:.25s;
+  position:relative;
+}
+
+.card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 18px 35px rgba(15,23,42,.12);
+}
+
+.product-img{
+  width:100%;
+  height:220px;
+  object-fit:cover;
+  background:#f1f5f9;
+}
+
+.discount{
+  position:absolute;
+  top:12px;
+  right:12px;
+  background:#ef4444;
+  color:white;
+  padding:7px 10px;
+  border-radius:9px;
+  font-size:13px;
+  font-weight:bold;
+}
+
+.card-body{
+  padding:15px;
+}
+
+.product-name{
+  font-size:17px;
+  font-weight:bold;
+  margin-bottom:8px;
+  min-height:40px;
+}
+
+.stars{
+  color:#f59e0b;
+  font-size:14px;
+  margin-bottom:8px;
+}
+
+.price{
+  font-size:22px;
+  color:#2563eb;
+  font-weight:900;
+}
+
+.old-price{
+  color:#94a3b8;
+  text-decoration:line-through;
+  margin-right:7px;
+  font-size:14px;
+}
+
+.buy{
+  width:100%;
+  border:0;
+  background:#2563eb;
+  color:white;
+  padding:13px;
+  border-radius:12px;
+  margin-top:12px;
+  cursor:pointer;
+  font-weight:bold;
+  font-size:15px;
+}
+
+.buy:hover{background:#1d4ed8}
+
+.empty{
+  background:white;
+  padding:40px;
+  border-radius:18px;
+  text-align:center;
+  color:#64748b;
+  grid-column:1/-1;
+}
+
+.loading{
+  text-align:center;
+  padding:50px;
+  font-size:18px;
+  color:#64748b;
+  grid-column:1/-1;
+}
+
+/* CART */
+.overlay{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(15,23,42,.55);
+  z-index:100;
+}
+
+.overlay.show{display:block}
+
+.cart{
+  position:absolute;
+  left:0;
+  top:0;
+  height:100%;
+  width:min(430px,100%);
+  background:white;
+  padding:20px;
+  overflow:auto;
+  direction:rtl;
+}
+
+.cart-head{
   display:flex;
   justify-content:space-between;
   align-items:center;
   margin-bottom:20px;
 }
 
-.section-title h2{
+.close{
+  border:0;
+  background:#f1f5f9;
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  cursor:pointer;
   font-size:20px;
 }
 
-.btn{
-  border:0;
-  padding:11px 17px;
+.cart-item{
+  display:flex;
+  gap:10px;
+  border-bottom:1px solid #eee;
+  padding:12px 0;
+}
+
+.cart-item img{
+  width:70px;
+  height:70px;
+  object-fit:cover;
   border-radius:10px;
+}
+
+.cart-item-info{flex:1}
+
+.qty{
+  display:flex;
+  gap:8px;
+  align-items:center;
+  margin-top:8px;
+}
+
+.qty button{
+  border:0;
+  width:28px;
+  height:28px;
+  border-radius:7px;
   cursor:pointer;
+  background:#e2e8f0;
+}
+
+.cart-total{
+  padding:18px 0;
+  font-size:21px;
   font-weight:bold;
-  background:#2563eb;
-  color:white;
 }
 
-.btn:hover{
-  background:#1d4ed8;
-}
-
-/* TABLE */
-.table-wrap{
-  overflow-x:auto;
-}
-
-table{
+.checkout{
   width:100%;
-  border-collapse:collapse;
-}
-
-th,td{
-  padding:15px 10px;
-  border-bottom:1px solid #edf0f5;
-  text-align:right;
-  white-space:nowrap;
-}
-
-th{
-  color:#64748b;
-  font-size:13px;
-}
-
-.status{
-  padding:6px 10px;
-  border-radius:20px;
-  font-size:12px;
+  background:#16a34a;
+  color:white;
+  border:0;
+  padding:15px;
+  border-radius:12px;
   font-weight:bold;
+  cursor:pointer;
+  font-size:16px;
 }
 
-.new{
-  background:#dbeafe;
-  color:#2563eb;
+/* MODAL */
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(15,23,42,.6);
+  z-index:200;
+  padding:20px;
+  overflow:auto;
 }
 
-.delivery{
-  background:#fef3c7;
-  color:#92400e;
+.modal.show{
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 
-.done{
-  background:#dcfce7;
-  color:#15803d;
+.form-box{
+  background:white;
+  width:min(520px,100%);
+  border-radius:22px;
+  padding:24px;
 }
 
-.return{
-  background:#fee2e2;
-  color:#dc2626;
-}
-
-/* FORM */
-.form{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:15px;
+.form-box h2{
+  margin-bottom:18px;
 }
 
 .field{
-  display:flex;
-  flex-direction:column;
-  gap:7px;
+  margin-bottom:13px;
 }
 
 .field label{
-  font-size:13px;
-  color:#64748b;
+  display:block;
+  margin-bottom:6px;
+  font-weight:bold;
+  font-size:14px;
 }
 
 .field input,
 .field select,
 .field textarea{
   width:100%;
-  padding:13px;
-  border:1px solid #dfe4ec;
-  border-radius:10px;
+  border:1px solid #dbe1ea;
+  border-radius:11px;
+  padding:12px;
   outline:none;
-  background:#fff;
+  font-size:15px;
 }
 
-.field input:focus,
-.field select:focus,
-.field textarea:focus{
-  border-color:#2563eb;
-}
-
-.full{
-  grid-column:1/-1;
-}
-
-textarea{
-  min-height:100px;
+.field textarea{
+  min-height:80px;
   resize:vertical;
 }
 
-/* PRODUCTS */
-.products{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:18px;
-}
-
-.product{
-  border:1px solid #e8ebf2;
-  border-radius:15px;
-  padding:18px;
-  background:#fff;
-}
-
-.product-img{
-  height:150px;
-  background:#f1f5f9;
+.submit{
+  width:100%;
+  border:0;
+  background:#2563eb;
+  color:white;
+  padding:14px;
   border-radius:12px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:55px;
-  margin-bottom:15px;
+  font-weight:bold;
+  cursor:pointer;
+  font-size:16px;
 }
 
-.product h3{
-  margin-bottom:8px;
+.message{
+  margin-top:12px;
+  padding:12px;
+  border-radius:10px;
+  display:none;
 }
 
-.product p{
-  color:#64748b;
-  font-size:13px;
-  margin-bottom:10px;
+.success{
+  display:block;
+  background:#dcfce7;
+  color:#166534;
 }
 
-/* MOBILE */
+.error{
+  display:block;
+  background:#fee2e2;
+  color:#991b1b;
+}
+
+.footer{
+  background:#111827;
+  color:white;
+  text-align:center;
+  padding:30px 15px;
+  margin-top:30px;
+}
+
+.phone{
+  color:#60a5fa;
+  font-size:20px;
+  font-weight:bold;
+  margin-top:8px;
+}
+
 @media(max-width:900px){
+  .products{
+    grid-template-columns:repeat(3,1fr);
+  }
+}
 
-  .sidebar{
-    width:75px;
-    padding:15px 8px;
+@media(max-width:650px){
+  .nav{
+    flex-wrap:wrap;
   }
 
   .logo{
-    font-size:0;
-  }
-
-  .logo::after{
-    content:"🚀";
-    font-size:25px;
-  }
-
-  .menu button{
-    text-align:center;
-    font-size:0;
-  }
-
-  .menu button::first-letter{
-    font-size:22px;
-  }
-
-  .main{
-    margin-right:75px;
-    padding:15px;
-  }
-
-  .cards{
-    grid-template-columns:repeat(2,1fr);
-  }
-
-  .products{
-    grid-template-columns:1fr;
-  }
-}
-
-@media(max-width:550px){
-
-  .cards{
-    grid-template-columns:1fr 1fr;
-    gap:10px;
-  }
-
-  .card{
-    padding:15px;
-  }
-
-  .card strong{
     font-size:21px;
   }
 
-  .top{
-    padding:16px;
+  .search{
+    order:3;
+    flex-basis:100%;
   }
 
-  .form{
-    grid-template-columns:1fr;
+  .hero{
+    margin:15px;
+    padding:38px 24px;
+    border-radius:22px;
   }
 
-  .full{
-    grid-column:auto;
+  .hero h1{
+    font-size:31px;
+  }
+
+  .hero p{
+    font-size:15px;
+  }
+
+  .products{
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+  }
+
+  .product-img{
+    height:170px;
+  }
+
+  .card-body{
+    padding:11px;
+  }
+
+  .product-name{
+    font-size:15px;
+  }
+
+  .price{
+    font-size:19px;
+  }
+}
+
+@media(max-width:390px){
+  .products{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .product-img{
+    height:145px;
   }
 }
 </style>
@@ -357,552 +567,740 @@ textarea{
 
 <body>
 
-<!-- SIDEBAR -->
-<aside class="sidebar">
+<header class="header">
+  <div class="nav">
 
-  <div class="logo">
-    🚀 FlashDrop
-  </div>
+    <div class="logo">
+      🚀 FlashDrop <span>Store</span>
+    </div>
 
-  <div class="menu">
+    <div class="search">
+      <span class="search-icon">🔎</span>
+      <input
+        id="search"
+        type="text"
+        placeholder="قلب على منتوج..."
+        oninput="renderProducts()"
+      >
+    </div>
 
-    <button class="active" onclick="showSection('dashboard',this)">
-      🏠 الرئيسية
-    </button>
-
-    <button onclick="showSection('orders',this)">
-      📦 الطلبات
-    </button>
-
-    <button onclick="showSection('products',this)">
-      🛍️ المنتجات
-    </button>
-
-    <button onclick="showSection('returns',this)">
-      🔄 Retour
-    </button>
-
-    <button onclick="showSection('delivery',this)">
-      🚚 التوصيل
-    </button>
-
-    <button onclick="showSection('customers',this)">
-      👥 الزبناء
-    </button>
-
-    <button onclick="showSection('addorder',this)">
-      ➕ إضافة كوموند
+    <button class="cart-btn" onclick="openCart()">
+      🛒 السلة
+      <span class="cart-count" id="cartCount">0</span>
     </button>
 
   </div>
-</aside>
+</header>
 
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">🔥 عروض خاصة</div>
 
-<!-- MAIN -->
-<main class="main">
+    <h1>
+      مرحبا بك فـ<br>
+      FlashDrop Store
+    </h1>
 
-  <div class="top">
-    <div>
-      <h1>🚀 FlashDrop Admin</h1>
-      <div class="admin">لوحة تحكم الإدارة</div>
-    </div>
+    <p>
+      اكتشف أحسن المنتجات بأثمنة مناسبة،
+      تخفيضات مميزة وتوصيل سريع حتى لباب دارك 🚚
+    </p>
+  </div>
+</section>
 
-    <div class="admin">
-      🔐 Admin
-    </div>
+<div class="container">
+
+  <div class="delivery">
+    🚚 التوصيل متوفر — 📞 للطلب والاستفسار: 0712570921
   </div>
 
+  <div class="section-title">
+    <h2>🛍️ تصفح المنتجات</h2>
+  </div>
 
-  <!-- DASHBOARD -->
-  <section id="dashboard" class="section active">
+  <div class="categories">
+    <button class="category active" onclick="setCategory('all',this)">
+      الكل
+    </button>
 
-    <div class="cards">
+    <button class="category" onclick="setCategory('home',this)">
+      🏠 المنزل
+    </button>
 
-      <div class="card">
-        <div class="icon">📦</div>
-        <h3>جميع الطلبات</h3>
-        <strong id="totalOrders">0</strong>
-      </div>
+    <button class="category" onclick="setCategory('electronics',this)">
+      📱 إلكترونيات
+    </button>
 
-      <div class="card">
-        <div class="icon">🆕</div>
-        <h3>طلبات جديدة</h3>
-        <strong id="newOrders">0</strong>
-      </div>
+    <button class="category" onclick="setCategory('accessories',this)">
+      🎁 إكسسوارات
+    </button>
 
-      <div class="card">
-        <div class="icon">🚚</div>
-        <h3>في التوصيل</h3>
-        <strong id="deliveryOrders">0</strong>
-      </div>
+    <button class="category" onclick="setCategory('beauty',this)">
+      ✨ الجمال
+    </button>
+  </div>
 
-      <div class="card">
-        <div class="icon">💰</div>
-        <h3>المداخيل</h3>
-        <strong id="revenue">0 DH</strong>
-      </div>
+  <div class="products" id="products">
+    <div class="loading">⏳ كنحملو المنتجات...</div>
+  </div>
 
+</div>
+
+<footer class="footer">
+  <div>🚀 <b>FlashDrop Store</b></div>
+  <div>شكرا على ثقتكم ❤️</div>
+  <div class="phone">📞 0712570921</div>
+</footer>
+
+
+<!-- CART -->
+<div class="overlay" id="cartOverlay">
+
+  <div class="cart">
+
+    <div class="cart-head">
+      <h2>🛒 السلة</h2>
+      <button class="close" onclick="closeCart()">×</button>
     </div>
 
+    <div id="cartItems"></div>
 
-    <div class="content">
-
-      <div class="section-title">
-        <h2>📊 آخر الطلبات</h2>
-
-        <button class="btn" onclick="showSection('addorder')">
-          + إضافة كوموند
-        </button>
-      </div>
-
-      <div class="table-wrap">
-
-        <table>
-
-          <thead>
-            <tr>
-              <th>الزبون</th>
-              <th>الهاتف</th>
-              <th>المدينة</th>
-              <th>المنتوج</th>
-              <th>الثمن</th>
-              <th>الحالة</th>
-            </tr>
-          </thead>
-
-          <tbody id="ordersTable">
-
-            <tr>
-              <td colspan="6" style="text-align:center;color:#94a3b8">
-                ماكايناش طلبات حاليا
-              </td>
-            </tr>
-
-          </tbody>
-
-        </table>
-
-      </div>
-
+    <div class="cart-total">
+      المجموع:
+      <span id="cartTotal">0</span> DH
     </div>
 
-  </section>
+    <button class="checkout" onclick="openCheckout()">
+      إتمام الطلب
+    </button>
+
+  </div>
+
+</div>
 
 
-  <!-- ORDERS -->
-  <section id="orders" class="section">
+<!-- CHECKOUT -->
+<div class="modal" id="checkoutModal">
 
-    <div class="content">
+  <div class="form-box">
 
-      <div class="section-title">
-
-        <h2>📦 جميع الطلبات</h2>
-
-        <button class="btn" onclick="showSection('addorder')">
-          + طلب جديد
-        </button>
-
-      </div>
-
-      <div class="table-wrap">
-
-        <table>
-
-          <thead>
-            <tr>
-              <th>الزبون</th>
-              <th>الهاتف</th>
-              <th>المدينة</th>
-              <th>المنتوج</th>
-              <th>الثمن</th>
-              <th>الحالة</th>
-            </tr>
-          </thead>
-
-          <tbody id="ordersTable2"></tbody>
-
-        </table>
-
-      </div>
-
+    <div class="cart-head">
+      <h2>📦 معلومات الطلب</h2>
+      <button class="close" onclick="closeCheckout()">×</button>
     </div>
 
-  </section>
-
-
-  <!-- PRODUCTS -->
-  <section id="products" class="section">
-
-    <div class="content">
-
-      <div class="section-title">
-
-        <h2>🛍️ المنتجات</h2>
-
-        <button class="btn">
-          + إضافة منتوج
-        </button>
-
-      </div>
-
-      <div class="products">
-
-        <div class="product">
-
-          <div class="product-img">
-            📱
-          </div>
-
-          <h3>منتوج جديد</h3>
-
-          <p>الثمن: 0 DH</p>
-
-          <p>تباع: 0</p>
-
-        </div>
-
-        <div class="product">
-
-          <div class="product-img">
-            📦
-          </div>
-
-          <h3>منتوج جديد</h3>
-
-          <p>الثمن: 0 DH</p>
-
-          <p>تباع: 0</p>
-
-        </div>
-
-      </div>
-
+    <div class="field">
+      <label>الاسم الكامل</label>
+      <input id="customerName" placeholder="مثال: محمد العلوي">
     </div>
 
-  </section>
-
-
-  <!-- RETURNS -->
-  <section id="returns" class="section">
-
-    <div class="content">
-
-      <div class="section-title">
-        <h2>🔄 Retour / المرتجعات</h2>
-      </div>
-
-      <p style="color:#64748b">
-        هنا غادي يبانوا الطلبات اللي رجعو من عند الزبون.
-      </p>
-
+    <div class="field">
+      <label>رقم الهاتف</label>
+      <input id="customerPhone" type="tel" placeholder="06XXXXXXXX">
     </div>
 
-  </section>
-
-
-  <!-- DELIVERY -->
-  <section id="delivery" class="section">
-
-    <div class="content">
-
-      <div class="section-title">
-        <h2>🚚 التوصيل</h2>
-      </div>
-
-      <p style="color:#64748b">
-        هنا تقدر تتابع الطلبات اللي خرجات للتوصيل والطلبات اللي تم توصيلها.
-      </p>
-
+    <div class="field">
+      <label>المدينة</label>
+      <input id="customerCity" placeholder="مثال: الدار البيضاء">
     </div>
 
-  </section>
-
-
-  <!-- CUSTOMERS -->
-  <section id="customers" class="section">
-
-    <div class="content">
-
-      <div class="section-title">
-        <h2>👥 الزبناء</h2>
-      </div>
-
-      <p style="color:#64748b">
-        لائحة الزبناء والطلبات ديال كل زبون غادي تبان هنا.
-      </p>
-
+    <div class="field">
+      <label>العنوان</label>
+      <textarea id="customerAddress" placeholder="العنوان بالتفصيل"></textarea>
     </div>
 
-  </section>
-
-
-  <!-- ADD ORDER -->
-  <section id="addorder" class="section">
-
-    <div class="content">
-
-      <div class="section-title">
-        <h2>➕ إضافة كوموند</h2>
-      </div>
-
-      <form class="form" onsubmit="addOrder(event)">
-
-        <div class="field">
-          <label>اسم الزبون</label>
-          <input id="customer" required placeholder="مثال: محمد">
-        </div>
-
-        <div class="field">
-          <label>رقم الهاتف</label>
-          <input id="phone" required placeholder="06XXXXXXXX">
-        </div>
-
-        <div class="field">
-          <label>المدينة</label>
-          <input id="city" required placeholder="مثال: Casablanca">
-        </div>
-
-        <div class="field">
-          <label>العنوان</label>
-          <input id="address" placeholder="العنوان الكامل">
-        </div>
-
-        <div class="field">
-          <label>اسم المنتج</label>
-          <input id="product" required placeholder="اسم المنتوج">
-        </div>
-
-        <div class="field">
-          <label>الثمن DH</label>
-          <input id="price" type="number" required placeholder="100">
-        </div>
-
-        <div class="field">
-          <label>الحالة</label>
-
-          <select id="status">
-            <option value="جديدة">جديدة</option>
-            <option value="التوصيل">التوصيل</option>
-            <option value="تم التوصيل">تم التوصيل</option>
-            <option value="Retour">Retour</option>
-          </select>
-
-        </div>
-
-        <div class="field">
-          <label>الكمية</label>
-          <input id="quantity" type="number" value="1" min="1">
-        </div>
-
-        <div class="field full">
-
-          <label>ملاحظات</label>
-
-          <textarea
-            id="notes"
-            placeholder="أي ملاحظة على الطلب..."
-          ></textarea>
-
-        </div>
-
-        <div class="full">
-
-          <button class="btn" type="submit">
-            💾 حفظ الكوموند
-          </button>
-
-        </div>
-
-      </form>
-
+    <div class="field">
+      <label>ملاحظات</label>
+      <textarea id="customerNotes" placeholder="ملاحظات إضافية (اختياري)"></textarea>
     </div>
 
-  </section>
+    <button class="submit" onclick="sendOrder()">
+      ✅ تأكيد الطلب
+    </button>
 
-</main>
+    <div id="message" class="message"></div>
+
+  </div>
+
+</div>
 
 
 <script>
 
-let orders =
-JSON.parse(localStorage.getItem("flashdrop_orders") || "[]");
+/* ==============================
+   SUPABASE
+============================== */
+
+const SUPABASE_URL =
+"https://vadiyawqpbtdvnqmxxne.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_MKv1kVwoBi6oEcrPIZMVMQ_Qk59pLSW";
+
+const supabase = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
 
 
-function showSection(id,button){
+/* ==============================
+   DATA
+============================== */
 
-  document.querySelectorAll(".section")
-    .forEach(s=>s.classList.remove("active"));
+let products = [];
+let cart = [];
+let currentCategory = "all";
 
-  document.getElementById(id)
-    .classList.add("active");
 
-  document.querySelectorAll(".menu button")
-    .forEach(b=>b.classList.remove("active"));
+/* ==============================
+   LOAD PRODUCTS
+============================== */
 
-  if(button){
-    button.classList.add("active");
+async function loadProducts(){
+
+  const box = document.getElementById("products");
+
+  box.innerHTML =
+    '<div class="loading">⏳ كنحملو المنتجات...</div>';
+
+  try{
+
+    const { data, error } = await supabase
+      .from("products")
+      .select("*")
+      .eq("active", true)
+      .order("created_at", {ascending:false});
+
+    if(error){
+      console.error(error);
+
+      box.innerHTML = `
+        <div class="empty">
+          ❌ ما قدرناش نحملو المنتجات دابا.
+          <br><br>
+          حاول من بعد.
+        </div>
+      `;
+
+      return;
+    }
+
+    products = data || [];
+
+    renderProducts();
+
+  }catch(error){
+
+    console.error(error);
+
+    box.innerHTML = `
+      <div class="empty">
+        ❌ وقع مشكل فالاتصال.
+      </div>
+    `;
+  }
+}
+
+
+/* ==============================
+   RENDER PRODUCTS
+============================== */
+
+function renderProducts(){
+
+  const box = document.getElementById("products");
+
+  const search =
+    document.getElementById("search").value
+    .toLowerCase()
+    .trim();
+
+  let list = products.filter(p => {
+
+    const matchesCategory =
+      currentCategory === "all" ||
+      p.category === currentCategory;
+
+    const matchesSearch =
+      !search ||
+      (p.name || "").toLowerCase().includes(search) ||
+      (p.description || "").toLowerCase().includes(search);
+
+    return matchesCategory && matchesSearch;
+  });
+
+
+  if(!list.length){
+
+    box.innerHTML = `
+      <div class="empty">
+        🛍️ ما لقيناش منتجات بهاد البحث.
+      </div>
+    `;
+
+    return;
   }
 
+
+  box.innerHTML = list.map(p => {
+
+    const price = Number(p.selling_price || 0);
+
+    const oldPrice =
+      Number(p.old_price || 0);
+
+    let discount = 0;
+
+    if(oldPrice > price && oldPrice > 0){
+      discount =
+        Math.round((1 - price / oldPrice) * 100);
+    }
+
+    return `
+      <div class="card">
+
+        ${
+          discount > 0
+          ? `<div class="discount">-${discount}%</div>`
+          : ""
+        }
+
+        <img
+          class="product-img"
+          src="${escapeHtml(p.image_url || 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=800&q=80')}"
+          onerror="this.src='https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=800&q=80'"
+        >
+
+        <div class="card-body">
+
+          <div class="product-name">
+            ${escapeHtml(p.name || "منتوج")}
+          </div>
+
+          <div class="stars">
+            ⭐⭐⭐⭐⭐
+          </div>
+
+          <div>
+            <span class="price">
+              ${price.toFixed(0)} DH
+            </span>
+
+            ${
+              oldPrice > price
+              ? `<span class="old-price">
+                   ${oldPrice.toFixed(0)} DH
+                 </span>`
+              : ""
+            }
+          </div>
+
+          <button
+            class="buy"
+            onclick="addToCart(${Number(p.id)})"
+          >
+            🛒 أضف للسلة
+          </button>
+
+        </div>
+
+      </div>
+    `;
+
+  }).join("");
 }
 
 
-function addOrder(e){
+/* ==============================
+   CATEGORY
+============================== */
 
-  e.preventDefault();
+function setCategory(category, button){
 
-  const order={
+  currentCategory = category;
 
-    customer:
-      document.getElementById("customer").value,
+  document
+    .querySelectorAll(".category")
+    .forEach(b => b.classList.remove("active"));
 
-    phone:
-      document.getElementById("phone").value,
+  button.classList.add("active");
 
-    city:
-      document.getElementById("city").value,
-
-    address:
-      document.getElementById("address").value,
-
-    product:
-      document.getElementById("product").value,
-
-    price:
-      Number(document.getElementById("price").value),
-
-    quantity:
-      Number(document.getElementById("quantity").value),
-
-    status:
-      document.getElementById("status").value,
-
-    notes:
-      document.getElementById("notes").value
-
-  };
-
-
-  orders.push(order);
-
-  localStorage.setItem(
-    "flashdrop_orders",
-    JSON.stringify(orders)
-  );
-
-
-  e.target.reset();
-
-  document.getElementById("quantity").value=1;
-
-  updateDashboard();
-
-  alert("✅ تسجلات الكوموند بنجاح");
-
-  showSection("orders");
-
+  renderProducts();
 }
 
 
-function getStatusClass(status){
+/* ==============================
+   CART
+============================== */
 
-  if(status==="تم التوصيل")
-    return "done";
+function addToCart(id){
 
-  if(status==="التوصيل")
-    return "delivery";
+  const product =
+    products.find(p => Number(p.id) === Number(id));
 
-  if(status==="Retour")
-    return "return";
+  if(!product) return;
 
-  return "new";
+  const existing =
+    cart.find(x => Number(x.id) === Number(id));
 
+  if(existing){
+    existing.quantity++;
+  }else{
+    cart.push({
+      ...product,
+      quantity:1
+    });
+  }
+
+  updateCart();
+
+  openCart();
 }
 
 
-function renderOrders(){
+function updateCart(){
 
-  const html =
-    orders.length ?
+  const count =
+    cart.reduce((sum,item) =>
+      sum + item.quantity, 0);
 
-    orders.map(o=>`
-
-      <tr>
-
-        <td>${o.customer}</td>
-
-        <td>${o.phone}</td>
-
-        <td>${o.city}</td>
-
-        <td>${o.product}</td>
-
-        <td>${o.price} DH</td>
-
-        <td>
-          <span class="status ${getStatusClass(o.status)}">
-            ${o.status}
-          </span>
-        </td>
-
-      </tr>
-
-    `).join("")
-
-    :
-
-    `<tr>
-      <td colspan="6"
-      style="text-align:center;color:#94a3b8">
-      ماكايناش طلبات حاليا
-      </td>
-    </tr>`;
+  document.getElementById("cartCount").textContent =
+    count;
 
 
-  document.getElementById("ordersTable").innerHTML=html;
+  const box =
+    document.getElementById("cartItems");
 
-  document.getElementById("ordersTable2").innerHTML=html;
+  if(!cart.length){
 
+    box.innerHTML = `
+      <div class="empty">
+        🛒 السلة خاوية
+      </div>
+    `;
+
+    document.getElementById("cartTotal").textContent =
+      "0";
+
+    return;
+  }
+
+
+  let total = 0;
+
+
+  box.innerHTML = cart.map(item => {
+
+    const price =
+      Number(item.selling_price || 0);
+
+    total +=
+      price * item.quantity;
+
+    return `
+      <div class="cart-item">
+
+        <img src="${escapeHtml(item.image_url || '')}">
+
+        <div class="cart-item-info">
+
+          <b>${escapeHtml(item.name)}</b>
+
+          <div>
+            ${price.toFixed(0)} DH
+          </div>
+
+          <div class="qty">
+
+            <button onclick="changeQty(${item.id},-1)">
+              −
+            </button>
+
+            <b>${item.quantity}</b>
+
+            <button onclick="changeQty(${item.id},1)">
+              +
+            </button>
+
+            <button
+              onclick="removeFromCart(${item.id})"
+              style="margin-right:auto;background:#fee2e2;color:#991b1b"
+            >
+              🗑️
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+    `;
+
+  }).join("");
+
+
+  document.getElementById("cartTotal").textContent =
+    total.toFixed(0);
 }
 
 
-function updateDashboard(){
+function changeQty(id, amount){
 
-  const total=orders.length;
+  const item =
+    cart.find(x => Number(x.id) === Number(id));
 
-  const newOrders=
-    orders.filter(o=>o.status==="جديدة").length;
+  if(!item) return;
 
-  const delivery=
-    orders.filter(o=>o.status==="التوصيل").length;
+  item.quantity += amount;
 
-  const revenue=
-    orders
-      .filter(o=>o.status==="تم التوصيل")
-      .reduce(
-        (sum,o)=>sum+(o.price*o.quantity),
-        0
-      );
+  if(item.quantity <= 0){
+    cart = cart.filter(
+      x => Number(x.id) !== Number(id)
+    );
+  }
 
-
-  document.getElementById("totalOrders")
-    .textContent=total;
-
-  document.getElementById("newOrders")
-    .textContent=newOrders;
-
-  document.getElementById("deliveryOrders")
-    .textContent=delivery;
-
-  document.getElementById("revenue")
-    .textContent=revenue+" DH";
-
-
-  renderOrders();
-
+  updateCart();
 }
 
 
-updateDashboard();
+function removeFromCart(id){
+
+  cart =
+    cart.filter(
+      x => Number(x.id) !== Number(id)
+    );
+
+  updateCart();
+}
+
+
+/* ==============================
+   CART WINDOWS
+============================== */
+
+function openCart(){
+
+  document
+    .getElementById("cartOverlay")
+    .classList.add("show");
+
+  updateCart();
+}
+
+
+function closeCart(){
+
+  document
+    .getElementById("cartOverlay")
+    .classList.remove("show");
+}
+
+
+function openCheckout(){
+
+  if(!cart.length){
+
+    alert("السلة خاوية 🛒");
+
+    return;
+  }
+
+  closeCart();
+
+  document
+    .getElementById("checkoutModal")
+    .classList.add("show");
+}
+
+
+function closeCheckout(){
+
+  document
+    .getElementById("checkoutModal")
+    .classList.remove("show");
+}
+
+
+/* ==============================
+   SEND ORDER
+============================== */
+
+async function sendOrder(){
+
+  const name =
+    document.getElementById("customerName").value.trim();
+
+  const phone =
+    document.getElementById("customerPhone").value.trim();
+
+  const city =
+    document.getElementById("customerCity").value.trim();
+
+  const address =
+    document.getElementById("customerAddress").value.trim();
+
+  const notes =
+    document.getElementById("customerNotes").value.trim();
+
+
+  const message =
+    document.getElementById("message");
+
+
+  if(!name || !phone || !city || !address){
+
+    message.className =
+      "message error";
+
+    message.style.display = "block";
+
+    message.textContent =
+      "❌ عافاك عمر الاسم والهاتف والمدينة والعنوان.";
+
+    return;
+  }
+
+
+  if(!cart.length){
+
+    message.className =
+      "message error";
+
+    message.style.display = "block";
+
+    message.textContent =
+      "❌ السلة خاوية.";
+
+    return;
+  }
+
+
+  message.className =
+    "message";
+
+  message.style.display =
+    "block";
+
+  message.textContent =
+    "⏳ كنصيفطو الطلب...";
+
+
+  try{
+
+    /*
+      حاليا كنصيفطو كل منتوج كـ order بوحدو.
+      غادي نربطو من بعد بـ RPC آمن
+      باش الثمن والمخزون يتحققو من السيرفر.
+    */
+
+    for(const item of cart){
+
+      const quantity =
+        Number(item.quantity);
+
+      const price =
+        Number(item.selling_price || 0);
+
+      const total =
+        quantity * price;
+
+
+      const { error } =
+        await supabase
+          .from("orders")
+          .insert({
+
+            product_id: item.id,
+
+            customer_name: name,
+
+            phone: phone,
+
+            city: city,
+
+            address:
+              address +
+              (notes ? " | " + notes : ""),
+
+            quantity: quantity,
+
+            unit_price: price,
+
+            total: total,
+
+            status: "new"
+
+          });
+
+
+      if(error){
+
+        console.error(error);
+
+        throw error;
+      }
+    }
+
+
+    message.className =
+      "message success";
+
+    message.style.display =
+      "block";
+
+    message.innerHTML =
+      "✅ تسجل الطلب بنجاح!<br>غادي نتواصلو معاك قريباً 📞";
+
+
+    cart = [];
+
+    updateCart();
+
+
+    document.getElementById("customerName").value = "";
+    document.getElementById("customerPhone").value = "";
+    document.getElementById("customerCity").value = "";
+    document.getElementById("customerAddress").value = "";
+    document.getElementById("customerNotes").value = "";
+
+
+  }catch(error){
+
+    console.error(error);
+
+    message.className =
+      "message error";
+
+    message.style.display =
+      "block";
+
+    message.innerHTML =
+      "❌ ما تسجلش الطلب دابا.<br>" +
+      "حاول مرة أخرى.";
+  }
+}
+
+
+/* ==============================
+   SECURITY DISPLAY
+============================== */
+
+function escapeHtml(value){
+
+  return String(value ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+
+/* ==============================
+   START
+============================== */
+
+loadProducts();
 
 </script>
 
