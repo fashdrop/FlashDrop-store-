@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>FlashDrop - الإدارة</title>
+<title>FlashDrop Admin</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -12,17 +12,13 @@
 body{
  margin:0;
  font-family:Arial,Tahoma,sans-serif;
- background:#f3f7fb;
+ background:#f4f7fb;
  color:#172033;
 }
 header{
- background:linear-gradient(135deg,#0f9d58,#087f46);
+ background:linear-gradient(135deg,#0b9f57,#08783f);
  color:white;
- padding:18px;
- position:sticky;
- top:0;
- z-index:20;
- box-shadow:0 3px 15px #0002;
+ padding:17px;
 }
 .head{
  max-width:1200px;
@@ -30,78 +26,95 @@ header{
  display:flex;
  justify-content:space-between;
  align-items:center;
- gap:10px;
 }
 .logo{font-size:22px;font-weight:bold}
-.container{max-width:1200px;margin:auto;padding:20px}
+.container{max-width:1200px;margin:auto;padding:18px}
+
+.login{
+ min-height:100vh;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ padding:20px;
+}
+.loginbox{
+ width:100%;
+ max-width:400px;
+ background:white;
+ padding:28px;
+ border-radius:20px;
+ box-shadow:0 8px 30px #0002;
+}
+.loginbox h2{text-align:center}
+input,select,textarea{
+ width:100%;
+ padding:13px;
+ margin:6px 0 14px;
+ border:1px solid #ddd;
+ border-radius:10px;
+ font-size:15px;
+}
+button{
+ border:0;
+ border-radius:10px;
+ padding:12px 16px;
+ font-weight:bold;
+ cursor:pointer;
+}
+.green{background:#0b9f57;color:white}
+.gray{background:#edf1f5;color:#222}
+.red{background:#e53935;color:white}
+.full{width:100%}
 
 nav{
  display:flex;
  gap:8px;
  overflow:auto;
- margin-bottom:20px;
+ margin-bottom:18px;
 }
 nav button{
- border:0;
- padding:12px 18px;
- border-radius:12px;
  background:white;
- font-weight:bold;
- cursor:pointer;
  box-shadow:0 2px 8px #0001;
+ white-space:nowrap;
 }
 nav button.active{
- background:#0f9d58;
+ background:#0b9f57;
  color:white;
 }
 
 .stats{
  display:grid;
  grid-template-columns:repeat(4,1fr);
- gap:15px;
- margin-bottom:20px;
+ gap:14px;
 }
 .stat{
  background:white;
- padding:20px;
- border-radius:18px;
- box-shadow:0 3px 15px #0001;
+ padding:18px;
+ border-radius:17px;
+ box-shadow:0 2px 12px #0001;
 }
 .stat small{color:#777}
 .stat b{
  display:block;
- font-size:27px;
- margin-top:8px;
- color:#0f9d58;
+ margin-top:7px;
+ font-size:25px;
+ color:#0b9f57;
 }
 
 .section{
  background:white;
- padding:20px;
- border-radius:18px;
- box-shadow:0 3px 15px #0001;
- margin-bottom:20px;
+ padding:18px;
+ border-radius:17px;
+ margin-bottom:18px;
+ box-shadow:0 2px 12px #0001;
 }
-
 .top{
  display:flex;
  justify-content:space-between;
  align-items:center;
  gap:10px;
- margin-bottom:15px;
  flex-wrap:wrap;
 }
-
-.btn{
- border:0;
- border-radius:10px;
- padding:11px 16px;
- cursor:pointer;
- font-weight:bold;
-}
-.green{background:#0f9d58;color:white}
-.red{background:#e53935;color:white}
-.gray{background:#eef1f5;color:#333}
 
 .products{
  display:grid;
@@ -112,7 +125,6 @@ nav button.active{
  border:1px solid #eee;
  border-radius:15px;
  overflow:hidden;
- background:white;
 }
 .product img{
  width:100%;
@@ -122,91 +134,57 @@ nav button.active{
 }
 .pbody{padding:13px}
 .price{
- font-size:20px;
+ color:#0b9f57;
  font-weight:bold;
- color:#0f9d58;
+ font-size:20px;
 }
 .old{
- text-decoration:line-through;
  color:#999;
+ text-decoration:line-through;
  margin-right:7px;
 }
 .actions{
  display:flex;
  gap:7px;
- margin-top:12px;
+ margin-top:10px;
 }
 
+.tablewrap{overflow:auto}
 table{
  width:100%;
+ min-width:850px;
  border-collapse:collapse;
- min-width:800px;
 }
 th,td{
- padding:12px;
+ padding:11px;
  border-bottom:1px solid #eee;
  text-align:right;
 }
-.tablewrap{overflow:auto}
-
-.badge{
- padding:6px 10px;
- border-radius:20px;
- background:#eef3f7;
- font-size:12px;
-}
 
 .modal{
+ display:none;
  position:fixed;
  inset:0;
  background:#0008;
- display:none;
  align-items:center;
  justify-content:center;
  padding:15px;
- z-index:100;
+ z-index:50;
 }
 .modalbox{
+ background:white;
  width:100%;
  max-width:600px;
  max-height:92vh;
  overflow:auto;
- background:white;
  border-radius:20px;
  padding:20px;
 }
-input,textarea,select{
- width:100%;
- padding:13px;
- border:1px solid #ddd;
- border-radius:10px;
- margin:6px 0 12px;
- font-size:15px;
-}
-textarea{min-height:90px}
-label{font-weight:bold;font-size:14px}
 
 .loading{
  text-align:center;
  padding:50px;
- color:#777;
 }
-
-.access{
- min-height:100vh;
- display:flex;
- align-items:center;
- justify-content:center;
- padding:20px;
-}
-.accessbox{
- background:white;
- padding:30px;
- border-radius:20px;
- text-align:center;
- box-shadow:0 5px 25px #0002;
-}
-.accessbox h2{margin-top:0}
 
 @media(max-width:800px){
  .stats{grid-template-columns:repeat(2,1fr)}
@@ -214,129 +192,201 @@ label{font-weight:bold;font-size:14px}
 }
 @media(max-width:500px){
  .products{grid-template-columns:1fr}
- .container{padding:12px}
- .stat b{font-size:22px}
 }
 </style>
 </head>
 
 <body>
 
-<div id="loading" class="loading">
-  ⏳ كنحاولو نفتحو لوحة الإدارة...
+<!-- LOGIN -->
+<div id="loginPage" class="login">
+
+<div class="loginbox">
+
+<h2>🔐 FlashDrop Admin</h2>
+
+<p style="text-align:center;color:#777">
+دخول المسؤول فقط
+</p>
+
+<label>البريد الإلكتروني</label>
+<input
+ id="email"
+ type="email"
+ placeholder="البريد الإلكتروني"
+ autocomplete="email"
+>
+
+<label>كلمة المرور</label>
+<input
+ id="password"
+ type="password"
+ placeholder="كلمة المرور"
+ autocomplete="current-password"
+>
+
+<button
+ id="loginBtn"
+ class="green full"
+ onclick="login()"
+>
+دخول
+</button>
+
+<p id="loginError"
+ style="color:#d32f2f;text-align:center">
+</p>
+
+</div>
 </div>
 
-<div id="access" class="access" style="display:none">
- <div class="accessbox">
-  <h2>🔒 الدخول غير مسموح</h2>
-  <p>هاد الصفحة خاصة بمسؤول FlashDrop.</p>
-  <button class="btn green" onclick="location.href='index.html'">
-    الرجوع للمتجر
-  </button>
- </div>
-</div>
-
-<div id="app" style="display:none">
+<!-- ADMIN -->
+<div id="adminPage" style="display:none">
 
 <header>
  <div class="head">
   <div class="logo">🚀 FlashDrop Admin</div>
-  <button class="btn gray" onclick="logout()">خروج</button>
+
+  <button class="gray" onclick="logout()">
+   خروج
+  </button>
  </div>
 </header>
 
 <div class="container">
 
 <nav>
- <button class="active" onclick="showPage('home',this)">📊 الرئيسية</button>
- <button onclick="showPage('products',this)">📦 المنتجات</button>
- <button onclick="showPage('orders',this)">🛒 الطلبات</button>
+ <button class="active" onclick="page('home',this)">
+  📊 الرئيسية
+ </button>
+
+ <button onclick="page('products',this)">
+  📦 المنتجات
+ </button>
+
+ <button onclick="page('orders',this)">
+  🛒 الطلبات
+ </button>
 </nav>
 
 <!-- HOME -->
-<div id="homePage">
+<div id="home">
 
 <div class="stats">
- <div class="stat">
-  <small>جميع الطلبات</small>
-  <b id="allOrders">0</b>
- </div>
 
- <div class="stat">
-  <small>طلبات جديدة</small>
-  <b id="newOrders">0</b>
- </div>
-
- <div class="stat">
-  <small>تم التوصيل</small>
-  <b id="deliveredOrders">0</b>
- </div>
-
- <div class="stat">
-  <small>المداخيل</small>
-  <b id="revenue">0 DH</b>
- </div>
+<div class="stat">
+<small>جميع الطلبات</small>
+<b id="allOrders">0</b>
 </div>
 
-<div class="section">
- <div class="top">
-  <h2>📈 ملخص المتجر</h2>
-  <button class="btn green" onclick="openProductModal()">
-   ＋ إضافة منتوج
-  </button>
- </div>
+<div class="stat">
+<small>طلبات جديدة</small>
+<b id="newOrders">0</b>
+</div>
 
- <p>💰 الربح التقريبي: <b id="profit">0 DH</b></p>
- <p>↩️ الطلبات المرتجعة: <b id="returned">0</b></p>
- <p>❌ الطلبات الملغاة: <b id="cancelled">0</b></p>
+<div class="stat">
+<small>تم التوصيل</small>
+<b id="delivered">0</b>
+</div>
+
+<div class="stat">
+<small>المداخيل</small>
+<b id="revenue">0 DH</b>
+</div>
+
+</div>
+
+<div class="section" style="margin-top:18px">
+
+<div class="top">
+<h2>📊 الإحصائيات</h2>
+
+<button class="green"
+onclick="openModal()">
+＋ إضافة منتوج
+</button>
+</div>
+
+<p>↩️ الرتور: <b id="returned">0</b></p>
+
+<p>❌ الملغاة: <b id="cancelled">0</b></p>
+
+<p>💰 الربح: <b id="profit">0 DH</b></p>
+
 </div>
 
 </div>
 
 <!-- PRODUCTS -->
-<div id="productsPage" style="display:none">
+<div id="products" style="display:none">
 
 <div class="section">
- <div class="top">
-  <h2>📦 المنتجات</h2>
-  <button class="btn green" onclick="openProductModal()">
-   ＋ إضافة منتوج
-  </button>
- </div>
 
- <div id="productsList" class="products">
-  <div class="loading">جاري تحميل المنتجات...</div>
- </div>
+<div class="top">
+
+<h2>📦 المنتجات</h2>
+
+<button class="green"
+onclick="openModal()">
+＋ إضافة منتوج
+</button>
+
+</div>
+
+<div id="productsList"
+class="products">
+
+<div class="loading">
+جاري تحميل المنتجات...
+</div>
+
+</div>
+
 </div>
 
 </div>
 
 <!-- ORDERS -->
-<div id="ordersPage" style="display:none">
+<div id="orders" style="display:none">
 
 <div class="section">
- <div class="top">
-  <h2>🛒 الطلبات</h2>
-  <button class="btn gray" onclick="loadOrders()">🔄 تحديث</button>
- </div>
 
- <div class="tablewrap">
-  <table>
-   <thead>
-    <tr>
-     <th>الزبون</th>
-     <th>الهاتف</th>
-     <th>المدينة</th>
-     <th>المنتوج</th>
-     <th>الكمية</th>
-     <th>المجموع</th>
-     <th>الحالة</th>
-     <th>التاريخ</th>
-    </tr>
-   </thead>
-   <tbody id="ordersBody"></tbody>
-  </table>
- </div>
+<div class="top">
+
+<h2>🛒 الطلبات</h2>
+
+<button class="gray"
+onclick="loadOrders()">
+🔄 تحديث
+</button>
+
+</div>
+
+<div class="tablewrap">
+
+<table>
+
+<thead>
+
+<tr>
+<th>الزبون</th>
+<th>الهاتف</th>
+<th>المدينة</th>
+<th>المنتوج</th>
+<th>الكمية</th>
+<th>المجموع</th>
+<th>الحالة</th>
+<th>التاريخ</th>
+</tr>
+
+</thead>
+
+<tbody id="ordersBody"></tbody>
+
+</table>
+
+</div>
+
 </div>
 
 </div>
@@ -345,37 +395,43 @@ label{font-weight:bold;font-size:14px}
 </div>
 
 <!-- PRODUCT MODAL -->
-<div id="productModal" class="modal">
+
+<div id="modal" class="modal">
 
 <div class="modalbox">
 
 <div class="top">
- <h2>➕ إضافة منتوج</h2>
- <button class="btn gray" onclick="closeProductModal()">✕</button>
+
+<h2>➕ إضافة منتوج</h2>
+
+<button class="gray"
+onclick="closeModal()">
+✕
+</button>
+
 </div>
 
-<form id="productForm">
-
 <label>اسم المنتوج</label>
-<input id="pName" required placeholder="مثال: Smart Watch">
+<input id="pName" placeholder="مثال: Smart Watch">
 
 <label>التصنيف</label>
+
 <select id="pCategory">
- <option value="all">الكل</option>
- <option value="home">المنزل</option>
- <option value="electronics">الإلكترونيات</option>
- <option value="accessories">الإكسسوارات</option>
- <option value="beauty">الجمال</option>
+<option value="all">الكل</option>
+<option value="home">المنزل</option>
+<option value="electronics">الإلكترونيات</option>
+<option value="accessories">الإكسسوارات</option>
+<option value="beauty">الجمال</option>
 </select>
 
 <label>ثمن البيع</label>
-<input id="pSelling" type="number" step="0.01" required placeholder="149">
+<input id="pSelling" type="number" step="0.01">
 
 <label>الثمن القديم</label>
-<input id="pOld" type="number" step="0.01" placeholder="249">
+<input id="pOld" type="number" step="0.01">
 
 <label>ثمن الشراء</label>
-<input id="pCost" type="number" step="0.01" placeholder="80">
+<input id="pCost" type="number" step="0.01">
 
 <label>المخزون</label>
 <input id="pStock" type="number" value="0">
@@ -383,14 +439,14 @@ label{font-weight:bold;font-size:14px}
 <label>رابط صورة المنتوج</label>
 <input id="pImage" placeholder="https://...">
 
-<label>وصف المنتوج</label>
-<textarea id="pDescription" placeholder="وصف مختصر للمنتوج"></textarea>
+<label>الوصف</label>
+<textarea id="pDescription"></textarea>
 
-<button class="btn green" style="width:100%" type="submit">
- 💾 حفظ المنتوج
+<button class="green full"
+onclick="saveProduct()">
+💾 حفظ المنتوج
 </button>
 
-</form>
 </div>
 </div>
 
@@ -407,144 +463,227 @@ const db = supabase.createClient(
  SUPABASE_KEY
 );
 
-let currentUser = null;
+async function checkSession(){
 
-async function start(){
+ const {data,error} =
+ await db.auth.getUser();
 
- try{
-
-  const {data,error} = await db.auth.getUser();
-
-  if(error || !data.user){
-   deny();
-   return;
-  }
-
-  currentUser = data.user;
-
-  const {data:profile,error:profileError} =
-    await db
-    .from("profiles")
-    .select("role")
-    .eq("id",currentUser.id)
-    .single();
-
-  if(profileError || !profile || profile.role !== "admin"){
-   deny();
-   return;
-  }
-
-  document.getElementById("loading").style.display="none";
-  document.getElementById("app").style.display="block";
-
-  await loadDashboard();
-  await loadProducts();
-  await loadOrders();
-
- }catch(e){
-
-  console.error(e);
-  deny();
-
+ if(error || !data.user){
+  showLogin();
+  return;
  }
+
+ const {data:profile,error:profileError} =
+ await db
+ .from("profiles")
+ .select("role")
+ .eq("id",data.user.id)
+ .single();
+
+ if(profileError ||
+    !profile ||
+    profile.role !== "admin"){
+
+  await db.auth.signOut();
+  showLogin();
+  return;
+ }
+
+ showAdmin();
 
 }
 
-function deny(){
+function showLogin(){
 
- document.getElementById("loading").style.display="none";
- document.getElementById("access").style.display="flex";
+ document.getElementById("loginPage")
+ .style.display="flex";
+
+ document.getElementById("adminPage")
+ .style.display="none";
+
+}
+
+function showAdmin(){
+
+ document.getElementById("loginPage")
+ .style.display="none";
+
+ document.getElementById("adminPage")
+ .style.display="block";
+
+ loadDashboard();
+ loadProducts();
+ loadOrders();
+
+}
+
+async function login(){
+
+ const email =
+ document.getElementById("email").value.trim();
+
+ const password =
+ document.getElementById("password").value;
+
+ const errorBox =
+ document.getElementById("loginError");
+
+ const btn =
+ document.getElementById("loginBtn");
+
+ if(!email || !password){
+
+  errorBox.textContent =
+  "دخل الإيميل وكلمة المرور";
+
+  return;
+ }
+
+ btn.disabled=true;
+ btn.textContent="⏳ جاري الدخول...";
+ errorBox.textContent="";
+
+ const {data,error} =
+ await db.auth.signInWithPassword({
+  email:email,
+  password:password
+ });
+
+ if(error){
+
+  errorBox.textContent =
+  "❌ "+error.message;
+
+  btn.disabled=false;
+  btn.textContent="دخول";
+
+  return;
+ }
+
+ const {data:profile} =
+ await db
+ .from("profiles")
+ .select("role")
+ .eq("id",data.user.id)
+ .single();
+
+ if(!profile || profile.role !== "admin"){
+
+  await db.auth.signOut();
+
+  errorBox.textContent =
+  "❌ هاد الحساب ماشي Admin";
+
+  btn.disabled=false;
+  btn.textContent="دخول";
+
+  return;
+ }
+
+ showAdmin();
 
 }
 
 async function logout(){
 
  await db.auth.signOut();
- location.reload();
+
+ showLogin();
 
 }
 
-function showPage(page,button){
+function page(name,btn){
 
- document.getElementById("homePage").style.display =
-   page==="home" ? "block":"none";
+ document.getElementById("home").style.display =
+ name==="home" ? "block":"none";
 
- document.getElementById("productsPage").style.display =
-   page==="products" ? "block":"none";
+ document.getElementById("products").style.display =
+ name==="products" ? "block":"none";
 
- document.getElementById("ordersPage").style.display =
-   page==="orders" ? "block":"none";
+ document.getElementById("orders").style.display =
+ name==="orders" ? "block":"none";
 
  document.querySelectorAll("nav button")
- .forEach(b=>b.classList.remove("active"));
+ .forEach(x=>x.classList.remove("active"));
 
- button.classList.add("active");
+ btn.classList.add("active");
 
 }
 
 async function loadDashboard(){
 
- const {data:orders,error} =
-   await db
-   .from("orders")
-   .select("*");
+ const {data,error} =
+ await db
+ .from("orders")
+ .select("*");
 
- if(error){
-  console.error(error);
-  return;
- }
-
- const all = orders.length;
-
- const fresh =
-   orders.filter(o=>o.status==="new").length;
+ if(error) return;
 
  const delivered =
-   orders.filter(o=>o.status==="delivered").length;
+ data.filter(x=>x.status==="delivered");
+
+ const fresh =
+ data.filter(x=>x.status==="new");
 
  const returned =
-   orders.filter(o=>o.status==="returned").length;
+ data.filter(x=>x.status==="returned");
 
  const cancelled =
-   orders.filter(o=>o.status==="cancelled").length;
+ data.filter(x=>x.status==="cancelled");
 
  const revenue =
-   orders
-   .filter(o=>o.status==="delivered")
-   .reduce((s,o)=>s + Number(o.total||0),0);
+ delivered.reduce(
+  (sum,x)=>sum+Number(x.total||0),0
+ );
 
- document.getElementById("allOrders").textContent=all;
- document.getElementById("newOrders").textContent=fresh;
- document.getElementById("deliveredOrders").textContent=delivered;
- document.getElementById("returned").textContent=returned;
- document.getElementById("cancelled").textContent=cancelled;
- document.getElementById("revenue").textContent=
-   revenue.toFixed(2)+" DH";
+ document.getElementById("allOrders")
+ .textContent=data.length;
 
- document.getElementById("profit").textContent=
-   "كيحتاج حساب تكلفة كل منتوج";
+ document.getElementById("newOrders")
+ .textContent=fresh.length;
 
+ document.getElementById("delivered")
+ .textContent=delivered.length;
+
+ document.getElementById("returned")
+ .textContent=returned.length;
+
+ document.getElementById("cancelled")
+ .textContent=cancelled.length;
+
+ document.getElementById("revenue")
+ .textContent=
+ revenue.toFixed(2)+" DH";
+
+ document.getElementById("profit")
+ .textContent=
+ "كيحتاج تكلفة الشراء";
 }
 
 async function loadProducts(){
 
  const {data,error} =
-   await db
-   .from("products")
-   .select("*")
-   .order("id",{ascending:false});
+ await db
+ .from("products")
+ .select("*")
+ .order("id",{ascending:false});
+
+ const box =
+ document.getElementById("productsList");
 
  if(error){
-  console.error(error);
-  document.getElementById("productsList").innerHTML=
-   "<p>وقع مشكل فتحميل المنتجات</p>";
+
+  box.innerHTML=
+  "<p>❌ "+error.message+"</p>";
+
   return;
  }
 
- const box=document.getElementById("productsList");
-
  if(!data.length){
-  box.innerHTML="<p>ماكاين حتى منتوج. زيد أول منتوج 👇</p>";
+
+  box.innerHTML=
+  "<p>ماكاين حتى منتوج.</p>";
+
   return;
  }
 
@@ -552,53 +691,58 @@ async function loadProducts(){
 
  data.forEach(p=>{
 
-  const div=document.createElement("div");
-  div.className="product";
+  const div =
+  document.createElement("div");
 
-  const image =
-   p.image_url ||
-   "https://via.placeholder.com/500x350?text=FlashDrop";
+  div.className="product";
 
   div.innerHTML=`
 
-   <img src="${image}" onerror="this.src='https://via.placeholder.com/500x350?text=FlashDrop'">
+  <img
+   src="${p.image_url || 'https://via.placeholder.com/500x350?text=FlashDrop'}"
+   onerror="this.src='https://via.placeholder.com/500x350?text=FlashDrop'"
+  >
 
-   <div class="pbody">
+  <div class="pbody">
 
-    <h3>${escapeHtml(p.name)}</h3>
+   <h3>${safe(p.name)}</h3>
 
-    <div>
-      <span class="price">${Number(p.selling_price||0)} DH</span>
-      ${
-       p.old_price
-       ? `<span class="old">${Number(p.old_price)} DH</span>`
-       : ""
-      }
-    </div>
+   <div class="price">
+    ${Number(p.selling_price||0)} DH
 
-    <p>📦 المخزون: ${p.stock ?? 0}</p>
-
-    <p>
-      <span class="badge">
-       ${p.active ? "🟢 مفعل":"🔴 مخفي"}
-      </span>
-    </p>
-
-    <div class="actions">
-
-     <button class="btn gray"
-       onclick="toggleProduct(${p.id},${p.active})">
-       ${p.active ? "إخفاء":"إظهار"}
-     </button>
-
-     <button class="btn red"
-       onclick="deleteProduct(${p.id})">
-       حذف
-     </button>
-
-    </div>
+    ${
+     p.old_price
+     ? `<span class="old">
+       ${Number(p.old_price)} DH
+       </span>`
+     : ""
+    }
 
    </div>
+
+   <p>📦 المخزون: ${p.stock||0}</p>
+
+   <p>
+    ${p.active ? "🟢 ظاهر":"🔴 مخفي"}
+   </p>
+
+   <div class="actions">
+
+   <button
+    class="gray"
+    onclick="toggleProduct(${p.id},${p.active})">
+    ${p.active ? "إخفاء":"إظهار"}
+   </button>
+
+   <button
+    class="red"
+    onclick="deleteProduct(${p.id})">
+    حذف
+   </button>
+
+   </div>
+
+  </div>
   `;
 
   box.appendChild(div);
@@ -607,228 +751,232 @@ async function loadProducts(){
 
 }
 
-async function toggleProduct(id,current){
+async function toggleProduct(id,active){
 
  const {error} =
-   await db
-   .from("products")
-   .update({active:!current})
-   .eq("id",id);
+ await db
+ .from("products")
+ .update({active:!active})
+ .eq("id",id);
 
  if(error){
-  alert("وقع مشكل: "+error.message);
+  alert(error.message);
   return;
  }
 
- await loadProducts();
+ loadProducts();
 
 }
 
 async function deleteProduct(id){
 
- if(!confirm("واش متأكد بغيتي تحيد هاد المنتوج؟")) return;
+ if(!confirm(
+ "واش متأكد بغيتي تحيد المنتوج؟"
+ )) return;
 
  const {error} =
-   await db
-   .from("products")
-   .delete()
-   .eq("id",id);
+ await db
+ .from("products")
+ .delete()
+ .eq("id",id);
 
  if(error){
-  alert("ماقدرناش نحيدوه: "+error.message);
+  alert(error.message);
   return;
  }
 
- await loadProducts();
+ loadProducts();
 
 }
 
-function openProductModal(){
+function openModal(){
 
- document.getElementById("productModal").style.display="flex";
- document.getElementById("productForm").reset();
-
-}
-
-function closeProductModal(){
-
- document.getElementById("productModal").style.display="none";
+ document.getElementById("modal")
+ .style.display="flex";
 
 }
 
-document.getElementById("productForm")
-.addEventListener("submit",async function(e){
+function closeModal(){
 
- e.preventDefault();
+ document.getElementById("modal")
+ .style.display="none";
+
+}
+
+async function saveProduct(){
 
  const name =
-   document.getElementById("pName").value.trim();
+ document.getElementById("pName")
+ .value.trim();
 
  const category =
-   document.getElementById("pCategory").value;
+ document.getElementById("pCategory")
+ .value;
 
  const selling =
-   Number(document.getElementById("pSelling").value);
+ Number(document.getElementById("pSelling").value);
 
  const oldPrice =
-   Number(document.getElementById("pOld").value) || null;
+ Number(document.getElementById("pOld").value)||null;
 
  const cost =
-   Number(document.getElementById("pCost").value) || 0;
+ Number(document.getElementById("pCost").value)||0;
 
  const stock =
-   Number(document.getElementById("pStock").value) || 0;
+ Number(document.getElementById("pStock").value)||0;
 
  const image =
-   document.getElementById("pImage").value.trim();
+ document.getElementById("pImage")
+ .value.trim();
 
  const description =
-   document.getElementById("pDescription").value.trim();
+ document.getElementById("pDescription")
+ .value.trim();
 
  if(!name || !selling){
+
   alert("دخل اسم المنتوج وثمن البيع");
+
   return;
  }
 
  const {data:product,error} =
-   await db
-   .from("products")
-   .insert({
-    name:name,
-    category:category,
-    selling_price:selling,
-    old_price:oldPrice,
-    stock:stock,
-    image_url:image,
-    description:description,
-    active:true
-   })
-   .select()
-   .single();
+ await db
+ .from("products")
+ .insert({
+  name:name,
+  category:category,
+  selling_price:selling,
+  old_price:oldPrice,
+  stock:stock,
+  image_url:image,
+  description:description,
+  active:true
+ })
+ .select()
+ .single();
 
  if(error){
-  alert("وقع مشكل: "+error.message);
+
+  alert("❌ "+error.message);
+
   return;
  }
 
  const {error:costError} =
-   await db
-   .from("product_costs")
-   .insert({
-    product_id:product.id,
-    purchase_price:cost
-   });
+ await db
+ .from("product_costs")
+ .insert({
+  product_id:product.id,
+  purchase_price:cost
+ });
 
  if(costError){
 
   alert(
-   "المنتوج تزاد ولكن ثمن الشراء ما تسجلش: "+
-   costError.message
+   "المنتوج تزاد ولكن تكلفة الشراء ما تسجلاتش."
   );
 
  }
 
- closeProductModal();
+ closeModal();
 
- await loadProducts();
- await loadDashboard();
+ loadProducts();
+ loadDashboard();
 
- alert("✅ تزاد المنتوج بنجاح");
+ alert("✅ المنتوج تزاد بنجاح");
 
-});
+}
 
 async function loadOrders(){
 
  const {data,error} =
-   await db
-   .from("orders")
-   .select(`
-    *,
-    products(name)
-   `)
-   .order("created_at",{ascending:false});
+ await db
+ .from("orders")
+ .select(`
+  *,
+  products(name)
+ `)
+ .order("created_at",{ascending:false});
+
+ const body =
+ document.getElementById("ordersBody");
 
  if(error){
-  console.error(error);
+
+  body.innerHTML=
+  `<tr><td colspan="8">
+   ❌ ${error.message}
+  </td></tr>`;
+
   return;
  }
-
- const body=document.getElementById("ordersBody");
 
  body.innerHTML="";
 
- if(!data.length){
-
-  body.innerHTML=`
-   <tr>
-    <td colspan="8" style="text-align:center">
-     ماكايناش الطلبات دابا
-    </td>
-   </tr>
-  `;
-
-  return;
-
- }
-
  data.forEach(o=>{
 
-  const tr=document.createElement("tr");
+  const tr =
+  document.createElement("tr");
 
   tr.innerHTML=`
 
-   <td>${escapeHtml(o.customer_name||"")}</td>
+  <td>${safe(o.customer_name)}</td>
 
-   <td>
-    <a href="tel:${escapeHtml(o.phone||"")}">
-     ${escapeHtml(o.phone||"")}
-    </a>
-   </td>
+  <td>
+   <a href="tel:${safe(o.phone)}">
+    ${safe(o.phone)}
+   </a>
+  </td>
 
-   <td>${escapeHtml(o.city||"")}</td>
+  <td>${safe(o.city)}</td>
 
-   <td>${escapeHtml(o.products?.name||"")}</td>
+  <td>${safe(o.products?.name)}</td>
 
-   <td>${o.quantity||1}</td>
+  <td>${o.quantity||1}</td>
 
-   <td>${Number(o.total||0).toFixed(2)} DH</td>
+  <td>
+   ${Number(o.total||0).toFixed(2)} DH
+  </td>
 
-   <td>
+  <td>
 
-    <select onchange="changeStatus(${o.id},this.value)">
+   <select
+    onchange="changeStatus(${o.id},this.value)">
 
-     <option value="new"
-      ${o.status==="new"?"selected":""}>
-      🆕 جديدة
-     </option>
+    <option value="new"
+    ${o.status==="new"?"selected":""}>
+    🆕 جديدة
+    </option>
 
-     <option value="processing"
-      ${o.status==="processing"?"selected":""}>
-      🚚 قيد التوصيل
-     </option>
+    <option value="processing"
+    ${o.status==="processing"?"selected":""}>
+    🚚 توصيل
+    </option>
 
-     <option value="delivered"
-      ${o.status==="delivered"?"selected":""}>
-      ✅ تم التوصيل
-     </option>
+    <option value="delivered"
+    ${o.status==="delivered"?"selected":""}>
+    ✅ توصلات
+    </option>
 
-     <option value="returned"
-      ${o.status==="returned"?"selected":""}>
-      ↩️ رتور
-     </option>
+    <option value="returned"
+    ${o.status==="returned"?"selected":""}>
+    ↩️ رتور
+    </option>
 
-     <option value="cancelled"
-      ${o.status==="cancelled"?"selected":""}>
-      ❌ ملغاة
-     </option>
+    <option value="cancelled"
+    ${o.status==="cancelled"?"selected":""}>
+    ❌ ملغاة
+    </option>
 
-    </select>
+   </select>
 
-   </td>
+  </td>
 
-   <td>
-    ${new Date(o.created_at).toLocaleDateString("fr-MA")}
-   </td>
+  <td>
+   ${new Date(o.created_at)
+    .toLocaleDateString("fr-MA")}
+  </td>
 
   `;
 
@@ -841,27 +989,29 @@ async function loadOrders(){
 async function changeStatus(id,status){
 
  const {error} =
-   await db
-   .from("orders")
-   .update({
-    status:status,
-    updated_at:new Date().toISOString()
-   })
-   .eq("id",id);
+ await db
+ .from("orders")
+ .update({
+  status:status,
+  updated_at:new Date().toISOString()
+ })
+ .eq("id",id);
 
  if(error){
-  alert("وقع مشكل: "+error.message);
+
+  alert(error.message);
+
   return;
  }
 
- await loadOrders();
- await loadDashboard();
+ loadOrders();
+ loadDashboard();
 
 }
 
-function escapeHtml(value){
+function safe(v){
 
- return String(value||"")
+ return String(v||"")
  .replaceAll("&","&amp;")
  .replaceAll("<","&lt;")
  .replaceAll(">","&gt;")
@@ -870,7 +1020,7 @@ function escapeHtml(value){
 
 }
 
-start();
+checkSession();
 
 </script>
 
