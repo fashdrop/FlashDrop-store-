@@ -10,444 +10,339 @@
 <style>
 *{box-sizing:border-box}
 body{
- margin:0;
- font-family:Arial,Tahoma,sans-serif;
- background:#f4f7fb;
- color:#172033;
+  margin:0;
+  font-family:Arial,Tahoma,sans-serif;
+  background:#f5f7fb;
+  color:#172033;
 }
 header{
- background:linear-gradient(135deg,#0b9f57,#08783f);
- color:white;
- padding:17px;
+  background:#111827;
+  color:white;
+  padding:18px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
 }
-.head{
- max-width:1200px;
- margin:auto;
- display:flex;
- justify-content:space-between;
- align-items:center;
-}
-.logo{font-size:22px;font-weight:bold}
-.container{max-width:1200px;margin:auto;padding:18px}
-
-.login{
- min-height:100vh;
- display:flex;
- align-items:center;
- justify-content:center;
- padding:20px;
-}
-.loginbox{
- width:100%;
- max-width:400px;
- background:white;
- padding:28px;
- border-radius:20px;
- box-shadow:0 8px 30px #0002;
-}
-.loginbox h2{text-align:center}
-input,select,textarea{
- width:100%;
- padding:13px;
- margin:6px 0 14px;
- border:1px solid #ddd;
- border-radius:10px;
- font-size:15px;
+.logo{
+  font-size:22px;
+  font-weight:bold;
 }
 button{
- border:0;
- border-radius:10px;
- padding:12px 16px;
- font-weight:bold;
- cursor:pointer;
+  border:0;
+  border-radius:10px;
+  padding:11px 16px;
+  cursor:pointer;
+  font-weight:bold;
 }
-.green{background:#0b9f57;color:white}
-.gray{background:#edf1f5;color:#222}
-.red{background:#e53935;color:white}
-.full{width:100%}
+.logout{background:#ef4444;color:white}
 
-nav{
- display:flex;
- gap:8px;
- overflow:auto;
- margin-bottom:18px;
+.login{
+  max-width:420px;
+  margin:70px auto;
+  background:white;
+  padding:28px;
+  border-radius:20px;
+  box-shadow:0 10px 35px #0001;
 }
-nav button{
- background:white;
- box-shadow:0 2px 8px #0001;
- white-space:nowrap;
+.login h1{text-align:center}
+input,select,textarea{
+  width:100%;
+  padding:13px;
+  margin:7px 0 12px;
+  border:1px solid #ddd;
+  border-radius:10px;
+  font-size:15px;
 }
-nav button.active{
- background:#0b9f57;
- color:white;
+textarea{min-height:90px}
+.login button{
+  width:100%;
+  background:#2563eb;
+  color:white;
+}
+.error{
+  color:#dc2626;
+  text-align:center;
+  margin-top:10px;
+}
+#app{display:none}
+
+.container{
+  max-width:1200px;
+  margin:auto;
+  padding:20px;
 }
 
 .stats{
- display:grid;
- grid-template-columns:repeat(4,1fr);
- gap:14px;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;
+  margin-bottom:20px;
 }
-.stat{
- background:white;
- padding:18px;
- border-radius:17px;
- box-shadow:0 2px 12px #0001;
+.card{
+  background:white;
+  border-radius:16px;
+  padding:20px;
+  box-shadow:0 5px 20px #0000000a;
 }
-.stat small{color:#777}
-.stat b{
- display:block;
- margin-top:7px;
- font-size:25px;
- color:#0b9f57;
+.stat-title{color:#6b7280}
+.stat-number{
+  font-size:27px;
+  font-weight:bold;
+  margin-top:8px;
 }
+
+.actions{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-bottom:20px;
+}
+.primary{background:#2563eb;color:white}
+.green{background:#16a34a;color:white}
+.dark{background:#111827;color:white}
 
 .section{
- background:white;
- padding:18px;
- border-radius:17px;
- margin-bottom:18px;
- box-shadow:0 2px 12px #0001;
-}
-.top{
- display:flex;
- justify-content:space-between;
- align-items:center;
- gap:10px;
- flex-wrap:wrap;
+  background:white;
+  border-radius:18px;
+  padding:20px;
+  margin-bottom:20px;
+  box-shadow:0 5px 20px #0000000a;
 }
 
-.products{
- display:grid;
- grid-template-columns:repeat(3,1fr);
- gap:15px;
-}
-.product{
- border:1px solid #eee;
- border-radius:15px;
- overflow:hidden;
-}
-.product img{
- width:100%;
- height:180px;
- object-fit:cover;
- background:#eee;
-}
-.pbody{padding:13px}
-.price{
- color:#0b9f57;
- font-weight:bold;
- font-size:20px;
-}
-.old{
- color:#999;
- text-decoration:line-through;
- margin-right:7px;
-}
-.actions{
- display:flex;
- gap:7px;
- margin-top:10px;
-}
-
-.tablewrap{overflow:auto}
 table{
- width:100%;
- min-width:850px;
- border-collapse:collapse;
+  width:100%;
+  border-collapse:collapse;
+  min-width:800px;
 }
+.table-wrap{overflow:auto}
 th,td{
- padding:11px;
- border-bottom:1px solid #eee;
- text-align:right;
+  padding:12px;
+  border-bottom:1px solid #eee;
+  text-align:right;
 }
+th{background:#f8fafc}
+
+.badge{
+  padding:6px 10px;
+  border-radius:20px;
+  font-size:12px;
+  display:inline-block;
+}
+.new{background:#dbeafe;color:#1d4ed8}
+.processing{background:#fef3c7;color:#92400e}
+.delivered{background:#dcfce7;color:#166534}
+.cancelled,.returned{background:#fee2e2;color:#991b1b}
 
 .modal{
- display:none;
- position:fixed;
- inset:0;
- background:#0008;
- align-items:center;
- justify-content:center;
- padding:15px;
- z-index:50;
+  display:none;
+  position:fixed;
+  inset:0;
+  background:#0008;
+  z-index:20;
+  align-items:center;
+  justify-content:center;
+  padding:15px;
 }
-.modalbox{
- background:white;
- width:100%;
- max-width:600px;
- max-height:92vh;
- overflow:auto;
- border-radius:20px;
- padding:20px;
+.modal-box{
+  background:white;
+  width:100%;
+  max-width:550px;
+  max-height:90vh;
+  overflow:auto;
+  border-radius:20px;
+  padding:25px;
+}
+.modal-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.close{
+  background:#eee;
+  font-size:20px;
 }
 
-.loading{
- text-align:center;
- padding:50px;
+.product-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:15px;
+}
+.product{
+  border:1px solid #eee;
+  border-radius:15px;
+  padding:12px;
+}
+.product img{
+  width:100%;
+  height:180px;
+  object-fit:cover;
+  border-radius:12px;
+  background:#eee;
+}
+.product h3{margin:10px 0}
+.product-actions{
+  display:flex;
+  gap:7px;
+  flex-wrap:wrap;
+}
+.small{
+  padding:8px 10px;
+  font-size:12px;
 }
 
 @media(max-width:800px){
- .stats{grid-template-columns:repeat(2,1fr)}
- .products{grid-template-columns:1fr 1fr}
-}
-@media(max-width:500px){
- .products{grid-template-columns:1fr}
+  .stats{
+    grid-template-columns:repeat(2,1fr);
+  }
+  .product-grid{
+    grid-template-columns:1fr;
+  }
 }
 </style>
 </head>
 
 <body>
 
+<header>
+  <div class="logo">🚀 FlashDrop Admin</div>
+  <button class="logout" onclick="logout()">خروج</button>
+</header>
+
 <!-- LOGIN -->
 <div id="loginPage" class="login">
+  <h1>🔐 دخول الإدارة</h1>
 
-<div class="loginbox">
+  <label>البريد الإلكتروني</label>
+  <input id="email" type="email" placeholder="البريد الإلكتروني">
 
-<h2>🔐 FlashDrop Admin</h2>
+  <label>كلمة المرور</label>
+  <input id="password" type="password" placeholder="كلمة المرور">
 
-<p style="text-align:center;color:#777">
-دخول المسؤول فقط
-</p>
+  <button onclick="login()">دخول</button>
 
-<label>البريد الإلكتروني</label>
-<input
- id="email"
- type="email"
- placeholder="البريد الإلكتروني"
- autocomplete="email"
->
-
-<label>كلمة المرور</label>
-<input
- id="password"
- type="password"
- placeholder="كلمة المرور"
- autocomplete="current-password"
->
-
-<button
- id="loginBtn"
- class="green full"
- onclick="login()"
->
-دخول
-</button>
-
-<p id="loginError"
- style="color:#d32f2f;text-align:center">
-</p>
-
-</div>
+  <div id="loginError" class="error"></div>
 </div>
 
 <!-- ADMIN -->
-<div id="adminPage" style="display:none">
-
-<header>
- <div class="head">
-  <div class="logo">🚀 FlashDrop Admin</div>
-
-  <button class="gray" onclick="logout()">
-   خروج
-  </button>
- </div>
-</header>
+<div id="app">
 
 <div class="container">
 
-<nav>
- <button class="active" onclick="page('home',this)">
-  📊 الرئيسية
- </button>
+  <div class="stats">
 
- <button onclick="page('products',this)">
-  📦 المنتجات
- </button>
+    <div class="card">
+      <div class="stat-title">📦 المنتجات</div>
+      <div id="productsCount" class="stat-number">0</div>
+    </div>
 
- <button onclick="page('orders',this)">
-  🛒 الطلبات
- </button>
-</nav>
+    <div class="card">
+      <div class="stat-title">🆕 الطلبات الجديدة</div>
+      <div id="newOrders" class="stat-number">0</div>
+    </div>
 
-<!-- HOME -->
-<div id="home">
+    <div class="card">
+      <div class="stat-title">💰 المداخيل</div>
+      <div id="revenue" class="stat-number">0 DH</div>
+    </div>
 
-<div class="stats">
+    <div class="card">
+      <div class="stat-title">📈 الربح</div>
+      <div id="profit" class="stat-number">0 DH</div>
+    </div>
 
-<div class="stat">
-<small>جميع الطلبات</small>
-<b id="allOrders">0</b>
-</div>
+  </div>
 
-<div class="stat">
-<small>طلبات جديدة</small>
-<b id="newOrders">0</b>
-</div>
+  <div class="actions">
+    <button class="primary" onclick="openProductModal()">
+      ➕ إضافة منتوج
+    </button>
 
-<div class="stat">
-<small>تم التوصيل</small>
-<b id="delivered">0</b>
-</div>
+    <button class="green" onclick="loadAll()">
+      🔄 تحديث
+    </button>
+  </div>
 
-<div class="stat">
-<small>المداخيل</small>
-<b id="revenue">0 DH</b>
-</div>
+  <!-- PRODUCTS -->
+  <div class="section">
+    <h2>📦 المنتجات</h2>
+    <div id="products" class="product-grid"></div>
+  </div>
 
-</div>
+  <!-- ORDERS -->
+  <div class="section">
+    <h2>🛒 الطلبات</h2>
 
-<div class="section" style="margin-top:18px">
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>الزبون</th>
+            <th>الهاتف</th>
+            <th>المدينة</th>
+            <th>المنتوج</th>
+            <th>الكمية</th>
+            <th>المجموع</th>
+            <th>الحالة</th>
+            <th>التاريخ</th>
+          </tr>
+        </thead>
 
-<div class="top">
-<h2>📊 الإحصائيات</h2>
-
-<button class="green"
-onclick="openModal()">
-＋ إضافة منتوج
-</button>
-</div>
-
-<p>↩️ الرتور: <b id="returned">0</b></p>
-
-<p>❌ الملغاة: <b id="cancelled">0</b></p>
-
-<p>💰 الربح: <b id="profit">0 DH</b></p>
-
-</div>
-
-</div>
-
-<!-- PRODUCTS -->
-<div id="products" style="display:none">
-
-<div class="section">
-
-<div class="top">
-
-<h2>📦 المنتجات</h2>
-
-<button class="green"
-onclick="openModal()">
-＋ إضافة منتوج
-</button>
-
-</div>
-
-<div id="productsList"
-class="products">
-
-<div class="loading">
-جاري تحميل المنتجات...
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-<!-- ORDERS -->
-<div id="orders" style="display:none">
-
-<div class="section">
-
-<div class="top">
-
-<h2>🛒 الطلبات</h2>
-
-<button class="gray"
-onclick="loadOrders()">
-🔄 تحديث
-</button>
-
-</div>
-
-<div class="tablewrap">
-
-<table>
-
-<thead>
-
-<tr>
-<th>الزبون</th>
-<th>الهاتف</th>
-<th>المدينة</th>
-<th>المنتوج</th>
-<th>الكمية</th>
-<th>المجموع</th>
-<th>الحالة</th>
-<th>التاريخ</th>
-</tr>
-
-</thead>
-
-<tbody id="ordersBody"></tbody>
-
-</table>
-
-</div>
-
-</div>
-
-</div>
+        <tbody id="orders"></tbody>
+      </table>
+    </div>
+  </div>
 
 </div>
 </div>
 
 <!-- PRODUCT MODAL -->
+<div id="productModal" class="modal">
 
-<div id="modal" class="modal">
+  <div class="modal-box">
 
-<div class="modalbox">
+    <div class="modal-head">
+      <h2>➕ إضافة منتوج</h2>
+      <button class="close" onclick="closeProductModal()">×</button>
+    </div>
 
-<div class="top">
+    <label>اسم المنتوج</label>
+    <input id="pName" placeholder="مثال: حامل الهاتف">
 
-<h2>➕ إضافة منتوج</h2>
+    <label>الوصف</label>
+    <textarea id="pDescription" placeholder="وصف المنتوج"></textarea>
 
-<button class="gray"
-onclick="closeModal()">
-✕
-</button>
+    <label>رابط صورة المنتوج</label>
+    <input id="pImage" placeholder="https://...">
 
-</div>
+    <label>ثمن الشراء</label>
+    <input id="pCost" type="number" step="0.01" placeholder="مثال: 50">
 
-<label>اسم المنتوج</label>
-<input id="pName" placeholder="مثال: Smart Watch">
+    <label>الثمن القديم</label>
+    <input id="pOldPrice" type="number" step="0.01" placeholder="مثال: 149">
 
-<label>التصنيف</label>
+    <label>ثمن البيع</label>
+    <input id="pPrice" type="number" step="0.01" placeholder="مثال: 99">
 
-<select id="pCategory">
-<option value="all">الكل</option>
-<option value="home">المنزل</option>
-<option value="electronics">الإلكترونيات</option>
-<option value="accessories">الإكسسوارات</option>
-<option value="beauty">الجمال</option>
-</select>
+    <label>المخزون</label>
+    <input id="pStock" type="number" value="100">
 
-<label>ثمن البيع</label>
-<input id="pSelling" type="number" step="0.01">
+    <label>القسم</label>
+    <select id="pCategory">
+      <option value="all">عام</option>
+      <option value="home">المنزل</option>
+      <option value="electronics">الإلكترونيات</option>
+      <option value="accessories">الإكسسوارات</option>
+      <option value="beauty">الجمال</option>
+    </select>
 
-<label>الثمن القديم</label>
-<input id="pOld" type="number" step="0.01">
+    <button class="primary" style="width:100%" onclick="saveProduct()">
+      💾 حفظ المنتوج
+    </button>
 
-<label>ثمن الشراء</label>
-<input id="pCost" type="number" step="0.01">
+    <div id="productError" class="error"></div>
 
-<label>المخزون</label>
-<input id="pStock" type="number" value="0">
-
-<label>رابط صورة المنتوج</label>
-<input id="pImage" placeholder="https://...">
-
-<label>الوصف</label>
-<textarea id="pDescription"></textarea>
-
-<button class="green full"
-onclick="saveProduct()">
-💾 حفظ المنتوج
-</button>
-
-</div>
+  </div>
 </div>
 
 <script>
@@ -459,567 +354,633 @@ const SUPABASE_KEY =
 "sb_publishable_MKv1kVwoBi6oEcrPIZMVMQ_Qk59pLSW";
 
 const db = supabase.createClient(
- SUPABASE_URL,
- SUPABASE_KEY
+  SUPABASE_URL,
+  SUPABASE_KEY
 );
 
-async function checkSession(){
 
- const {data,error} =
- await db.auth.getUser();
-
- if(error || !data.user){
-  showLogin();
-  return;
- }
-
- const {data:profile,error:profileError} =
- await db
- .from("profiles")
- .select("role")
- .eq("id",data.user.id)
- .single();
-
- if(profileError ||
-    !profile ||
-    profile.role !== "admin"){
-
-  await db.auth.signOut();
-  showLogin();
-  return;
- }
-
- showAdmin();
-
-}
-
-function showLogin(){
-
- document.getElementById("loginPage")
- .style.display="flex";
-
- document.getElementById("adminPage")
- .style.display="none";
-
-}
-
-function showAdmin(){
-
- document.getElementById("loginPage")
- .style.display="none";
-
- document.getElementById("adminPage")
- .style.display="block";
-
- loadDashboard();
- loadProducts();
- loadOrders();
-
-}
+// ========================
+// LOGIN
+// ========================
 
 async function login(){
 
- const email =
- document.getElementById("email").value.trim();
+  const email =
+    document.getElementById("email").value.trim();
 
- const password =
- document.getElementById("password").value;
+  const password =
+    document.getElementById("password").value;
 
- const errorBox =
- document.getElementById("loginError");
+  const errorBox =
+    document.getElementById("loginError");
 
- const btn =
- document.getElementById("loginBtn");
+  errorBox.textContent="";
 
- if(!email || !password){
+  if(!email || !password){
+    errorBox.textContent="دخل البريد وكلمة المرور";
+    return;
+  }
 
-  errorBox.textContent =
-  "دخل الإيميل وكلمة المرور";
+  const {data,error} =
+    await db.auth.signInWithPassword({
+      email,
+      password
+    });
 
-  return;
- }
+  if(error){
+    errorBox.textContent =
+      "خطأ: " + error.message;
+    return;
+  }
 
- btn.disabled=true;
- btn.textContent="⏳ جاري الدخول...";
- errorBox.textContent="";
+  if(!data.user){
+    errorBox.textContent="ما قدرناش نجيبو الحساب";
+    return;
+  }
 
- const {data,error} =
- await db.auth.signInWithPassword({
-  email:email,
-  password:password
- });
+  // قراءة role من profiles
+  const {data:profile,error:profileError} =
+    await db
+      .from("profiles")
+      .select("role")
+      .eq("id",data.user.id)
+      .single();
 
- if(error){
+  if(profileError){
+    await db.auth.signOut();
 
-  errorBox.textContent =
-  "❌ "+error.message;
+    errorBox.textContent =
+      "مشكل فقراءة صلاحية الحساب: "
+      + profileError.message;
 
-  btn.disabled=false;
-  btn.textContent="دخول";
+    return;
+  }
 
-  return;
- }
+  if(profile.role !== "admin"){
 
- const {data:profile} =
- await db
- .from("profiles")
- .select("role")
- .eq("id",data.user.id)
- .single();
+    await db.auth.signOut();
 
- if(!profile || profile.role !== "admin"){
+    errorBox.textContent =
+      "هاد الحساب ماشي Admin";
 
-  await db.auth.signOut();
+    return;
+  }
 
-  errorBox.textContent =
-  "❌ هاد الحساب ماشي Admin";
-
-  btn.disabled=false;
-  btn.textContent="دخول";
-
-  return;
- }
-
- showAdmin();
-
+  showAdmin();
 }
+
+
+// ========================
+// SESSION
+// ========================
+
+async function checkSession(){
+
+  const {
+    data:{session}
+  } = await db.auth.getSession();
+
+  if(!session){
+    return;
+  }
+
+  const user = session.user;
+
+  const {data:profile} =
+    await db
+      .from("profiles")
+      .select("role")
+      .eq("id",user.id)
+      .single();
+
+  if(profile && profile.role === "admin"){
+    showAdmin();
+  }
+}
+
+
+// ========================
+// SHOW ADMIN
+// ========================
+
+function showAdmin(){
+
+  document.getElementById("loginPage").style.display="none";
+
+  document.getElementById("app").style.display="block";
+
+  loadAll();
+}
+
+
+// ========================
+// LOGOUT
+// ========================
 
 async function logout(){
 
- await db.auth.signOut();
+  await db.auth.signOut();
 
- showLogin();
+  location.reload();
+}
+
+
+// ========================
+// LOAD ALL
+// ========================
+
+async function loadAll(){
+
+  await loadProducts();
+
+  await loadOrders();
 
 }
 
-function page(name,btn){
 
- document.getElementById("home").style.display =
- name==="home" ? "block":"none";
-
- document.getElementById("products").style.display =
- name==="products" ? "block":"none";
-
- document.getElementById("orders").style.display =
- name==="orders" ? "block":"none";
-
- document.querySelectorAll("nav button")
- .forEach(x=>x.classList.remove("active"));
-
- btn.classList.add("active");
-
-}
-
-async function loadDashboard(){
-
- const {data,error} =
- await db
- .from("orders")
- .select("*");
-
- if(error) return;
-
- const delivered =
- data.filter(x=>x.status==="delivered");
-
- const fresh =
- data.filter(x=>x.status==="new");
-
- const returned =
- data.filter(x=>x.status==="returned");
-
- const cancelled =
- data.filter(x=>x.status==="cancelled");
-
- const revenue =
- delivered.reduce(
-  (sum,x)=>sum+Number(x.total||0),0
- );
-
- document.getElementById("allOrders")
- .textContent=data.length;
-
- document.getElementById("newOrders")
- .textContent=fresh.length;
-
- document.getElementById("delivered")
- .textContent=delivered.length;
-
- document.getElementById("returned")
- .textContent=returned.length;
-
- document.getElementById("cancelled")
- .textContent=cancelled.length;
-
- document.getElementById("revenue")
- .textContent=
- revenue.toFixed(2)+" DH";
-
- document.getElementById("profit")
- .textContent=
- "كيحتاج تكلفة الشراء";
-}
+// ========================
+// PRODUCTS
+// ========================
 
 async function loadProducts(){
 
- const {data,error} =
- await db
- .from("products")
- .select("*")
- .order("id",{ascending:false});
+  const {data,error} =
+    await db
+      .from("products")
+      .select("*")
+      .order("id",{ascending:false});
 
- const box =
- document.getElementById("productsList");
+  if(error){
+    alert(error.message);
+    return;
+  }
 
- if(error){
+  document.getElementById("productsCount")
+    .textContent=data.length;
 
-  box.innerHTML=
-  "<p>❌ "+error.message+"</p>";
+  const box =
+    document.getElementById("products");
 
-  return;
- }
+  box.innerHTML="";
 
- if(!data.length){
+  data.forEach(p=>{
 
-  box.innerHTML=
-  "<p>ماكاين حتى منتوج.</p>";
+    const oldPrice =
+      Number(p.old_price || 0);
 
-  return;
- }
+    const price =
+      Number(p.selling_price || 0);
 
- box.innerHTML="";
+    let discount="";
 
- data.forEach(p=>{
+    if(oldPrice > price && oldPrice > 0){
 
-  const div =
-  document.createElement("div");
+      const percent =
+        Math.round(
+          ((oldPrice-price)/oldPrice)*100
+        );
 
-  div.className="product";
-
-  div.innerHTML=`
-
-  <img
-   src="${p.image_url || 'https://via.placeholder.com/500x350?text=FlashDrop'}"
-   onerror="this.src='https://via.placeholder.com/500x350?text=FlashDrop'"
-  >
-
-  <div class="pbody">
-
-   <h3>${safe(p.name)}</h3>
-
-   <div class="price">
-    ${Number(p.selling_price||0)} DH
-
-    ${
-     p.old_price
-     ? `<span class="old">
-       ${Number(p.old_price)} DH
-       </span>`
-     : ""
+      discount =
+        `<span class="badge new">-${percent}%</span>`;
     }
 
-   </div>
+    box.innerHTML += `
 
-   <p>📦 المخزون: ${p.stock||0}</p>
+      <div class="product">
 
-   <p>
-    ${p.active ? "🟢 ظاهر":"🔴 مخفي"}
-   </p>
+        <img
+          src="${p.image_url || 'https://via.placeholder.com/400'}"
+          onerror="this.src='https://via.placeholder.com/400'"
+        >
 
-   <div class="actions">
+        <h3>${escapeHtml(p.name)}</h3>
 
-   <button
-    class="gray"
-    onclick="toggleProduct(${p.id},${p.active})">
-    ${p.active ? "إخفاء":"إظهار"}
-   </button>
+        ${discount}
 
-   <button
-    class="red"
-    onclick="deleteProduct(${p.id})">
-    حذف
-   </button>
+        <p>
+          💰 البيع:
+          <b>${price} DH</b>
+        </p>
 
-   </div>
+        <p>
+          📦 المخزون:
+          <b>${p.stock ?? 0}</b>
+        </p>
 
-  </div>
-  `;
+        <p>
+          الحالة:
+          ${p.active
+            ? '<span class="badge delivered">نشط</span>'
+            : '<span class="badge cancelled">مخفي</span>'}
+        </p>
 
-  box.appendChild(div);
+        <div class="product-actions">
 
- });
+          <button
+            class="small dark"
+            onclick="toggleProduct(${p.id},${p.active})">
+            ${p.active ? "إخفاء" : "تفعيل"}
+          </button>
+
+          <button
+            class="small"
+            style="background:#ef4444;color:white"
+            onclick="deleteProduct(${p.id})">
+            🗑️ حذف
+          </button>
+
+        </div>
+
+      </div>
+    `;
+  });
+}
+
+
+// ========================
+// ADD PRODUCT
+// ========================
+
+function openProductModal(){
+
+  document.getElementById("productModal")
+    .style.display="flex";
 
 }
 
-async function toggleProduct(id,active){
 
- const {error} =
- await db
- .from("products")
- .update({active:!active})
- .eq("id",id);
+function closeProductModal(){
 
- if(error){
-  alert(error.message);
-  return;
- }
-
- loadProducts();
+  document.getElementById("productModal")
+    .style.display="none";
 
 }
 
-async function deleteProduct(id){
-
- if(!confirm(
- "واش متأكد بغيتي تحيد المنتوج؟"
- )) return;
-
- const {error} =
- await db
- .from("products")
- .delete()
- .eq("id",id);
-
- if(error){
-  alert(error.message);
-  return;
- }
-
- loadProducts();
-
-}
-
-function openModal(){
-
- document.getElementById("modal")
- .style.display="flex";
-
-}
-
-function closeModal(){
-
- document.getElementById("modal")
- .style.display="none";
-
-}
 
 async function saveProduct(){
 
- const name =
- document.getElementById("pName")
- .value.trim();
+  const errorBox =
+    document.getElementById("productError");
 
- const category =
- document.getElementById("pCategory")
- .value;
+  errorBox.textContent="";
 
- const selling =
- Number(document.getElementById("pSelling").value);
+  const name =
+    document.getElementById("pName").value.trim();
 
- const oldPrice =
- Number(document.getElementById("pOld").value)||null;
+  const description =
+    document.getElementById("pDescription").value.trim();
 
- const cost =
- Number(document.getElementById("pCost").value)||0;
+  const image =
+    document.getElementById("pImage").value.trim();
 
- const stock =
- Number(document.getElementById("pStock").value)||0;
+  const cost =
+    Number(document.getElementById("pCost").value);
 
- const image =
- document.getElementById("pImage")
- .value.trim();
+  const oldPrice =
+    Number(document.getElementById("pOldPrice").value);
 
- const description =
- document.getElementById("pDescription")
- .value.trim();
+  const price =
+    Number(document.getElementById("pPrice").value);
 
- if(!name || !selling){
+  const stock =
+    Number(document.getElementById("pStock").value);
 
-  alert("دخل اسم المنتوج وثمن البيع");
+  const category =
+    document.getElementById("pCategory").value;
 
-  return;
- }
 
- const {data:product,error} =
- await db
- .from("products")
- .insert({
-  name:name,
-  category:category,
-  selling_price:selling,
-  old_price:oldPrice,
-  stock:stock,
-  image_url:image,
-  description:description,
-  active:true
- })
- .select()
- .single();
+  if(!name){
+    errorBox.textContent="دخل اسم المنتوج";
+    return;
+  }
 
- if(error){
+  if(!price || price <= 0){
+    errorBox.textContent="دخل ثمن البيع";
+    return;
+  }
 
-  alert("❌ "+error.message);
 
-  return;
- }
+  // إضافة المنتج
+  const {data:product,error} =
+    await db
+      .from("products")
+      .insert({
+        name:name,
+        description:description,
+        image_url:image,
+        selling_price:price,
+        old_price:oldPrice || null,
+        stock:stock,
+        category:category,
+        active:true
+      })
+      .select()
+      .single();
 
- const {error:costError} =
- await db
- .from("product_costs")
- .insert({
-  product_id:product.id,
-  purchase_price:cost
- });
 
- if(costError){
+  if(error){
 
-  alert(
-   "المنتوج تزاد ولكن تكلفة الشراء ما تسجلاتش."
-  );
+    errorBox.textContent =
+      error.message;
 
- }
+    return;
+  }
 
- closeModal();
 
- loadProducts();
- loadDashboard();
+  // إضافة تكلفة الشراء
+  const {error:costError} =
+    await db
+      .from("product_costs")
+      .insert({
+        product_id:product.id,
+        purchase_price:cost || 0
+      });
 
- alert("✅ المنتوج تزاد بنجاح");
+
+  if(costError){
+
+    errorBox.textContent =
+      "المنتوج تزاد ولكن ثمن الشراء ما تسجلش: "
+      + costError.message;
+
+    return;
+  }
+
+
+  closeProductModal();
+
+  document.getElementById("pName").value="";
+  document.getElementById("pDescription").value="";
+  document.getElementById("pImage").value="";
+  document.getElementById("pCost").value="";
+  document.getElementById("pOldPrice").value="";
+  document.getElementById("pPrice").value="";
+  document.getElementById("pStock").value="100";
+
+  await loadProducts();
 
 }
+
+
+// ========================
+// TOGGLE PRODUCT
+// ========================
+
+async function toggleProduct(id,current){
+
+  const {error} =
+    await db
+      .from("products")
+      .update({
+        active:!current
+      })
+      .eq("id",id);
+
+  if(error){
+    alert(error.message);
+    return;
+  }
+
+  loadProducts();
+}
+
+
+// ========================
+// DELETE PRODUCT
+// ========================
+
+async function deleteProduct(id){
+
+  if(!confirm("واش متأكد بغيتي تحذف هاد المنتوج؟")){
+    return;
+  }
+
+  const {error} =
+    await db
+      .from("products")
+      .delete()
+      .eq("id",id);
+
+  if(error){
+    alert(error.message);
+    return;
+  }
+
+  loadProducts();
+}
+
+
+// ========================
+// ORDERS
+// ========================
 
 async function loadOrders(){
 
- const {data,error} =
- await db
- .from("orders")
- .select(`
-  *,
-  products(name)
- `)
- .order("created_at",{ascending:false});
+  const {data:orders,error} =
+    await db
+      .from("orders")
+      .select("*")
+      .order("created_at",{ascending:false});
 
- const body =
- document.getElementById("ordersBody");
+  if(error){
+    alert(error.message);
+    return;
+  }
 
- if(error){
+  document.getElementById("newOrders")
+    .textContent =
+      orders.filter(o=>o.status==="new").length;
 
-  body.innerHTML=
-  `<tr><td colspan="8">
-   ❌ ${error.message}
-  </td></tr>`;
 
-  return;
- }
+  let revenue=0;
 
- body.innerHTML="";
+  orders.forEach(o=>{
+    revenue += Number(o.total || 0);
+  });
 
- data.forEach(o=>{
+  document.getElementById("revenue")
+    .textContent =
+      revenue.toFixed(2)+" DH";
 
-  const tr =
-  document.createElement("tr");
 
-  tr.innerHTML=`
+  // الربح
+  let profit=0;
 
-  <td>${safe(o.customer_name)}</td>
+  const {data:costs} =
+    await db
+      .from("product_costs")
+      .select("product_id,purchase_price");
 
-  <td>
-   <a href="tel:${safe(o.phone)}">
-    ${safe(o.phone)}
-   </a>
-  </td>
+  const costMap={};
 
-  <td>${safe(o.city)}</td>
+  (costs || []).forEach(c=>{
+    costMap[c.product_id] =
+      Number(c.purchase_price || 0);
+  });
 
-  <td>${safe(o.products?.name)}</td>
 
-  <td>${o.quantity||1}</td>
+  orders.forEach(o=>{
 
-  <td>
-   ${Number(o.total||0).toFixed(2)} DH
-  </td>
+    if(o.status === "cancelled" ||
+       o.status === "returned"){
+      return;
+    }
 
-  <td>
+    const cost =
+      costMap[o.product_id] || 0;
 
-   <select
-    onchange="changeStatus(${o.id},this.value)">
+    profit +=
+      (Number(o.unit_price || 0)-cost)
+      * Number(o.quantity || 0);
 
-    <option value="new"
-    ${o.status==="new"?"selected":""}>
-    🆕 جديدة
-    </option>
+  });
 
-    <option value="processing"
-    ${o.status==="processing"?"selected":""}>
-    🚚 توصيل
-    </option>
 
-    <option value="delivered"
-    ${o.status==="delivered"?"selected":""}>
-    ✅ توصلات
-    </option>
+  document.getElementById("profit")
+    .textContent =
+      profit.toFixed(2)+" DH";
 
-    <option value="returned"
-    ${o.status==="returned"?"selected":""}>
-    ↩️ رتور
-    </option>
 
-    <option value="cancelled"
-    ${o.status==="cancelled"?"selected":""}>
-    ❌ ملغاة
-    </option>
+  const box =
+    document.getElementById("orders");
 
-   </select>
+  box.innerHTML="";
 
-  </td>
 
-  <td>
-   ${new Date(o.created_at)
-    .toLocaleDateString("fr-MA")}
-  </td>
+  for(const order of orders){
 
-  `;
+    let productName="منتوج";
 
-  body.appendChild(tr);
+    const {data:product} =
+      await db
+        .from("products")
+        .select("name")
+        .eq("id",order.product_id)
+        .maybeSingle();
 
- });
+    if(product){
+      productName=product.name;
+    }
+
+
+    const statusText={
+      new:"جديدة",
+      processing:"قيد المعالجة",
+      delivered:"تم التوصيل",
+      cancelled:"ملغاة",
+      returned:"رتور"
+    };
+
+
+    const statusClass =
+      order.status || "new";
+
+
+    box.innerHTML += `
+
+      <tr>
+
+        <td>${escapeHtml(order.customer_name || "")}</td>
+
+        <td>${escapeHtml(order.phone || "")}</td>
+
+        <td>${escapeHtml(order.city || "")}</td>
+
+        <td>${escapeHtml(productName)}</td>
+
+        <td>${order.quantity || 0}</td>
+
+        <td>${Number(order.total || 0).toFixed(2)} DH</td>
+
+        <td>
+
+          <select
+            onchange="changeOrderStatus(${order.id},this.value)"
+          >
+
+            <option value="new"
+              ${order.status==="new"?"selected":""}>
+              جديدة
+            </option>
+
+            <option value="processing"
+              ${order.status==="processing"?"selected":""}>
+              قيد المعالجة
+            </option>
+
+            <option value="delivered"
+              ${order.status==="delivered"?"selected":""}>
+              تم التوصيل
+            </option>
+
+            <option value="cancelled"
+              ${order.status==="cancelled"?"selected":""}>
+              ملغاة
+            </option>
+
+            <option value="returned"
+              ${order.status==="returned"?"selected":""}>
+              رتور
+            </option>
+
+          </select>
+
+        </td>
+
+        <td>
+          ${new Date(order.created_at).toLocaleDateString("ar-MA")}
+        </td>
+
+      </tr>
+
+    `;
+  }
 
 }
 
-async function changeStatus(id,status){
 
- const {error} =
- await db
- .from("orders")
- .update({
-  status:status,
-  updated_at:new Date().toISOString()
- })
- .eq("id",id);
+// ========================
+// CHANGE ORDER STATUS
+// ========================
 
- if(error){
+async function changeOrderStatus(id,status){
 
-  alert(error.message);
+  const {error} =
+    await db
+      .from("orders")
+      .update({
+        status:status,
+        updated_at:new Date().toISOString()
+      })
+      .eq("id",id);
 
-  return;
- }
+  if(error){
 
- loadOrders();
- loadDashboard();
+    alert(error.message);
 
+    return;
+  }
+
+  loadOrders();
 }
 
-function safe(v){
 
- return String(v||"")
- .replaceAll("&","&amp;")
- .replaceAll("<","&lt;")
- .replaceAll(">","&gt;")
- .replaceAll('"',"&quot;")
- .replaceAll("'","&#039;");
+// ========================
+// SECURITY HTML
+// ========================
 
+function escapeHtml(value){
+
+  return String(value)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
 }
 
+
+// تشغيل
 checkSession();
 
 </script>
